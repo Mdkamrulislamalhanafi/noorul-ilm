@@ -233,5 +233,43 @@ font-size:16px;
      WhatsApp যোগাযোগ করুন
   </a>
 </div>
+
+<div class="section" id="student-management">
+  <h2>👨‍🎓 শিক্ষার্থী ব্যবস্থাপনা</h2>
+  <h3>Student Management</h3>
+
+  <div class="dashboard-card">
+    <h3>👨‍🎓 শিক্ষার্থী তালিকা</h3>
+    <p>Student List</p>
+  </div>
+
+  <div class="dashboard-card">
+    <h3>👦 ছাত্র তালিকা</h3>
+    <p>Boys List</p>
+  </div>
+
+  <div class="dashboard-card">
+    <h3>👧 ছাত্রী তালিকা</h3>
+    <p>Girls List</p>
+  </div>
+
+  <div class="dashboard-card">
+    <h3>🏫 শ্রেণিভিত্তিক তালিকা</h3>
+    <p>Class-wise Student List</p>
+  </div>
+
+  <input type="text" id="studentSearch"
+    placeholder="শিক্ষার্থীর নাম খুঁজুন (Search Student)"
+    onkeyup="searchStudent()">
+
+  <p id="searchMessage">শিক্ষার্থীর তথ্য এখানে দেখানো হবে।</p>
+</div>
+
+<script>
+function searchStudent() {
+  document.getElementById("searchMessage").innerText =
+    "শিক্ষার্থীর তথ্য সংরক্ষণের ব্যবস্থা এখনো যুক্ত হয়নি।";
+}
+</script>
 </body>
 </html>
