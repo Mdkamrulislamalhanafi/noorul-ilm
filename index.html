@@ -176,5 +176,73 @@ width:100%;
 font-size:16px;
 }
 </style>
-</body>
+<div class="section" id="admission">
+<h2>📝 শিক্ষার্থী ভর্তি ফরম</h2>
+
+<form>
+<label>শিক্ষার্থীর নাম</label>
+<input type="text" placeholder="নাম লিখুন" required>
+
+<label>পিতার নাম</label>
+<input type="text" placeholder="পিতার নাম লিখুন">
+
+<label>মাতার নাম</label>
+<input type="text" placeholder="মাতার নাম লিখুন">
+
+<label>শ্রেণি</label>
+<select required>
+<option value="">শ্রেণি নির্বাচন করুন</option>
+<option>প্রথম জামাত</option>
+<option>দ্বিতীয় জামাত</option>
+<option>তৃতীয় জামাত</option>
+<option>চতুর্থ জামাত</option>
+<option>পঞ্চম জামাত</option>
+<option>ষষ্ঠ জামাত</option>
+<option>সপ্তম জামাত</option>
+<option>অষ্টম জামাত</option>
+<option>নবম জামাত</option>
+<option>দশম জামাত</option>
+</select>
+
+<label>বিভাগ</label>
+<select>
+<option>ছাত্র</option>
+<option>ছাত্রী</option>
+</select>
+
+<label>মোবাইল নম্বর</label>
+<input type="tel" placeholder="মোবাইল নম্বর লিখুন">
+
+<label>ঠিকানা</label>
+<textarea placeholder="ঠিকানা লিখুন"></textarea>
+
+<button type="button">ভর্তি আবেদন জমা দিন</button>
+</form>
+</div>
+
+<style>
+form label{
+display:block;
+margin-top:14px;
+font-weight:bold;
+}
+form input,form select,form textarea{
+width:100%;
+padding:12px;
+margin-top:6px;
+border:1px solid #ccc;
+border-radius:8px;
+font-size:16px;
+}
+form button{
+margin-top:18px;
+padding:13px 20px;
+background:#075b3b;
+color:white;
+border:0;
+border-radius:8px;
+width:100%;
+font-size:16px;
+}
+</style></body>
 </html>
