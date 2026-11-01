@@ -140,13 +140,20 @@ department.addEventListener("change", function () {
   className.innerHTML =
     '<option value="">শ্রেণি নির্বাচন করুন</option>';
 
-  (classes[this.value] || []).forEach(function (item) {
-    const option = document.createElement("option");
-    option.value = item;
-    option.textContent = item;
-    className.appendChild(option);
-  });
-});
+  department.onchange = function () {
+  const selectedDepartment = department.value;
+
+  className.innerHTML = '<option value="">শ্রেণি নির্বাচন করুন</option>';
+
+  if (classes[selectedDepartment]) {
+    classes[selectedDepartment].forEach(function (item) {
+      const option = document.createElement("option");
+      option.value = item;
+      option.textContent = item;
+      className.appendChild(option);
+    });
+  }
+};
 
 // ভর্তি তথ্য সংরক্ষণ
 const admissionForm = document.getElementById("admissionForm");
