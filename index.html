@@ -52,51 +52,55 @@
     <p>ভর্তি আবেদন ব্যবস্থাপনা</p>
   </div>
 
-  <div class="card">
-    <h2>শিক্ষার্থী ভর্তি ফরম</h2>
+  
+<div class="card">
+  <h2>শিক্ষার্থী ভর্তি ফরম</h2>
 
-    <form id="admissionForm">
+  <form id="admissionForm">
 
-      <label>শিক্ষার্থীর নাম</label>
-      <input type="text" placeholder="নাম লিখুন" required>
+    <label>শিক্ষার্থীর নাম</label>
+    <input type="text" id="studentName"
+      placeholder="নাম লিখুন" required>
 
-      <label>পিতার নাম</label>
-      <input type="text" placeholder="পিতার নাম" required>
+    <label>পিতার নাম</label>
+    <input type="text" id="fatherName"
+      placeholder="পিতার নাম" required>
 
-      <label>মাতার নাম</label>
-      <input type="text" placeholder="মাতার নাম" required>
+    <label>মাতার নাম</label>
+    <input type="text" id="motherName"
+      placeholder="মাতার নাম" required>
 
-      <label>জন্মতারিখ</label>
-      <input type="date" required>
+    <label>জন্মতারিখ</label>
+    <input type="date" id="dateOfBirth" required>
 
-      <label>মোবাইল নম্বর</label>
-      <input type="tel" placeholder="মোবাইল নম্বর" required>
+    <label>মোবাইল নম্বর</label>
+    <input type="tel" id="mobile"
+      placeholder="মোবাইল নম্বর" required>
 
-      <label>বিভাগ নির্বাচন</label>
-      <select id="department" required>
-        <option value="">বিভাগ নির্বাচন করুন</option>
-        <option value="hifz">হিফয বিভাগ</option>
-        <option value="dakhil">দাখিল মাদরাসা</option>
-        <option value="kg">কেজি স্কুল</option>
-      </select>
+    <label>বিভাগ নির্বাচন</label>
+    <select id="department" required>
+      <option value="">বিভাগ নির্বাচন করুন</option>
+      <option value="hifz">হিফয বিভাগ</option>
+      <option value="dakhil">দাখিল মাদরাসা</option>
+      <option value="kg">কেজি স্কুল</option>
+    </select>
 
-      <label>শ্রেণি নির্বাচন</label>
-      <select id="className" required>
-        <option value="">আগে বিভাগ নির্বাচন করুন</option>
-      </select>
+    <label>শ্রেণি নির্বাচন</label>
+    <select id="className" required>
+      <option value="">আগে বিভাগ নির্বাচন করুন</option>
+    </select>
 
-      <label>রোল নম্বর</label>
-      <input type="number" placeholder="রোল নম্বর" required>
+    <label>রোল নম্বর</label>
+    <input type="number" id="rollNumber"
+      placeholder="রোল নম্বর" required>
 
-      <label>শিক্ষার্থীর ছবি</label>
-      <input type="file" accept="image/*">
+    <button type="submit">
+      ভর্তি ফরম জমা দিন
+    </button>
 
-      <button type="submit">ভর্তি ফরম জমা দিন</button>
-
-    </form>
-  </div>
-
+  </form>
 </div>
+
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
@@ -188,35 +192,7 @@ admissionForm.addEventListener("submit", async function(e) {
   }
 });
 </script>
-
-</body>
-</html>
-const department = document.getElementById("department");
-const className = document.getElementById("className");
-
-const classes = {
-  hifz: ["নূরানী", "নাজেরা", "হিফজ", "কিতাব"],
-  dakhil: ["১ম শ্রেণি", "২য় শ্রেণি", "৩য় শ্রেণি", "৪র্থ শ্রেণি", "৫ম শ্রেণি", "৬ষ্ঠ শ্রেণি", "৭ম শ্রেণি", "৮ম শ্রেণি", "৯ম শ্রেণি", "১০ম শ্রেণি"],
-  kg: ["শিশু শ্রেণি", "১ম শ্রেণি", "২য় শ্রেণি", "৩য় শ্রেণি", "৪র্থ শ্রেণি", "৫ম শ্রেণি", "৬ষ্ঠ শ্রেণি", "৭ম শ্রেণি", "৮ম শ্রেণি", "৯ম শ্রেণি", "১০ম শ্রেণি"]
-};
-
-department.addEventListener("change", function() {
-  className.innerHTML = '<option value="">শ্রেণি নির্বাচন করুন</option>';
-
-  (classes[this.value] || []).forEach(function(item) {
-    const option = document.createElement("option");
-    option.value = item;
-    option.textContent = item;
-    className.appendChild(option);
-  });
-});
-
-document.getElementById("admissionForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-  alert("ভর্তি ফরম তৈরি হয়েছে। তথ্য সংরক্ষণের ব্যবস্থা পরবর্তী ধাপে যুক্ত হবে।");
-});
-</script>
-
+  
 </body>
 </html>
 
