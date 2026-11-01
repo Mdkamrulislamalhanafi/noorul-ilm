@@ -1,5 +1,4 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-
 import { getFirestore } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -14,14 +13,13 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("Noorul Ilm System Ready");
+  const button = document.getElementById("clickMe");
 
-  const buttons = document.querySelectorAll(".menu-btn");
-
-  buttons.forEach(function (button) {
+  if (button) {
     button.addEventListener("click", function () {
       alert("Noorul Ilm - স্বাগতম!");
     });
-  });
+  }
 });
