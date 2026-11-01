@@ -1,510 +1,130 @@
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Noorul Ilm - মাদরাসা ব্যবস্থাপনা</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f3f7f4;color:#183c2b}
-header{background:#075b3b;color:white;padding:25px 16px;text-align:center}
-.logo{font-size:35px}
-header h1{margin:8px 0}
-header p{margin:5px}
-nav{background:#06452f;padding:13px;text-align:center}
-nav a{color:white;text-decoration:none;margin:8px;font-size:14px}
-.container{padding:20px;max-width:1000px;margin:auto}
-.welcome{background:white;padding:20px;border-radius:15px;margin-bottom:20px}
-h2{color:#075b3b}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:15px}
-.card{background:white;padding:22px 12px;border-radius:14px;text-align:center;box-shadow:0 3px 12px #00000010}
-.card .icon{font-size:30px}
-.card h3{margin:10px 0 5px;font-size:16px}
-.card p{margin:0;color:#a17a25}
-.section{background:white;padding:20px;border-radius:15px;margin-top:20px}
-footer{text-align:center;background:#06452f;color:white;padding:20px;margin-top:30px}
-</style>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Noorul Ilm - Admin Panel</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
-<div class="logo">📖 ☪</div>
-<h1>Noorul Ilm (نور العلم)</h1>
-<p>আল হানাফিয়া দারুল ইলম মাদরাসা</p>
-<p>জ্ঞানই আলো, শিক্ষাই শক্তি</p>
+  <h1>نور العلم</h1>
+  <h2>Noorul Ilm Admin Panel</h2>
+  <p>School & Madrasa Management System</p>
 </header>
 
-<a href="#guardian">👨‍👩‍👧 অভিভাবক</a><nav>
-<a href="#home">হোম</a>
-<a href="#students">শিক্ষার্থী</a>
-<a href="#teachers">শিক্ষক</a>
-<a href="#notice">নোটিশ</a>
-<a href="#login">🔐 লগইন</a></nav>
-<a href="#admin">🛡️ Admin</a>
-<div class="container" id="home">
-<div class="welcome">
-<h2>আসসালামু আলাইকুম!</h2>
-<p>নূরুল ইলম মাদরাসা ব্যবস্থাপনা সিস্টেমে আপনাকে স্বাগতম।</p>
-</div>
-
-<h2>মাদরাসা ড্যাশবোর্ড</h2>
-
-<div class="cards">
-<div class="card">
-<div class="icon">👨‍🎓</div>
-<h3>👨‍🎓 শিক্ষার্থী</h3>
-<p>তথ্য ব্যবস্থাপনা</p>
-</div>
+<div class="container">
 
   <div class="card">
-  <div class="icon">👨‍🏫</div>
-  <a href="#teacher-management">
-  <h3>👨‍🏫 শিক্ষক</h3>
-</a>
-  <p>শিক্ষক তালিকা</p>
-</div>
-
-<div class="card">
-<div class="icon">📚</div>
-<h3>শ্রেণি</h3>
-<p>সকল জামাত</p>
-</div>
-
-<div class="card">
-<div class="icon">📝</div>
-<a href="#exam-results">
-  <h3>📚 পরীক্ষার ফলাফল</h3>
-</a>
-<p>ফলাফল ব্যবস্থাপনা</p>
-</div>
-
-<div class="card">
-<div class="icon">📅</div>
-<a href="#attendance">
-  <h3>📅 উপস্থিতি</h3>
-</a>
-<p>হাজিরা ব্যবস্থাপনা</p>
-</div>
-
-<div class="card">?
-<div class="icon">📢</div>
-<h3>নোটিশ</h3>
-<p>বার্তা ও ঘোষণা</p>
-</div>
-</div>
-
-<div class="section" id="students">
-<h2>শিক্ষার্থী বিভাগ</h2>
-<p>ছাত্র ও ছাত্রীদের তথ্য এখানে ব্যবস্থাপনা করা হবে।</p>
-</div>
-
-<div class="section" id="teachers">
-<h2>শিক্ষক বিভাগ</h2>
-<p>মাদরাসার শিক্ষক ও কর্মচারীদের তথ্য এখানে থাকবে।</p>
-</div>
-
-<div class="section" id="notice">
-  <h2>📢 নোটিশ বোর্ড</h2>
-  <h3>Notice Board</h3>
-
-  <div class="dashboard-card">
-    <h3>🕌 মাদরাসার গুরুত্বপূর্ণ ঘোষণা</h3>
-    <p>নতুন নোটিশ এখানে প্রকাশ করা হবে।</p>
+    <h2>স্বাগতম, Admin!</h2>
+    <p>আপনার প্রতিষ্ঠানের ড্যাশবোর্ড</p>
   </div>
 
-  <div class="dashboard-card">
-    <h3>📅 পরীক্ষার নোটিশ</h3>
-    <p>পরীক্ষার সময়সূচি এখানে দেওয়া হবে।</p>
+  <div class="card">
+    <h3>শিক্ষার্থী</h3>
+    <h2>০</h2>
   </div>
 
-  <div class="dashboard-card">
-    <h3>📚 ভর্তি সংক্রান্ত নোটিশ</h3>
-    <h3>✍️ নতুন নোটিশ লিখুন</h3>
-
-<label>নোটিশের শিরোনাম</label>
-<input type="text" placeholder="শিরোনাম লিখুন">
-
-<label>নোটিশের বিবরণ</label>
-<textarea placeholder="নোটিশের বিস্তারিত লিখুন"></textarea>
-
-<button type="button"
-onclick="alert('নোটিশ প্রকাশের ব্যবস্থা পরে যুক্ত করা হবে।')">
-নোটিশ প্রকাশ করুন
-</button><p>ভর্তির গুরুত্বপূর্ণ তথ্য এখানে দেওয়া হবে।</p>
-  </div>
-</div>
-
-<footer>
-<p>Noorul Ilm (نور العلم)</p>
-<p>আল হানাফিয়া দারুল ইলম মাদরাসা</p>
-</footer>
-<div class="section" id="admission">
-<h2>📝 শিক্ষার্থী ভর্তি ফরম</h2>
-
-<form>
-<label>শিক্ষার্থীর নাম</label>
-<input type="text" placeholder="নাম লিখুন" required>
-
-<label>পিতার নাম</label>
-<input type="text" placeholder="পিতার নাম লিখুন">
-
-<label>মাতার নাম</label>
-<input type="text" placeholder="মাতার নাম লিখুন">
-
-<label>শ্রেণি</label>
-<select required>
-<option value="">শ্রেণি নির্বাচন করুন</option>
-<option>প্রথম জামাত</option>
-<option>দ্বিতীয় জামাত</option>
-<option>তৃতীয় জামাত</option>
-<option>চতুর্থ জামাত</option>
-<option>পঞ্চম জামাত</option>
-<option>ষষ্ঠ জামাত</option>
-<option>সপ্তম জামাত</option>
-<option>অষ্টম জামাত</option>
-<option>নবম জামাত</option>
-<option>দশম জামাত</option>
-</select>
-
-<label>বিভাগ</label>
-<select>
-<option>ছাত্র</option>
-<option>ছাত্রী</option>
-</select>
-
-<label>মোবাইল নম্বর</label>
-<input type="tel" placeholder="মোবাইল নম্বর লিখুন">
-
-<label>ঠিকানা</label>
-<textarea placeholder="ঠিকানা লিখুন"></textarea>
-
-<button type="button">ভর্তি আবেদন জমা দিন</button>
-</form>
-</div>
-
-<style>
-form label{
-display:block;
-margin-top:14px;
-font-weight:bold;
-}
-form input,form select,form textarea{
-width:100%;
-padding:12px;
-margin-top:6px;
-border:1px solid #ccc;
-border-radius:8px;
-font-size:16px;
-}
-form button{
-margin-top:18px;
-padding:13px 20px;
-background:#075b3b;
-color:white;
-border:0;
-border-radius:8px;
-width:100%;
-font-size:16px;
-}
-.section {
-  border-radius: 20px;
-  border: 2px solid #d4af37;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.10);
-}
-
-.dashboard-card {
-  border-radius: 18px;
-  border: 1px solid #d4af37;
-  padding: 18px;
-  margin: 12px 0;
-  background: #f4fff8;
-}
-
-.dashboard-card h3 {
-  color: #075b3b;
-}</style>
-
-<div class="section" id="online-admission">
-  <h2>🕌 অনলাইন ভর্তি আবেদন</h2>
-  <h3>Online Admission</h3>
-  <p>আল হানাফিয়া দারুল ইলম মাদরাসা</p>
-  <p>ঘরে বসেই ভর্তি আবেদন করুন।</p>
-
-  <a href="https://docs.google.com/forms/d/e/1FAIpQLSdL4ARkj4Po6w8nacb5NIuuZonQ6LN0RNdO66CzTTISoJcA3g/viewform?usp=sharing&ouid=116176120837125530648"
-     target="_blank"
-     style="display:block;background:#075b3b;color:white;text-align:center;padding:15px;border-radius:10px;text-decoration:none;font-weight:bold;">
-     📝 ভর্তি আবেদন করুন | Apply Now
-  </a>
-</div>
-
-<div class="section" id="about">
-  <h2>🕌 মাদরাসার পরিচিতি</h2>
-  <h3>About Our Madrasa</h3>
-
-  <p><strong>আল হানাফিয়া দারুল ইলম মাদরাসা</strong></p>
-
-  <p>
-    কুরআন ও সুন্নাহর আলোকে আদর্শ, নৈতিক ও যোগ্য
-    প্রজন্ম গড়ে তোলাই আমাদের লক্ষ্য।
-  </p>
-
-  <h3>আমাদের লক্ষ্য ও উদ্দেশ্য</h3>
-  <ul>
-    <li>কুরআন ও হাদিসের শিক্ষা প্রদান</li>
-    <li>ইসলামি আদর্শ ও নৈতিকতা গঠন</li>
-    <li>আধুনিক ও মানসম্মত শিক্ষার ব্যবস্থা</li>
-    <li>যোগ্য আলেম ও আদর্শ মানুষ তৈরি</li>
-  </ul>
-</div>
-
-<div class="section" id="contact">
-  <h2>📞 যোগাযোগ করুন</h2>
-  <h3>Contact Us</h3>
-
-  <p><strong>আল হানাফিয়া দারুল ইলম মাদরাসা</strong></p>
-
-  <p>📍 ঠিকানা (Address):</p>
-  <p>পৌরসভা ২ নং ওয়ার্ড, বড়শিজুড়া, মৌলভীবাজার।</p>
-
-  <p>📱 মোবাইল (Mobile):</p>
-  <p>+8801732668283</p>
-
-  <a href="tel:+8801732668283"
-     style="display:block;background:#075b3b;color:white;text-align:center;padding:13px;border-radius:8px;text-decoration:none;font-weight:bold;">
-     📞 কল করুন | Call Now
-  </a>
-
-  <a href="https://wa.me/8801732668283"
-     target="_blank"
-     style="display:block;background:#128C7E;color:white;text-align:center;padding:13px;border-radius:8px;text-decoration:none;font-weight:bold;margin-top:10px;">
-     WhatsApp যোগাযোগ করুন
-  </a>
-</div>
-
-<div class="section" id="student-management">
-  <h2>👨‍🎓 শিক্ষার্থী ব্যবস্থাপনা</h2>
-  <h3>Student Management</h3>
-
-  <div class="dashboard-card">
-    <h3>👨‍🎓 শিক্ষার্থী তালিকা</h3>
-    <p>Student List</p>
+  <div class="card">
+    <h3>শিক্ষক</h3>
+    <h2>০</h2>
   </div>
 
-  <div class="dashboard-card">
-    <h3>👦 ছাত্র তালিকা</h3>
-    <p>Boys List</p>
+  <div class="card">
+    <h3>উপস্থিতি</h3>
+    <h2>০%</h2>
   </div>
 
-  <div class="dashboard-card">
-    <h3>👧 ছাত্রী তালিকা</h3>
-    <p>Girls List</p>
-  </div>
-
-  <div class="dashboard-card">
-    <h3>🏫 শ্রেণিভিত্তিক তালিকা</h3>
-    <p>Class-wise Student List</p>
-  </div>
-
-  <input type="text" id="studentSearch"
-    placeholder="শিক্ষার্থীর নাম খুঁজুন (Search Student)"
-    onkeyup="searchStudent()">
-
-  <p id="searchMessage">শিক্ষার্থীর তথ্য এখানে দেখানো হবে।</p>
-</div>
-
-<script>
-function searchStudent() {
-  document.getElementById("searchMessage").innerText =
-    "শিক্ষার্থীর তথ্য সংরক্ষণের ব্যবস্থা এখনো যুক্ত হয়নি।";
-}
-</script>
-
-<div class="section" id="teacher-management">
-  <h2>👨‍🏫 শিক্ষক ও কর্মচারী ব্যবস্থাপনা</h2>
-  <h3>Teacher & Staff Management</h3>
-
-  <label>শিক্ষকের নাম (Teacher Name)</label>
-  <input type="text" placeholder="শিক্ষকের নাম লিখুন">
-
-  <label>পদবি (Designation)</label>
-  <select>
-    <option>পদবি নির্বাচন করুন</option>
-    <option>প্রধান শিক্ষক</option>
-    <option>সহকারী শিক্ষক</option>
-    <option>অফিস সহকারী</option>
-    <option>অন্যান্য</option>
-  </select>
-
-  <label>বিষয় (Subject)</label>
-  <input type="text" placeholder="বিষয়ের নাম লিখুন">
-
-  <label>মোবাইল নম্বর (Mobile Number)</label>
-  <input type="tel" placeholder="মোবাইল নম্বর লিখুন">
-
-  <p>শিক্ষক ও কর্মচারীদের তালিকা (Teacher List)</p>
-  <p>তথ্য সংরক্ষণের ব্যবস্থা পরে যুক্ত করা হবে।</p>
-</div>
-
-<div class="section" id="exam-results">
-  <h2>📚 পরীক্ষার ফলাফল</h2>
-  <h3>Exam Results Management</h3>
-
-  <label>পরীক্ষার নাম (Exam Name)</label>
-  <select>
-    <option>পরীক্ষা নির্বাচন করুন</option>
-    <option>প্রথম সাময়িক পরীক্ষা</option>
-    <option>দ্বিতীয় সাময়িক পরীক্ষা</option>
-    <option>বার্ষিক পরীক্ষা</option>
-    <option>মডেল পরীক্ষা</option>
-  </select>
-
-  <label>শিক্ষার্থীর নাম (Student Name)</label>
-  <input type="text" placeholder="শিক্ষার্থীর নাম লিখুন">
-
-  <label>জামাত (Class)</label>
-  <select>
-    <option>জামাত নির্বাচন করুন</option>
-    <option>প্রথম জামাত</option>
-    <option>দ্বিতীয় জামাত</option>
-    <option>তৃতীয় জামাত</option>
-    <option>চতুর্থ জামাত</option>
-    <option>পঞ্চম জামাত</option>
-    <option>ষষ্ঠ জামাত</option>
-    <option>সপ্তম জামাত</option>
-    <option>অষ্টম জামাত</option>
-    <option>নবম জামাত</option>
-    <option>দশম জামাত</option>
-  </select>
-
-  <label>বিষয় (Subject)</label>
-  <input type="text" placeholder="বিষয়ের নাম লিখুন">
-
-  <label>প্রাপ্ত নম্বর (Marks)</label>
-  <input type="number" placeholder="প্রাপ্ত নম্বর লিখুন">
-
-  <label>গ্রেড (Grade)</label>
-  <select>
-    <option>গ্রেড নির্বাচন করুন</option>
-    <option>A+</option>
-    <option>A</option>
-    <option>A-</option>
-    <option>B</option>
-    <option>C</option>
-    <option>D</option>
-    <option>F</option>
-  </select>
-
-  <p>📋 ফলাফল তালিকা (Result List)</p>
-  <p>ফলাফল সংরক্ষণের ব্যবস্থা পরে যুক্ত করা হবে।</p>
-</div>
-
-<div class="section" id="attendance">
-  <h2>📅 উপস্থিতি ব্যবস্থাপনা</h2>
-  <h3>Attendance Management</h3>
-
-  <label>শিক্ষার্থীর নাম (Student Name)</label>
-  <input type="text" placeholder="নাম লিখুন">
-
-  <label>জামাত (Class)</label>
-  <select>
-    <option>জামাত নির্বাচন করুন</option>
-    <option>প্রথম জামাত</option>
-    <option>দ্বিতীয় জামাত</option>
-    <option>তৃতীয় জামাত</option>
-    <option>চতুর্থ জামাত</option>
-    <option>পঞ্চম জামাত</option>
-    <option>ষষ্ঠ জামাত</option>
-    <option>সপ্তম জামাত</option>
-    <option>অষ্টম জামাত</option>
-    <option>নবম জামাত</option>
-    <option>দশম জামাত</option>
-  </select>
-
-  <label>তারিখ (Date)</label>
-  <input type="date">
-
-  <label>উপস্থিতির অবস্থা (Attendance Status)</label>
-  <select>
-    <option>অবস্থা নির্বাচন করুন</option>
-    <option>উপস্থিত (Present)</option>
-    <option>অনুপস্থিত (Absent)</option>
-    <option>ছুটি (Leave)</option>
-  </select>
-
-  <p>📋 উপস্থিতির রিপোর্ট (Attendance Report)</p>
-  <p>উপস্থিতির তথ্য সংরক্ষণের ব্যবস্থা পরে যুক্ত করা হবে।</p>
-</div>
-<div class="section" id="login">
-  <h2>🔐 লগইন | Login</h2>
-  <h3>نور العلم - Noorul Ilm</h3>
-
-  <label>ব্যবহারকারীর ধরন (User Role)</label>
-  <select id="userRole">
-    <option value="">নির্বাচন করুন</option>
-    <option>Admin</option>
-    <option>Teacher</option>
-    <option>Student</option>
-    <option>Guardian</option>
-  </select>
-
-  <label>মোবাইল বা ইমেইল (Mobile or Email)</label>
-  <input type="text" placeholder="মোবাইল বা ইমেইল লিখুন">
-
-  <label>পাসওয়ার্ড (Password)</label>
-  <input type="password" placeholder="পাসওয়ার্ড লিখুন">
-
-  <button type="button"
-    onclick="alert('নিরাপদ লগইন ব্যবস্থা এখনো যুক্ত করা হয়নি।')">
-    Login | লগইন করুন
-  </button>
-</div><div class="section" id="admin">
-  <h2>🛡️ Admin Dashboard</h2>
-  <h3>অ্যাডমিন প্যানেল</h3>
-
-  <div class="dashboard-card">
-    <h3>👨‍🎓 শিক্ষার্থী</h3>
-    <p>শিক্ষার্থী ব্যবস্থাপনা</p>
-  </div>
-
-  <div class="dashboard-card">
-    <h3>👨‍🏫 শিক্ষক</h3>
-    <p>শিক্ষক ব্যবস্থাপনা</p>
-  </div>
-
-  <div class="dashboard-card">
-    <h3>📅 উপস্থিতি</h3>
-    <p>দৈনিক হাজিরা</p>
-  </div>
-
-  <div class="dashboard-card">
-    <h3>📚 পরীক্ষার ফলাফল</h3>
+  <div class="card">
+    <h3>পরীক্ষার ফলাফল</h3>
     <p>ফলাফল ব্যবস্থাপনা</p>
   </div>
 
-  <div class="dashboard-card">
-    <a href="#notice">
-  <h3>📢 নোটিশ</h3>
-<a href="#guardian">
-  <h3>👨‍👩‍👧 অভিভাবক</h3>
-</a></a>
+  <div class="card">
+    <h3>নোটিশ</h3>
     <p>নোটিশ ব্যবস্থাপনা</p>
   </div>
-</div><div class="section" id="guardian">
-  <h2>👨‍👩‍👧 অভিভাবক বিভাগ</h2>
-  <h3>Guardian Management</h3>
 
-  <label>অভিভাবকের নাম</label>
-  <input type="text" placeholder="নাম লিখুন">
+  <div class="card">
+    <h3>অনলাইন ভর্তি</h3>
+    <p>ভর্তি আবেদন ব্যবস্থাপনা</p>
+  </div>
 
-  <label>শিক্ষার্থীর নাম</label>
-  <input type="text" placeholder="শিক্ষার্থীর নাম লিখুন">
+  <div class="card">
+    <h2>শিক্ষার্থী ভর্তি ফরম</h2>
 
-  <label>মোবাইল নম্বর</label>
-  <input type="tel" placeholder="মোবাইল নম্বর লিখুন">
+    <form id="admissionForm">
 
-  <p>অভিভাবকের তথ্য সংরক্ষণের ব্যবস্থা পরে যুক্ত করা হবে।</p>
-</div>https://ah6124670-ai.github.io/noorul-ilm/
-<script src="script.js"></script>
+      <label>শিক্ষার্থীর নাম</label>
+      <input type="text" placeholder="নাম লিখুন" required>
+
+      <label>পিতার নাম</label>
+      <input type="text" placeholder="পিতার নাম" required>
+
+      <label>মাতার নাম</label>
+      <input type="text" placeholder="মাতার নাম" required>
+
+      <label>জন্মতারিখ</label>
+      <input type="date" required>
+
+      <label>মোবাইল নম্বর</label>
+      <input type="tel" placeholder="মোবাইল নম্বর" required>
+
+      <label>বিভাগ নির্বাচন</label>
+      <select id="department" required>
+        <option value="">বিভাগ নির্বাচন করুন</option>
+        <option value="hifz">হিফয বিভাগ</option>
+        <option value="dakhil">দাখিল মাদরাসা</option>
+        <option value="kg">কেজি স্কুল</option>
+      </select>
+
+      <label>শ্রেণি নির্বাচন</label>
+      <select id="className" required>
+        <option value="">আগে বিভাগ নির্বাচন করুন</option>
+      </select>
+
+      <label>রোল নম্বর</label>
+      <input type="number" placeholder="রোল নম্বর" required>
+
+      <label>শিক্ষার্থীর ছবি</label>
+      <input type="file" accept="image/*">
+
+      <button type="submit">ভর্তি ফরম জমা দিন</button>
+
+    </form>
+  </div>
+
+</div>
+
+<script>
+const department = document.getElementById("department");
+const className = document.getElementById("className");
+
+const classes = {
+  hifz: ["নূরানী", "নাজেরা", "হিফজ", "কিতাব"],
+  dakhil: ["১ম শ্রেণি", "২য় শ্রেণি", "৩য় শ্রেণি", "৪র্থ শ্রেণি", "৫ম শ্রেণি", "৬ষ্ঠ শ্রেণি", "৭ম শ্রেণি", "৮ম শ্রেণি", "৯ম শ্রেণি", "১০ম শ্রেণি"],
+  kg: ["শিশু শ্রেণি", "১ম শ্রেণি", "২য় শ্রেণি", "৩য় শ্রেণি", "৪র্থ শ্রেণি", "৫ম শ্রেণি", "৬ষ্ঠ শ্রেণি", "৭ম শ্রেণি", "৮ম শ্রেণি", "৯ম শ্রেণি", "১০ম শ্রেণি"]
+};
+
+department.addEventListener("change", function() {
+  className.innerHTML = '<option value="">শ্রেণি নির্বাচন করুন</option>';
+
+  (classes[this.value] || []).forEach(function(item) {
+    const option = document.createElement("option");
+    option.value = item;
+    option.textContent = item;
+    className.appendChild(option);
+  });
+});
+
+document.getElementById("admissionForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  alert("ভর্তি ফরম তৈরি হয়েছে। তথ্য সংরক্ষণের ব্যবস্থা পরবর্তী ধাপে যুক্ত হবে।");
+});
+</script>
+
 </body>
 </html>
+
