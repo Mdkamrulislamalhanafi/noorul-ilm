@@ -98,7 +98,99 @@
 
 </div>
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+// Firebase Configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAzuZfOdDjztQvgEbtDoO-DQJO_1Hqnsf4",
+  authDomain: "noorul-ilm-management.firebaseapp.com",
+  projectId: "noorul-ilm-management",
+  storageBucket: "noorul-ilm-management.firebasestorage.app",
+  messagingSenderId: "1091358323396",
+  appId: "1:1091358323396:web:65a0fed12ecb5c749f4f91",
+  measurementId: "G-0ER6H616VF"
+};
+
+// Firebase চালু
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// বিভাগ ও শ্রেণি
+const department = document.getElementById("department");
+const className = document.getElementById("className");
+
+const classes = {
+  hifz: ["নূরানী", "নাজেরা", "হিফজ", "কিতাব"],
+  dakhil: ["১ম শ্রেণি", "২য় শ্রেণি", "৩য় শ্রেণি", "৪র্থ শ্রেণি", "৫ম শ্রেণি", "৬ষ্ঠ শ্রেণি", "৭ম শ্রেণি", "৮ম শ্রেণি", "৯ম শ্রেণি", "১০ম শ্রেণি"],
+  kg: ["শিশু শ্রেণি", "১ম শ্রেণি", "২য় শ্রেণি", "৩য় শ্রেণি", "৪র্থ শ্রেণি", "৫ম শ্রেণি", "৬ষ্ঠ শ্রেণি", "৭ম শ্রেণি", "৮ম শ্রেণি", "৯ম শ্রেণি", "১০ম শ্রেণি"]
+};
+
+department.addEventListener("change", function() {
+  className.innerHTML = '<option value="">শ্রেণি নির্বাচন করুন</option>';
+
+  (classes[this.value] || []).forEach(function(item) {
+    const option = document.createElement("option");
+    option.value = item;
+    option.textContent = item;
+    className.appendChild(option);
+  });
+});
+
+// ভর্তি ফরম Firebase-এ সংরক্ষণ
+const admissionForm = document.getElementById("admissionForm");
+
+admissionForm.addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const inputs = admissionForm.querySelectorAll("input");
+  const button = admissionForm.querySelector("button");
+
+  const studentData = {
+    studentName: inputs[0].value,
+    fatherName: inputs[1].value,
+    motherName: inputs[2].value,
+    dateOfBirth: inputs[3].value,
+    mobile: inputs[4].value,
+    department: department.value,
+    className: className.value,
+    roll: inputs[5].value,
+    createdAt: serverTimestamp()
+  };
+
+  button.disabled = true;
+  button.textContent = "সংরক্ষণ হচ্ছে...";
+
+  try {
+    await addDoc(collection(db, "student_records"), studentData);
+
+    alert("আলহামদুলিল্লাহ! শিক্ষার্থীর ভর্তি তথ্য সফলভাবে সংরক্ষিত হয়েছে।");
+
+    admissionForm.reset();
+    className.innerHTML =
+      '<option value="">আগে বিভাগ নির্বাচন করুন</option>';
+
+  } catch (error) {
+    console.error("Firebase Error:", error);
+
+    alert("তথ্য সংরক্ষণ হয়নি। Firebase Database Rules পরীক্ষা করুন।");
+
+  } finally {
+    button.disabled = false;
+    button.textContent = "ভর্তি ফরম জমা দিন";
+  }
+});
+</script>
+
+</body>
+</html>
 const department = document.getElementById("department");
 const className = document.getElementById("className");
 
