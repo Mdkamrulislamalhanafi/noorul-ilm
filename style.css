@@ -111,3 +111,123 @@ header h2 {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* NOORUL ILLM GREEN GOLD DESIGN */
+
+#dashboard {
+  display: block;
+  text-align: center;
+  padding: 20px 10px;
+}
+
+/* Circular Logo */
+.noor-logo {
+  width: 280px;
+  max-width: 90%;
+  min-height: 280px;
+  margin: 10px auto 20px;
+  padding: 25px 15px;
+  box-sizing: border-box;
+  border: 7px double #D9B45B;
+  border-radius: 50%;
+  background: radial-gradient(circle, #087448, #003820);
+  color: #F5D783;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 18px #C9A44A;
+}
+
+.logo-symbol {
+  font-size: 42px;
+}
+
+.logo-arabic {
+  font-size: 36px;
+  font-weight: bold;
+  color: #FFD978;
+  margin: 5px;
+}
+
+.logo-book {
+  font-size: 35px;
+}
+
+.noor-logo h1 {
+  color: #FFD978;
+  font-size: 30px;
+  margin: 5px;
+}
+
+.noor-logo p {
+  color: white;
+  font-size: 12px;
+  margin: 5px;
+}
+
+/* Bengali Quote */
+.noor-quote {
+  color: #A77A18;
+  font-size: 19px;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+/* Admin Login */
+.admin-login-feature {
+  margin: 20px auto;
+}
+
+.admin-login-feature button {
+  background: #075638;
+  color: #FFD978;
+  border: 2px solid #D9B45B;
+  border-radius: 30px;
+  padding: 13px 35px;
+  font-size: 19px;
+  font-weight: bold;
+}
+
+/* Feature Grid */
+.dashboard-features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.dashboard-features .card {
+  background: #075638;
+  border: 2px solid #D9B45B;
+  border-radius: 10px;
+  aspect-ratio: 1 / 1;
+  min-width: 0;
+  padding: 10px 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #FFD978;
+}
+
+.feature-icon {
+  font-size: 38px;
+  margin-bottom: 8px;
+}
+
+.dashboard-features .card h3 {
+  color: #FFD978;
+  font-size: 14px;
+}
+
+.dashboard-features .card p {
+  color: white;
+  font-size: 16px;
+}
+
+@media (max-width: 600px) {
+  .dashboard-features {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
