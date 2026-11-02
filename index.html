@@ -185,9 +185,11 @@ import {
   collection,
   addDoc,
   serverTimestamp,
-  getDocs
+  getDocs,
+  doc,
+  updateDoc,
+  deleteDoc
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -339,7 +341,7 @@ onAuthStateChanged(auth, async function(user) {
       
       const card = document.createElement("div");
       card.className = "card";
-card.dataset.id = doc.id;
+card.dataset.id = docId;
       const name = document.createElement("h3");
       name.textContent = data.studentName || "";
 
@@ -391,11 +393,12 @@ deleteBtn.onclick = async function() {
   }
 };
 
+card.appendChild(name);
+card.appendChild(details);
 card.appendChild(editBtn);
-card.appendChild(deleteBtn);    card.appendChild(name);
-      card.appendChild(details);
-      studentList.appendChild(card);
-    });
+card.appendChild(deleteBtn);
+
+studentList.appendChild(card);
 
   } catch (error) {
     alert("তালিকা লোড হয়নি: " + error.message);
