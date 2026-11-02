@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -21,137 +19,70 @@
 
     <!-- Dashboard: লগইন ছাড়াই দেখা যাবে -->
     <section id="dashboard">
-      <section id="dashboard">
-
-  <!-- Noorul Illm Circular Logo -->
-  <div class="noor-logo">
-
-    <div class="logo-border">
-
-      <!-- Arabic Name -->
-      <div class="logo-arabic">نور العلم</div>
-
-      <!-- Mosque Design -->
-      <div class="mosque-scene">
-
-        <div class="minaret left-minaret"></div>
-
-        <div class="minaret right-minaret"></div>
-
-        <div class="mosque-building">
-
-          <div class="mosque-dome"></div>
-
-          <div class="mosque-door"></div>
-
+      <!-- Noorul Illm Circular Logo -->
+      <div class="noor-logo">
+        <div class="logo-border">
+          <div class="logo-arabic">نور العلم</div>
+          <div class="mosque-scene">
+            <div class="minaret left-minaret"></div>
+            <div class="minaret right-minaret"></div>
+            <div class="mosque-building">
+              <div class="mosque-dome"></div>
+              <div class="mosque-door"></div>
+            </div>
+          </div>
+          <div class="logo-book">
+            <div class="book-page left-page"></div>
+            <div class="book-page right-page"></div>
+          </div>
+          <h1>Noorul Illm</h1>
+          <p>School &amp; Madrasa</p>
+          <p class="logo-system">Management System</p>
         </div>
-
       </div>
 
-      <!-- Open Book Design -->
-      <div class="logo-book">
-
-        <div class="book-page left-page"></div>
-
-        <div class="book-page right-page"></div>
-
+      <!-- Bengali Quote -->
+      <div class="noor-quote">
+        হে মানুষ, জ্ঞান আল্লাহর দান
       </div>
 
-      <!-- English Name -->
-      <h1>Noorul Illm</h1>
+      <!-- Admin Login Button -->
+      <div class="admin-login-feature">
+        <button type="button" onclick="document.getElementById('adminLogin').scrollIntoView({behavior:'smooth'})">
+          🔐 Admin Login
+        </button>
+      </div>
 
-      <p>School &amp; Madrasa</p>
-
-      <p class="logo-system">Management System</p>
-
-    </div>
-
-  </div>
-
-  <!-- Bengali Quote -->
-  <div class="noor-quote">
-    হে মানুষ, জ্ঞান আল্লাহর দান
-  </div>
-
-  <!-- Admin Login Button -->
-  <div class="admin-login-feature">
-
-    <button
-      type="button"
-      onclick="document.getElementById('adminLogin').scrollIntoView({behavior:'smooth'})">
-
-      🔐 Admin Login
-
-    </button>
-
-  </div>
-
-  <!-- Dashboard Features -->
-  <div class="dashboard-features">
-
-    <!-- Students -->
-    <div class="card">
-
-      <div class="feature-icon">👨‍🎓</div>
-
-      <h3>Students</h3>
-
-      <p id="studentCount">0</p>
-
-    </div>
-
-    <!-- Teachers -->
-    <div class="card">
-
-      <div class="feature-icon">👨‍🏫</div>
-
-      <h3>Teachers</h3>
-
-      <p>0</p>
-
-    </div>
-
-    <!-- Attendance -->
-    <div class="card">
-
-      <div class="feature-icon">📅</div>
-
-      <h3>Attendance</h3>
-
-      <p>0%</p>
-
-    </div>
-
-    <!-- Exam Results -->
-    <div class="card">
-
-      <div class="feature-icon">📊</div>
-
-      <h3>Exam Results</h3>
-
-    </div>
-
-    <!-- Notices -->
-    <div class="card">
-
-      <div class="feature-icon">🔔</div>
-
-      <h3>Notices</h3>
-
-    </div>
-
-    <!-- Online Admission -->
-    <div class="card">
-
-      <div class="feature-icon">📝</div>
-
-      <h3>Online Admission</h3>
-
-    </div>
-
-  </div>
-
-</section>
+      <!-- Dashboard Features -->
+      <div class="dashboard-features">
+        <div class="card">
+          <div class="feature-icon">👨‍🎓</div>
+          <h3>Students</h3>
+          <p id="studentCount">0</p>
+        </div>
+        <div class="card">
+          <div class="feature-icon">👨‍🏫</div>
+          <h3>Teachers</h3>
+          <p>0</p>
+        </div>
+        <div class="card">
+          <div class="feature-icon">📅</div>
+          <h3>Attendance</h3>
+          <p>0%</p>
+        </div>
+        <div class="card">
+          <div class="feature-icon">📊</div>
+          <h3>Exam Results</h3>
+        </div>
+        <div class="card">
+          <div class="feature-icon">🔔</div>
+          <h3>Notices</h3>
+        </div>
+        <div class="card">
+          <div class="feature-icon">📝</div>
+          <h3>Online Admission</h3>
+        </div>
+      </div>
     </section>
 
     <!-- Admin Login -->
@@ -160,20 +91,10 @@
 
       <form id="loginForm">
         <label for="adminEmail">ইমেইল</label>
-        <input
-          type="email"
-          id="adminEmail"
-          placeholder="Admin Email"
-          required
-        >
+        <input type="email" id="adminEmail" placeholder="Admin Email" required>
 
         <label for="adminPassword">পাসওয়ার্ড</label>
-        <input
-          type="password"
-          id="adminPassword"
-          placeholder="Password"
-          required
-        >
+        <input type="password" id="adminPassword" placeholder="Password" required>
 
         <button type="submit" id="loginBtn">Login</button>
       </form>
@@ -201,7 +122,6 @@
         <h2>শিক্ষার্থী ভর্তি ফরম</h2>
 
         <form id="admissionForm">
-
           <label for="studentName">শিক্ষার্থীর নাম</label>
           <input type="text" id="studentName" required>
 
@@ -244,20 +164,18 @@
       <!-- Student List -->
       <div class="card">
         <h2>শিক্ষার্থীর তালিকা</h2>
-
-        <input
-          type="search"
-          id="studentSearch"
-          placeholder="শিক্ষার্থীর নাম দিয়ে খুঁজুন"
-        >
-
+        <input type="search" id="studentSearch" placeholder="শিক্ষার্থীর নাম দিয়ে খুঁজুন">
         <div id="studentList">
           শিক্ষার্থীর তথ্য লোড হচ্ছে...
         </div>
       </div>
 
     </section>
-<script type="module">
+
+  </main>
+
+  <!-- Single & Clean JavaScript Module -->
+  <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { 
         getAuth, 
@@ -276,7 +194,8 @@
         deleteDoc, 
         serverTimestamp 
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-    // Firebase Configuration (সঠিক করা API Key সহ)
+
+    // Firebase Configuration
     const firebaseConfig = {
       apiKey: "AIzaSyAzuZfOdDjztQvgEbtDoO-DQJO_1Hqnsf4",
       authDomain: "noorul-ilm-management.firebaseapp.com",
@@ -286,28 +205,15 @@
       appId: "1:1091358323396:web:65a0fed12ecb5c749f4f91",
       measurementId: "G-0ER6H616VF"
     };
+
     const ADMIN_UID = "nKQFbXGR4jMGARMcZNwhrOEggvo1";
+
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
     const studentCollection = collection(db, "student_records");
     console.log("Firebase initialized successfully!", app);
-</script>
-
-     messagingSenderId: "1091358323396",
-      appId: "1:1091358323396:web:65a0fed12ecb5c749f4f91",
-      measurementId: "G-0ER6H616VF"
-    };
-
-    const ADMIN_UID = "nKQFbXGR4jMGARMcZNwhrOEggvo1";
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    const studentCollection = collection(db, "student_records");
-
 
     // HTML Elements
     const adminLogin = document.getElementById("adminLogin");
@@ -322,18 +228,15 @@
     const studentSearch = document.getElementById("studentSearch");
     const studentCount = document.getElementById("studentCount");
 
-
     // বিভাগ অনুযায়ী শ্রেণি
     const classes = {
       hifz: ["নূরানী", "নাজেরা", "হিফজ", "কিতাব"],
-
       dakhil: [
         "১ম শ্রেণি", "২য় শ্রেণি", "৩য় শ্রেণি",
         "৪র্থ শ্রেণি", "৫ম শ্রেণি", "৬ষ্ঠ শ্রেণি",
         "৭ম শ্রেণি", "৮ম শ্রেণি", "৯ম শ্রেণি",
         "১০ম শ্রেণি"
       ],
-
       kg: [
         "শিশু শ্রেণি", "১ম শ্রেণি", "২য় শ্রেণি",
         "৩য় শ্রেণি", "৪র্থ শ্রেণি", "৫ম শ্রেণি",
@@ -342,29 +245,21 @@
       ]
     };
 
-
     // বিভাগ পরিবর্তন হলে শ্রেণি দেখাবে
     department.addEventListener("change", function () {
-
-      className.innerHTML =
-        '<option value="">শ্রেণি নির্বাচন করুন</option>';
-
+      className.innerHTML = '<option value="">শ্রেণি নির্বাচন করুন</option>';
       const selectedClasses = classes[department.value] || [];
-
       selectedClasses.forEach(function (item) {
         const option = document.createElement("option");
         option.value = item;
         option.textContent = item;
         className.appendChild(option);
       });
-
     });
-
 
     // Login
     loginForm.addEventListener("submit", async function (event) {
       event.preventDefault();
-
       const email = document.getElementById("adminEmail").value.trim();
       const password = document.getElementById("adminPassword").value;
       const loginBtn = document.getElementById("loginBtn");
@@ -374,168 +269,97 @@
       loginMessage.textContent = "";
 
       try {
-        const result = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-
+        const result = await signInWithEmailAndPassword(auth, email, password);
         if (result.user.uid !== ADMIN_UID) {
           await signOut(auth);
-          loginMessage.textContent =
-            "এই অ্যাকাউন্টের Admin অনুমতি নেই।";
+          loginMessage.textContent = "এই অ্যাকাউন্টের Admin অনুমতি নেই।";
         }
-
       } catch (error) {
         console.error(error);
-        loginMessage.textContent =
-          "লগইন হয়নি। ইমেইল ও পাসওয়ার্ড পরীক্ষা করুন। (" +
-          error.code + ")";
+        loginMessage.textContent = "লগইন হয়নি। ইমেইল ও পাসওয়ার্ড পরীক্ষা করুন। (" + error.code + ")";
       } finally {
         loginBtn.disabled = false;
         loginBtn.textContent = "Login";
       }
-
     });
 
-
     // Password Reset
-    document.getElementById("forgotPassword")
-      .addEventListener("click", async function () {
-
-        const email =
-          document.getElementById("adminEmail").value.trim();
-
-        if (!email) {
-          loginMessage.textContent =
-            "প্রথমে আপনার Admin ইমেইল লিখুন।";
-          return;
-        }
-
-        try {
-          await sendPasswordResetEmail(auth, email);
-          loginMessage.textContent =
-            "পাসওয়ার্ড পরিবর্তনের লিংক ইমেইলে পাঠানো হয়েছে।";
-        } catch (error) {
-          console.error(error);
-          loginMessage.textContent =
-            "Reset করা যায়নি: " + error.code;
-        }
-
-      });
-
+    document.getElementById("forgotPassword").addEventListener("click", async function () {
+      const email = document.getElementById("adminEmail").value.trim();
+      if (!email) {
+        loginMessage.textContent = "প্রথমে আপনার Admin ইমেইল লিখুন।";
+        return;
+      }
+      try {
+        await sendPasswordResetEmail(auth, email);
+        loginMessage.textContent = "পাসওয়ার্ড পরিবর্তনের লিংক ইমেইলে পাঠানো হয়েছে।";
+      } catch (error) {
+        console.error(error);
+        loginMessage.textContent = "Reset করা যায়নি: " + error.code;
+      }
+    });
 
     // Auth Status
     onAuthStateChanged(auth, async function (user) {
-
       if (user && user.uid === ADMIN_UID) {
-
         adminLogin.hidden = true;
         adminPanel.hidden = false;
-
         await loadStudents();
-
       } else {
-
         adminLogin.hidden = false;
         adminPanel.hidden = true;
-
-        studentCount.textContent =
-          "Admin Login করলে দেখা যাবে";
-
+        studentCount.textContent = "Admin Login করলে দেখা যাবে";
         if (user) {
           await signOut(auth);
         }
-
       }
-
     });
 
-
     // Logout
-    document.getElementById("logoutBtn")
-      .addEventListener("click", async function () {
-        await signOut(auth);
-        loginMessage.textContent = "আপনি Logout করেছেন।";
-      });
-
+    document.getElementById("logoutBtn").addEventListener("click", async function () {
+      await signOut(auth);
+      loginMessage.textContent = "আপনি Logout করেছেন।";
+    });
 
     // Admission Form Submit
     admissionForm.addEventListener("submit", async function (event) {
-
       event.preventDefault();
-
-      if (!auth.currentUser ||
-          auth.currentUser.uid !== ADMIN_UID) {
-        admissionMessage.textContent =
-          "শুধুমাত্র Admin শিক্ষার্থী ভর্তি করতে পারবেন।";
+      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
+        admissionMessage.textContent = "শুধুমাত্র Admin শিক্ষার্থী ভর্তি করতে পারবেন।";
         return;
       }
 
-      const saveButton =
-        document.getElementById("saveStudentBtn");
-
+      const saveButton = document.getElementById("saveStudentBtn");
       saveButton.disabled = true;
       saveButton.textContent = "সংরক্ষণ হচ্ছে...";
       admissionMessage.textContent = "";
 
       const studentData = {
-        studentName:
-          document.getElementById("studentName").value.trim(),
-
-        fatherName:
-          document.getElementById("fatherName").value.trim(),
-
-        motherName:
-          document.getElementById("motherName").value.trim(),
-
-        dateOfBirth:
-          document.getElementById("dateOfBirth").value,
-
-        mobile:
-          document.getElementById("mobile").value.trim(),
-
-        roll:
-          document.getElementById("rollNumber").value.trim(),
-
+        studentName: document.getElementById("studentName").value.trim(),
+        fatherName: document.getElementById("fatherName").value.trim(),
+        motherName: document.getElementById("motherName").value.trim(),
+        dateOfBirth: document.getElementById("dateOfBirth").value,
+        mobile: document.getElementById("mobile").value.trim(),
+        roll: document.getElementById("rollNumber").value.trim(),
         department: department.value,
-
         className: className.value,
-
         createdAt: serverTimestamp()
       };
 
       try {
-
         await addDoc(studentCollection, studentData);
-
-        admissionMessage.textContent =
-          "আলহামদুলিল্লাহ! শিক্ষার্থীর ভর্তি তথ্য সংরক্ষিত হয়েছে।";
-
+        admissionMessage.textContent = "আলহামদুলিল্লাহ! শিক্ষার্থীর ভর্তি তথ্য সংরক্ষিত হয়েছে।";
         admissionForm.reset();
-
-        className.innerHTML =
-          '<option value="">আগে বিভাগ নির্বাচন করুন</option>';
-
+        className.innerHTML = '<option value="">আগে বিভাগ নির্বাচন করুন</option>';
         await loadStudents();
-
       } catch (error) {
-
         console.error(error);
-
-        admissionMessage.textContent =
-          "তথ্য সংরক্ষণ হয়নি। Firebase Rules পরীক্ষা করুন। (" +
-          error.code + ")";
-
+        admissionMessage.textContent = "তথ্য সংরক্ষণ হয়নি। Firebase Rules পরীক্ষা করুন। (" + error.code + ")";
       } finally {
-
         saveButton.disabled = false;
         saveButton.textContent = "ভর্তি ফরম জমা দিন";
-
       }
-
     });
-
 
     // HTML নিরাপদে দেখানোর জন্য
     function escapeHTML(value) {
@@ -550,62 +374,40 @@
       });
     }
 
-
     // Load Students
     let allStudents = [];
 
     async function loadStudents() {
-
-      if (!auth.currentUser ||
-          auth.currentUser.uid !== ADMIN_UID) {
+      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
         return;
       }
-
       studentList.textContent = "তথ্য লোড হচ্ছে...";
-
       try {
-
         const snapshot = await getDocs(studentCollection);
-
         allStudents = snapshot.docs.map(function (item) {
           return {
             id: item.id,
             ...item.data()
           };
         });
-
         studentCount.textContent = allStudents.length;
-
         showStudents(allStudents);
-
       } catch (error) {
-
         console.error(error);
-
-        studentList.textContent =
-          "শিক্ষার্থীর তথ্য লোড হয়নি। (" + error.code + ")";
-
+        studentList.textContent = "শিক্ষার্থীর তথ্য লোড হয়নি। (" + error.code + ")";
       }
-
     }
-
 
     // Show Students
     function showStudents(students) {
-
       if (students.length === 0) {
-        studentList.textContent =
-          "এখনো কোনো শিক্ষার্থীর তথ্য নেই।";
+        studentList.textContent = "এখনো কোনো শিক্ষার্থীর তথ্য নেই।";
         return;
       }
-
       studentList.innerHTML = "";
-
       students.forEach(function (student) {
-
         const card = document.createElement("div");
         card.className = "card";
-
         card.innerHTML = `
           <h3>${escapeHTML(student.studentName)}</h3>
           <p>পিতার নাম: ${escapeHTML(student.fatherName)}</p>
@@ -615,124 +417,67 @@
           <p>রোল: ${escapeHTML(student.roll ?? student.rollNumber ?? "")}</p>
           <p>বিভাগ: ${escapeHTML(student.department)}</p>
           <p>শ্রেণি: ${escapeHTML(student.className)}</p>
-
-          <button type="button" class="editStudent">
-            Edit
-          </button>
-
-          <button type="button" class="deleteStudent">
-            Delete
-          </button>
+          <button type="button" class="editStudent">Edit</button>
+          <button type="button" class="deleteStudent">Delete</button>
         `;
-
-        card.querySelector(".editStudent")
-          .addEventListener("click", function () {
-            editStudent(student);
-          });
-
-        card.querySelector(".deleteStudent")
-          .addEventListener("click", function () {
-            removeStudent(student.id);
-          });
-
+        card.querySelector(".editStudent").addEventListener("click", function () {
+          editStudent(student);
+        });
+        card.querySelector(".deleteStudent").addEventListener("click", function () {
+          removeStudent(student.id);
+        });
         studentList.appendChild(card);
-
       });
-
     }
-
 
     // Search Students
     studentSearch.addEventListener("input", function () {
-
-      const searchText =
-        studentSearch.value.trim().toLowerCase();
-
+      const searchText = studentSearch.value.trim().toLowerCase();
       const filteredStudents = allStudents.filter(function (student) {
-        return String(student.studentName || "")
-          .toLowerCase()
-          .includes(searchText);
+        return String(student.studentName || "").toLowerCase().includes(searchText);
       });
-
       showStudents(filteredStudents);
-
     });
-
 
     // Edit Student
     async function editStudent(student) {
-
-      if (!auth.currentUser ||
-          auth.currentUser.uid !== ADMIN_UID) {
+      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
         alert("শুধুমাত্র Admin তথ্য পরিবর্তন করতে পারবেন।");
         return;
       }
-
-      const newName = prompt(
-        "শিক্ষার্থীর নতুন নাম লিখুন:",
-        student.studentName || ""
-      );
-
+      const newName = prompt("শিক্ষার্থীর নতুন নাম লিখুন:", student.studentName || "");
       if (newName === null || !newName.trim()) {
         return;
       }
-
       try {
-
-        await updateDoc(
-          doc(db, "student_records", student.id),
-          { studentName: newName.trim() }
-        );
-
+        await updateDoc(doc(db, "student_records", student.id), { studentName: newName.trim() });
         alert("শিক্ষার্থীর নাম পরিবর্তন হয়েছে।");
-
         await loadStudents();
-
       } catch (error) {
-
         console.error(error);
         alert("পরিবর্তন করা যায়নি: " + error.code);
-
       }
-
     }
-
 
     // Delete Student
     async function removeStudent(studentId) {
-
-      if (!auth.currentUser ||
-          auth.currentUser.uid !== ADMIN_UID) {
+      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
         alert("শুধুমাত্র Admin তথ্য মুছতে পারবেন।");
         return;
       }
-
-      const confirmDelete =
-        confirm("আপনি কি এই শিক্ষার্থীর তথ্য মুছে ফেলতে চান?");
-
+      const confirmDelete = confirm("আপনি কি এই শিক্ষার্থীর তথ্য মুছে ফেলতে চান?");
       if (!confirmDelete) {
         return;
       }
-
       try {
-
-        await deleteDoc(
-          doc(db, "student_records", studentId)
-        );
-
+        await deleteDoc(doc(db, "student_records", studentId));
         alert("শিক্ষার্থীর তথ্য মুছে ফেলা হয়েছে।");
-
         await loadStudents();
-
       } catch (error) {
-
         console.error(error);
         alert("তথ্য মুছে ফেলা যায়নি: " + error.code);
-
       }
-
     }
-
   </script>
 
 </body>
