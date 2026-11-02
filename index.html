@@ -360,7 +360,19 @@ onAuthStateChanged(auth, async function(user) {
   }
 });
 
-// Logout
+// Student Search
+const studentSearch = document.getElementById("studentSearch");
+
+studentSearch.addEventListener("input", function() {
+  const searchText = studentSearch.value.toLowerCase().trim();
+
+  Array.from(studentList.children).forEach(function(card) {
+    const studentInfo = card.textContent.toLowerCase();
+
+    card.style.display =
+      studentInfo.includes(searchText) ? "block" : "none";
+  });
+});// Logout
 document.getElementById("logoutBtn").addEventListener("click", async function() {
   await signOut(auth);
   alert("লগআউট সফল হয়েছে।");
