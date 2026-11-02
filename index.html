@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -7,497 +8,631 @@
   <title>Noorul Ilm - Admin Panel</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<header>
-  <h1>نور العلم</h1>
-  <h2>Noorul Ilm Admin Panel</h2>
-  <p>School &amp; Madrasa Management System</p>
-</header>
+  <header>
+    <h1>نور العلم</h1>
+    <h2>Noorul Ilm Admin Panel</h2>
+    <p>School &amp; Madrasa Management System</p>
+  </header>
 
-<!-- ADMIN LOGIN -->
-<div class="container" id="adminLogin">
-  <div class="card">
-    <h2>Admin Login</h2>
-    <p>নূরুল ইলম অ্যাডমিন প্যানেল</p>
+  <main class="container">
 
-    <form id="loginForm">
-      <input type="email" id="adminEmail"
-        placeholder="Admin Email" required>
+    <!-- Dashboard: লগইন ছাড়াই দেখা যাবে -->
+    <section id="dashboard">
+      <div class="card">
+        <h2>স্বাগতম!</h2>
+        <p>আপনার প্রতিষ্ঠানের ড্যাশবোর্ড</p>
+      </div>
 
-      <input type="password" id="adminPassword"
-        placeholder="Password" required>
+      <div class="card">
+        <h3>শিক্ষার্থী</h3>
+        <p id="studentCount">Admin Login করলে দেখা যাবে</p>
+      </div>
 
-      <button type="submit" id="loginBtn">
-        লগইন করুন
-      </button>
+      <div class="card">
+        <h3>শিক্ষক</h3>
+        <p>০</p>
+      </div>
+
+      <div class="card">
+        <h3>উপস্থিতি</h3>
+        <p>০%</p>
+      </div>
+
+      <div class="card">
+        <h3>পরীক্ষার ফলাফল</h3>
+        <p>ফলাফল ব্যবস্থাপনা</p>
+      </div>
+
+      <div class="card">
+        <h3>নোটিশ</h3>
+        <p>নোটিশ ব্যবস্থাপনা</p>
+      </div>
+
+      <div class="card">
+        <h3>অনলাইন ভর্তি</h3>
+        <p>ভর্তি আবেদন ব্যবস্থাপনা</p>
+      </div>
+    </section>
+
+    <!-- Admin Login -->
+    <section id="adminLogin" class="card">
+      <h2>Admin Login</h2>
+
+      <form id="loginForm">
+        <label for="adminEmail">ইমেইল</label>
+        <input
+          type="email"
+          id="adminEmail"
+          placeholder="Admin Email"
+          required
+        >
+
+        <label for="adminPassword">পাসওয়ার্ড</label>
+        <input
+          type="password"
+          id="adminPassword"
+          placeholder="Password"
+          required
+        >
+
+        <button type="submit" id="loginBtn">Login</button>
+      </form>
 
       <p>
-        <a href="#" id="forgotPassword">
+        <button type="button" id="forgotPassword">
           পাসওয়ার্ড ভুলে গেছেন?
-        </a>
-      </p>
-    </form>
-  </div>
-</div>
-
-<!-- ADMIN DASHBOARD -->
-<div id="adminDashboard" style="display:none;">
-  <div class="container">
-
-    <div class="card">
-      <h2>স্বাগতম, Admin!</h2>
-      <p>আপনার প্রতিষ্ঠানের ড্যাশবোর্ড</p>
-      <button id="logoutBtn">লগআউট</button>
-    </div>
-
-    <!-- STUDENT COUNT -->
-    <div class="card">
-      <h3>শিক্ষার্থী</h3>
-      <h2 id="studentCount">০</h2>
-    </div>
-
-    <div class="card">
-      <h3>শিক্ষক</h3>
-      <h2>০</h2>
-    </div>
-
-    <div class="card">
-      <h3>উপস্থিতি</h3>
-      <h2>০%</h2>
-    </div>
-
-    <div class="card">
-      <h3>পরীক্ষার ফলাফল</h3>
-      <p>ফলাফল ব্যবস্থাপনা</p>
-    </div>
-
-    <div class="card">
-      <h3>নোটিশ</h3>
-      <p>নোটিশ ব্যবস্থাপনা</p>
-    </div>
-
-    <div class="card">
-      <h3>অনলাইন ভর্তি</h3>
-      <p>ভর্তি আবেদন ব্যবস্থাপনা</p>
-    </div>
-
-    <!-- STUDENT LIST -->
-    <div class="card">
-      <h2>শিক্ষার্থী তালিকা</h2>
-
-      <input type="search" id="studentSearch"
-        placeholder="নাম অথবা রোল নম্বর দিয়ে খুঁজুন...">
-
-      <div id="studentList"></div>
-    </div>
-
-    <!-- ADMISSION FORM -->
-    <div class="card">
-      <h2>শিক্ষার্থী ভর্তি ফরম</h2>
-
-      <form id="admissionForm">
-
-        <label>শিক্ষার্থীর নাম</label>
-        <input type="text" id="studentName"
-          placeholder="নাম লিখুন" required>
-
-        <label>পিতার নাম</label>
-        <input type="text" id="fatherName"
-          placeholder="পিতার নাম" required>
-
-        <label>মাতার নাম</label>
-        <input type="text" id="motherName"
-          placeholder="মাতার নাম" required>
-
-        <label>জন্মতারিখ</label>
-        <input type="date" id="dateOfBirth" required>
-
-        <label>মোবাইল নম্বর</label>
-        <input type="tel" id="mobile"
-          placeholder="মোবাইল নম্বর" required>
-
-        <label>বিভাগ নির্বাচন</label>
-        <select id="department" required>
-          <option value="">বিভাগ নির্বাচন করুন</option>
-          <option value="hifz">হিফয বিভাগ</option>
-          <option value="dakhil">দাখিল মাদরাসা</option>
-          <option value="kg">কেজি স্কুল</option>
-        </select>
-
-        <label>শ্রেণি নির্বাচন</label>
-        <select id="className" required>
-          <option value="">আগে বিভাগ নির্বাচন করুন</option>
-        </select>
-
-        <label>রোল নম্বর</label>
-        <input type="number" id="rollNumber"
-          placeholder="রোল নম্বর" required>
-
-        <button type="submit">
-          ভর্তি ফরম জমা দিন
         </button>
+      </p>
 
-      </form>
-    </div>
+      <p id="loginMessage"></p>
+    </section>
 
-  </div>
-</div>
+    <!-- Admin Only: শিক্ষার্থী ব্যবস্থাপনা -->
+    <section id="adminPanel" hidden>
 
-<!-- FIREBASE JAVASCRIPT -->
-<script type="module">
+      <div class="card">
+        <h2>Admin Dashboard</h2>
+        <p>আপনি Admin হিসেবে লগইন করেছেন।</p>
+        <button type="button" id="logoutBtn">Logout</button>
+      </div>
 
-// FIREBASE IMPORTS
-import { initializeApp } from
-  "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+      <!-- Admission Form -->
+      <div class="card">
+        <h2>শিক্ষার্থী ভর্তি ফরম</h2>
 
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  serverTimestamp,
-  getDocs,
-  doc,
-  updateDoc,
-  deleteDoc
-} from
-  "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+        <form id="admissionForm">
 
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  sendPasswordResetEmail,
-  signOut,
-  onAuthStateChanged
-} from
-  "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+          <label for="studentName">শিক্ষার্থীর নাম</label>
+          <input type="text" id="studentName" required>
 
-// FIREBASE CONFIGURATION
-const firebaseConfig = {
-  apiKey: "AIzaSyAzuZfOdDjztQvgEbtDo-O-DQJO_1Hqnsf4",
-  authDomain: "noorul-ilm-management.firebaseapp.com",
-  projectId: "noorul-ilm-management",
-  storageBucket: "noorul-ilm-management.firebasestorage.app",
-  messagingSenderId: "1091358323396",
-  appId: "1:1091358323396:web:65a0fed12ecb5c749f4f91",
-  measurementId: "G-0ER6H616VF"
-};
+          <label for="fatherName">পিতার নাম</label>
+          <input type="text" id="fatherName" required>
 
-// INITIALIZE FIREBASE
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
+          <label for="motherName">মাতার নাম</label>
+          <input type="text" id="motherName" required>
 
-// ADMIN UID
-const ADMIN_UID = "nKQFbXGR4jMGARMcZNwhrOEggvo1";
+          <label for="dateOfBirth">জন্মতারিখ</label>
+          <input type="date" id="dateOfBirth" required>
 
-// HTML ELEMENTS
-const loginForm = document.getElementById("loginForm");
-const loginBox = document.getElementById("adminLogin");
-const dashboard = document.getElementById("adminDashboard");
-const studentList = document.getElementById("studentList");
-const studentSearch = document.getElementById("studentSearch");
-const studentCount = document.getElementById("studentCount");
-const admissionForm = document.getElementById("admissionForm");
-const department = document.getElementById("department");
-const className = document.getElementById("className");
+          <label for="mobile">মোবাইল নম্বর</label>
+          <input type="tel" id="mobile" required>
 
-// DEPARTMENT CLASSES
-const classes = {
-  hifz: [
-    "নূরানী",
-    "নাজেরা",
-    "হিফজ",
-    "কিতাব"
-  ],
+          <label for="rollNumber">রোল নম্বর</label>
+          <input type="text" id="rollNumber" required>
 
-  dakhil: [
-    "১ম শ্রেণি",
-    "২য় শ্রেণি",
-    "৩য় শ্রেণি",
-    "৪র্থ শ্রেণি",
-    "৫ম শ্রেণি",
-    "৬ষ্ঠ শ্রেণি",
-    "৭ম শ্রেণি",
-    "৮ম শ্রেণি",
-    "৯ম শ্রেণি",
-    "১০ম শ্রেণি"
-  ],
+          <label for="department">বিভাগ নির্বাচন</label>
+          <select id="department" required>
+            <option value="">বিভাগ নির্বাচন করুন</option>
+            <option value="hifz">হিফয বিভাগ</option>
+            <option value="dakhil">দাখিল মাদরাসা</option>
+            <option value="kg">কেজি স্কুল</option>
+          </select>
 
-  kg: [
-    "শিশু শ্রেণি",
-    "১ম শ্রেণি",
-    "২য় শ্রেণি",
-    "৩য় শ্রেণি",
-    "৪র্থ শ্রেণি",
-    "৫ম শ্রেণি",
-    "৬ষ্ঠ শ্রেণি",
-    "৭ম শ্রেণি",
-    "৮ম শ্রেণি",
-    "৯ম শ্রেণি",
-    "১০ম শ্রেণি"
-  ]
-};
+          <label for="className">শ্রেণি নির্বাচন</label>
+          <select id="className" required>
+            <option value="">আগে বিভাগ নির্বাচন করুন</option>
+          </select>
 
-// DEPARTMENT CHANGE
-department.addEventListener("change", function() {
-  className.innerHTML =
-    '<option value="">শ্রেণি নির্বাচন করুন</option>';
+          <button type="submit" id="saveStudentBtn">
+            ভর্তি ফরম জমা দিন
+          </button>
+        </form>
 
-  const selectedClasses = classes[department.value] || [];
+        <p id="admissionMessage"></p>
+      </div>
 
-  selectedClasses.forEach(function(item) {
-    const option = document.createElement("option");
-    option.value = item;
-    option.textContent = item;
-    className.appendChild(option);
-  });
-});
+      <!-- Student List -->
+      <div class="card">
+        <h2>শিক্ষার্থীর তালিকা</h2>
 
-// ADMIN LOGIN
-loginForm.addEventListener("submit", async function(e) {
-  e.preventDefault();
+        <input
+          type="search"
+          id="studentSearch"
+          placeholder="শিক্ষার্থীর নাম দিয়ে খুঁজুন"
+        >
 
-  const email = document
-    .getElementById("adminEmail")
-    .value.trim();
+        <div id="studentList">
+          শিক্ষার্থীর তথ্য লোড হচ্ছে...
+        </div>
+      </div>
 
-  const password = document
-    .getElementById("adminPassword")
-    .value;
+    </section>
 
-  const loginBtn = document.getElementById("loginBtn");
+  </main>
 
-  loginBtn.disabled = true;
-  loginBtn.textContent = "লগইন হচ্ছে...";
+  <script type="module">
 
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-  } catch (error) {
-    console.error("Login error:", error);
-    alert("Login ব্যর্থ হয়েছে: " + error.code +
-      "\n" + error.message);
-  } finally {
-    loginBtn.disabled = false;
-    loginBtn.textContent = "লগইন করুন";
-  }
-});
+    import { initializeApp }
+      from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
-// FORGOT PASSWORD
-document.getElementById("forgotPassword")
-  .addEventListener("click", async function(e) {
-    e.preventDefault();
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      sendPasswordResetEmail,
+      signOut,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
-    const email = document
-      .getElementById("adminEmail")
-      .value.trim();
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      getDocs,
+      doc,
+      updateDoc,
+      deleteDoc,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-    if (!email) {
-      alert("প্রথমে Admin Email লিখুন।");
-      return;
-    }
 
-    try {
-      await sendPasswordResetEmail(auth, email);
-      alert("Gmail-এ Password Reset Link পাঠানো হয়েছে।");
-    } catch (error) {
-      alert("Password Reset Error: " + error.message);
-    }
-  });
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAzuZfOdDjztQvgEbtDo-O-DQJO_1Hqns4",
+      authDomain: "noorul-ilm-management.firebaseapp.com",
+      projectId: "noorul-ilm-management",
+      storageBucket: "noorul-ilm-management.firebasestorage.app",
+      messagingSenderId: "1091358323396",
+      appId: "1:1091358323396:web:65a0fed12ecb5c749f4f91",
+      measurementId: "G-0ER6H616VF"
+    };
 
-// SAVE ADMISSION INFORMATION
-admissionForm.addEventListener("submit", async function(e) {
-  e.preventDefault();
+    const ADMIN_UID = "nKQFbXGR4jMGARMcZNwhrOEggvo1";
 
-  const button = admissionForm.querySelector("button");
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-  const studentData = {
-    studentName: document.getElementById("studentName").value.trim(),
-    fatherName: document.getElementById("fatherName").value.trim(),
-    motherName: document.getElementById("motherName").value.trim(),
-    dateOfBirth: document.getElementById("dateOfBirth").value,
-    mobile: document.getElementById("mobile").value.trim(),
-    department: department.value,
-    className: className.value,
-    roll: document.getElementById("rollNumber").value,
-    createdAt: serverTimestamp()
-  };
+    const studentCollection = collection(db, "student_records");
 
-  button.disabled = true;
-  button.textContent = "সংরক্ষণ হচ্ছে...";
 
-  try {
-    await addDoc(
-      collection(db, "student_records"),
-      studentData
-    );
+    // HTML Elements
+    const adminLogin = document.getElementById("adminLogin");
+    const adminPanel = document.getElementById("adminPanel");
+    const loginForm = document.getElementById("loginForm");
+    const loginMessage = document.getElementById("loginMessage");
+    const admissionForm = document.getElementById("admissionForm");
+    const admissionMessage = document.getElementById("admissionMessage");
+    const department = document.getElementById("department");
+    const className = document.getElementById("className");
+    const studentList = document.getElementById("studentList");
+    const studentSearch = document.getElementById("studentSearch");
+    const studentCount = document.getElementById("studentCount");
 
-    alert("আলহামদুলিল্লাহ! ভর্তি তথ্য সংরক্ষিত হয়েছে।");
 
-    admissionForm.reset();
+    // বিভাগ অনুযায়ী শ্রেণি
+    const classes = {
+      hifz: ["নূরানী", "নাজেরা", "হিফজ", "কিতাব"],
 
-    className.innerHTML =
-      '<option value="">আগে বিভাগ নির্বাচন করুন</option>';
+      dakhil: [
+        "১ম শ্রেণি", "২য় শ্রেণি", "৩য় শ্রেণি",
+        "৪র্থ শ্রেণি", "৫ম শ্রেণি", "৬ষ্ঠ শ্রেণি",
+        "৭ম শ্রেণি", "৮ম শ্রেণি", "৯ম শ্রেণি",
+        "১০ম শ্রেণি"
+      ],
 
-    await loadStudents();
+      kg: [
+        "শিশু শ্রেণি", "১ম শ্রেণি", "২য় শ্রেণি",
+        "৩য় শ্রেণি", "৪র্থ শ্রেণি", "৫ম শ্রেণি",
+        "৬ষ্ঠ শ্রেণি", "৭ম শ্রেণি", "৮ম শ্রেণি",
+        "৯ম শ্রেণি", "১০ম শ্রেণি"
+      ]
+    };
 
-  } catch (error) {
-    console.error("Admission error:", error);
-    alert("তথ্য সংরক্ষণ হয়নি: " + error.message);
 
-  } finally {
-    button.disabled = false;
-    button.textContent = "ভর্তি ফরম জমা দিন";
-  }
-});
+    // বিভাগ পরিবর্তন হলে শ্রেণি দেখাবে
+    department.addEventListener("change", function () {
 
-// SEARCH FILTER
-function applyStudentSearch() {
-  const searchText = studentSearch.value.toLowerCase().trim();
+      className.innerHTML =
+        '<option value="">শ্রেণি নির্বাচন করুন</option>';
 
-  Array.from(studentList.children).forEach(function(card) {
-    const studentInfo = card.textContent.toLowerCase();
+      const selectedClasses = classes[department.value] || [];
 
-    card.style.display =
-      studentInfo.includes(searchText) ? "block" : "none";
-  });
-}
+      selectedClasses.forEach(function (item) {
+        const option = document.createElement("option");
+        option.value = item;
+        option.textContent = item;
+        className.appendChild(option);
+      });
 
-studentSearch.addEventListener("input", applyStudentSearch);
-
-// LOAD STUDENTS
-async function loadStudents() {
-  try {
-    const snapshot = await getDocs(
-      collection(db, "student_records")
-    );
-
-    studentList.innerHTML = "";
-    studentCount.textContent = snapshot.size;
-
-    if (snapshot.empty) {
-      studentList.textContent = "কোনো শিক্ষার্থী পাওয়া যায়নি।";
-      return;
-    }
-
-    snapshot.forEach(function(studentDoc) {
-      const data = studentDoc.data();
-      const docId = studentDoc.id;
-
-      const card = document.createElement("div");
-      card.className = "card";
-
-      const name = document.createElement("h3");
-      name.textContent = data.studentName || "";
-
-      const details = document.createElement("p");
-
-      details.textContent =
-        "পিতা: " + (data.fatherName || "") +
-        " | মোবাইল: " + (data.mobile || "") +
-        " | বিভাগ: " + (data.department || "") +
-        " | শ্রেণি: " + (data.className || "") +
-        " | রোল: " + (data.roll || "");
-
-      // EDIT BUTTON
-      const editBtn = document.createElement("button");
-      editBtn.textContent = "Edit";
-
-      editBtn.onclick = async function() {
-        const newName = prompt(
-          "শিক্ষার্থীর নতুন নাম লিখুন:",
-          data.studentName || ""
-        );
-
-        if (newName === null || newName.trim() === "") {
-          return;
-        }
-
-        try {
-          await updateDoc(
-            doc(db, "student_records", docId),
-            { studentName: newName.trim() }
-          );
-
-          alert("শিক্ষার্থীর নাম পরিবর্তন হয়েছে।");
-          await loadStudents();
-
-        } catch (error) {
-          alert("Edit Error: " + error.message);
-        }
-      };
-
-      // DELETE BUTTON
-      const deleteBtn = document.createElement("button");
-      deleteBtn.textContent = "Delete";
-
-      deleteBtn.onclick = async function() {
-        if (!confirm("এই শিক্ষার্থীর তথ্য মুছে ফেলতে চান?")) {
-          return;
-        }
-
-        try {
-          await deleteDoc(
-            doc(db, "student_records", docId)
-          );
-
-          alert("শিক্ষার্থীর তথ্য মুছে ফেলা হয়েছে।");
-          await loadStudents();
-
-        } catch (error) {
-          alert("Delete Error: " + error.message);
-        }
-      };
-
-      card.appendChild(name);
-      card.appendChild(details);
-      card.appendChild(editBtn);
-      card.appendChild(deleteBtn);
-
-      studentList.appendChild(card);
     });
 
-    applyStudentSearch();
 
-  } catch (error) {
-    console.error("Student load error:", error);
+    // Login
+    loginForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
 
-    studentList.textContent =
-      "শিক্ষার্থী তালিকা লোড হয়নি: " + error.message;
-  }
-}
+      const email = document.getElementById("adminEmail").value.trim();
+      const password = document.getElementById("adminPassword").value;
+      const loginBtn = document.getElementById("loginBtn");
 
-// ADMIN AUTHENTICATION
-onAuthStateChanged(auth, async function(user) {
-  if (!user) {
-    loginBox.style.display = "block";
-    dashboard.style.display = "none";
-    return;
-  }
+      loginBtn.disabled = true;
+      loginBtn.textContent = "লগইন হচ্ছে...";
+      loginMessage.textContent = "";
 
-  if (user.uid !== ADMIN_UID) {
-    alert("আপনার Admin অনুমতি নেই!");
-    await signOut(auth);
-    return;
-  }
+      try {
+        const result = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
 
-  loginBox.style.display = "none";
-  dashboard.style.display = "block";
+        if (result.user.uid !== ADMIN_UID) {
+          await signOut(auth);
+          loginMessage.textContent =
+            "এই অ্যাকাউন্টের Admin অনুমতি নেই।";
+        }
 
-  await loadStudents();
-});
+      } catch (error) {
+        console.error(error);
+        loginMessage.textContent =
+          "লগইন হয়নি। ইমেইল ও পাসওয়ার্ড পরীক্ষা করুন। (" +
+          error.code + ")";
+      } finally {
+        loginBtn.disabled = false;
+        loginBtn.textContent = "Login";
+      }
 
-// ADMIN LOGOUT
-document.getElementById("logoutBtn")
-  .addEventListener("click", async function() {
-    try {
-      await signOut(auth);
-      alert("লগআউট সফল হয়েছে।");
-    } catch (error) {
-      alert("Logout Error: " + error.message);
+    });
+
+
+    // Password Reset
+    document.getElementById("forgotPassword")
+      .addEventListener("click", async function () {
+
+        const email =
+          document.getElementById("adminEmail").value.trim();
+
+        if (!email) {
+          loginMessage.textContent =
+            "প্রথমে আপনার Admin ইমেইল লিখুন।";
+          return;
+        }
+
+        try {
+          await sendPasswordResetEmail(auth, email);
+          loginMessage.textContent =
+            "পাসওয়ার্ড পরিবর্তনের লিংক ইমেইলে পাঠানো হয়েছে।";
+        } catch (error) {
+          console.error(error);
+          loginMessage.textContent =
+            "Reset করা যায়নি: " + error.code;
+        }
+
+      });
+
+
+    // Auth Status
+    onAuthStateChanged(auth, async function (user) {
+
+      if (user && user.uid === ADMIN_UID) {
+
+        adminLogin.hidden = true;
+        adminPanel.hidden = false;
+
+        await loadStudents();
+
+      } else {
+
+        adminLogin.hidden = false;
+        adminPanel.hidden = true;
+
+        studentCount.textContent =
+          "Admin Login করলে দেখা যাবে";
+
+        if (user) {
+          await signOut(auth);
+        }
+
+      }
+
+    });
+
+
+    // Logout
+    document.getElementById("logoutBtn")
+      .addEventListener("click", async function () {
+        await signOut(auth);
+        loginMessage.textContent = "আপনি Logout করেছেন।";
+      });
+
+
+    // Admission Form Submit
+    admissionForm.addEventListener("submit", async function (event) {
+
+      event.preventDefault();
+
+      if (!auth.currentUser ||
+          auth.currentUser.uid !== ADMIN_UID) {
+        admissionMessage.textContent =
+          "শুধুমাত্র Admin শিক্ষার্থী ভর্তি করতে পারবেন।";
+        return;
+      }
+
+      const saveButton =
+        document.getElementById("saveStudentBtn");
+
+      saveButton.disabled = true;
+      saveButton.textContent = "সংরক্ষণ হচ্ছে...";
+      admissionMessage.textContent = "";
+
+      const studentData = {
+        studentName:
+          document.getElementById("studentName").value.trim(),
+
+        fatherName:
+          document.getElementById("fatherName").value.trim(),
+
+        motherName:
+          document.getElementById("motherName").value.trim(),
+
+        dateOfBirth:
+          document.getElementById("dateOfBirth").value,
+
+        mobile:
+          document.getElementById("mobile").value.trim(),
+
+        roll:
+          document.getElementById("rollNumber").value.trim(),
+
+        department: department.value,
+
+        className: className.value,
+
+        createdAt: serverTimestamp()
+      };
+
+      try {
+
+        await addDoc(studentCollection, studentData);
+
+        admissionMessage.textContent =
+          "আলহামদুলিল্লাহ! শিক্ষার্থীর ভর্তি তথ্য সংরক্ষিত হয়েছে।";
+
+        admissionForm.reset();
+
+        className.innerHTML =
+          '<option value="">আগে বিভাগ নির্বাচন করুন</option>';
+
+        await loadStudents();
+
+      } catch (error) {
+
+        console.error(error);
+
+        admissionMessage.textContent =
+          "তথ্য সংরক্ষণ হয়নি। Firebase Rules পরীক্ষা করুন। (" +
+          error.code + ")";
+
+      } finally {
+
+        saveButton.disabled = false;
+        saveButton.textContent = "ভর্তি ফরম জমা দিন";
+
+      }
+
+    });
+
+
+    // HTML নিরাপদে দেখানোর জন্য
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, function (char) {
+        return {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;"
+        }[char];
+      });
     }
-  });
 
-</script>
+
+    // Load Students
+    let allStudents = [];
+
+    async function loadStudents() {
+
+      if (!auth.currentUser ||
+          auth.currentUser.uid !== ADMIN_UID) {
+        return;
+      }
+
+      studentList.textContent = "তথ্য লোড হচ্ছে...";
+
+      try {
+
+        const snapshot = await getDocs(studentCollection);
+
+        allStudents = snapshot.docs.map(function (item) {
+          return {
+            id: item.id,
+            ...item.data()
+          };
+        });
+
+        studentCount.textContent = allStudents.length;
+
+        showStudents(allStudents);
+
+      } catch (error) {
+
+        console.error(error);
+
+        studentList.textContent =
+          "শিক্ষার্থীর তথ্য লোড হয়নি। (" + error.code + ")";
+
+      }
+
+    }
+
+
+    // Show Students
+    function showStudents(students) {
+
+      if (students.length === 0) {
+        studentList.textContent =
+          "এখনো কোনো শিক্ষার্থীর তথ্য নেই।";
+        return;
+      }
+
+      studentList.innerHTML = "";
+
+      students.forEach(function (student) {
+
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+          <h3>${escapeHTML(student.studentName)}</h3>
+          <p>পিতার নাম: ${escapeHTML(student.fatherName)}</p>
+          <p>মাতার নাম: ${escapeHTML(student.motherName)}</p>
+          <p>জন্মতারিখ: ${escapeHTML(student.dateOfBirth)}</p>
+          <p>মোবাইল: ${escapeHTML(student.mobile)}</p>
+          <p>রোল: ${escapeHTML(student.roll ?? student.rollNumber ?? "")}</p>
+          <p>বিভাগ: ${escapeHTML(student.department)}</p>
+          <p>শ্রেণি: ${escapeHTML(student.className)}</p>
+
+          <button type="button" class="editStudent">
+            Edit
+          </button>
+
+          <button type="button" class="deleteStudent">
+            Delete
+          </button>
+        `;
+
+        card.querySelector(".editStudent")
+          .addEventListener("click", function () {
+            editStudent(student);
+          });
+
+        card.querySelector(".deleteStudent")
+          .addEventListener("click", function () {
+            removeStudent(student.id);
+          });
+
+        studentList.appendChild(card);
+
+      });
+
+    }
+
+
+    // Search Students
+    studentSearch.addEventListener("input", function () {
+
+      const searchText =
+        studentSearch.value.trim().toLowerCase();
+
+      const filteredStudents = allStudents.filter(function (student) {
+        return String(student.studentName || "")
+          .toLowerCase()
+          .includes(searchText);
+      });
+
+      showStudents(filteredStudents);
+
+    });
+
+
+    // Edit Student
+    async function editStudent(student) {
+
+      if (!auth.currentUser ||
+          auth.currentUser.uid !== ADMIN_UID) {
+        alert("শুধুমাত্র Admin তথ্য পরিবর্তন করতে পারবেন।");
+        return;
+      }
+
+      const newName = prompt(
+        "শিক্ষার্থীর নতুন নাম লিখুন:",
+        student.studentName || ""
+      );
+
+      if (newName === null || !newName.trim()) {
+        return;
+      }
+
+      try {
+
+        await updateDoc(
+          doc(db, "student_records", student.id),
+          { studentName: newName.trim() }
+        );
+
+        alert("শিক্ষার্থীর নাম পরিবর্তন হয়েছে।");
+
+        await loadStudents();
+
+      } catch (error) {
+
+        console.error(error);
+        alert("পরিবর্তন করা যায়নি: " + error.code);
+
+      }
+
+    }
+
+
+    // Delete Student
+    async function removeStudent(studentId) {
+
+      if (!auth.currentUser ||
+          auth.currentUser.uid !== ADMIN_UID) {
+        alert("শুধুমাত্র Admin তথ্য মুছতে পারবেন।");
+        return;
+      }
+
+      const confirmDelete =
+        confirm("আপনি কি এই শিক্ষার্থীর তথ্য মুছে ফেলতে চান?");
+
+      if (!confirmDelete) {
+        return;
+      }
+
+      try {
+
+        await deleteDoc(
+          doc(db, "student_records", studentId)
+        );
+
+        alert("শিক্ষার্থীর তথ্য মুছে ফেলা হয়েছে।");
+
+        await loadStudents();
+
+      } catch (error) {
+
+        console.error(error);
+        alert("তথ্য মুছে ফেলা যায়নি: " + error.code);
+
+      }
+
+    }
+
+  </script>
+
 </body>
 </html>
