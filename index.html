@@ -351,7 +351,48 @@ card.dataset.id = doc.id;
         " | শ্রেণি: " + (data.className || "") +
         " | রোল: " + (data.roll || data.rollNumber || "");
 
-      card.appendChild(name);
+  // Edit Button
+const editBtn = document.createElement("button");
+editBtn.textContent = "Edit";
+
+editBtn.onclick = async function() {
+  const newName = prompt("শিক্ষার্থীর নতুন নাম লিখুন:", data.studentName);
+
+  if (newName === null || newName.trim() === "") return;
+
+  try {
+    await updateDoc(doc(db, "student_records", docId), {
+      studentName: newName.trim()
+    });
+
+    alert("শিক্ষার্থীর নাম পরিবর্তন হয়েছে।");
+    location.reload();
+
+  } catch (error) {
+    alert("Edit Error: " + error.message);
+  }
+};
+
+// Delete Button
+const deleteBtn = document.createElement("button");
+deleteBtn.textContent = "Delete";
+
+deleteBtn.onclick = async function() {
+  if (!confirm("এই শিক্ষার্থীর তথ্য মুছে ফেলতে চান?")) return;
+
+  try {
+    await deleteDoc(doc(db, "student_records", docId));
+
+    alert("শিক্ষার্থীর তথ্য মুছে ফেলা হয়েছে।");
+    location.reload();
+
+  } catch (error) {
+    alert("Delete Error: " + error.message);
+  }
+};
+
+card.appendChild(editBtn);
+card.appendChild(deleteBtn);    card.appendChild(name);
       card.appendChild(details);
       studentList.appendChild(card);
     });
