@@ -62,3 +62,52 @@ header h2 {
 .card p {
   color: #666;
 }
+
+/* Noorul Ilm Iconic Green & Gold Dashboard */
+
+#dashboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+}
+
+#dashboard .card {
+  background: #087448;
+  border: 2px solid #D9B45B;
+  border-radius: 8px;
+  min-height: 145px;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #FFE4A0;
+  padding: 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+#dashboard .card h3 {
+  color: #FFE4A0;
+  font-size: 16px;
+  margin: 8px 0;
+}
+
+#dashboard .card p {
+  color: #FFFFFF;
+  font-size: 13px;
+  margin: 4px 0;
+}
+
+#dashboard .feature-icon {
+  font-size: 38px;
+  color: #E8C66F;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 600px) {
+  #dashboard {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
