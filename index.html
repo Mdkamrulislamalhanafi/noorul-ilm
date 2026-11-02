@@ -338,7 +338,7 @@ onAuthStateChanged(auth, async function(user) {
 
       const card = document.createElement("div");
       card.className = "card";
-
+card.dataset.id = doc.id;
       const name = document.createElement("h3");
       name.textContent = data.studentName || "";
 
