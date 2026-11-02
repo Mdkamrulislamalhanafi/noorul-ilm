@@ -257,41 +257,45 @@
       </div>
 
     </section>
-
-  </main>
-
-  <script type="module">
-
-    import { initializeApp }
-      from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-
-    import {
-      getAuth,
-      signInWithEmailAndPassword,
-      sendPasswordResetEmail,
-      signOut,
-      onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
-
-    import {
-      getFirestore,
-      collection,
-      addDoc,
-      getDocs,
-      doc,
-      updateDoc,
-      deleteDoc,
-      serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-
-
-    // Firebase Configuration
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { 
+        getAuth, 
+        signInWithEmailAndPassword, 
+        sendPasswordResetEmail, 
+        signOut, 
+        onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { 
+        getFirestore, 
+        collection, 
+        addDoc, 
+        getDocs, 
+        doc, 
+        updateDoc, 
+        deleteDoc, 
+        serverTimestamp 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    // Firebase Configuration (সঠিক করা API Key সহ)
     const firebaseConfig = {
-      apiKey: "AIzaSyAzuZfOdDjztQvgEbtDo-O-DQJO_1Hqns4",
+      apiKey: "AIzaSyAzuZfOdDjztQvgEbtDoO-DQJO_1Hqnsf4",
       authDomain: "noorul-ilm-management.firebaseapp.com",
       projectId: "noorul-ilm-management",
       storageBucket: "noorul-ilm-management.firebasestorage.app",
       messagingSenderId: "1091358323396",
+      appId: "1:1091358323396:web:65a0fed12ecb5c749f4f91",
+      measurementId: "G-0ER6H616VF"
+    };
+    const ADMIN_UID = "nKQFbXGR4jMGARMcZNwhrOEggvo1";
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const studentCollection = collection(db, "student_records");
+    console.log("Firebase initialized successfully!", app);
+</script>
+
+     messagingSenderId: "1091358323396",
       appId: "1:1091358323396:web:65a0fed12ecb5c749f4f91",
       measurementId: "G-0ER6H616VF"
     };
