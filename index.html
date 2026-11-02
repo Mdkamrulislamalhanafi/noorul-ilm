@@ -161,7 +161,7 @@ const button = admissionForm.querySelector("button");
     mobile: document.getElementById("mobile").value.trim(),
     department: department.value,
     className: className.value,
-    rollNumber: document.getElementById("rollNumber").value,
+    roll: document.getElementById("rollNumber").value,
     createdAt: serverTimestamp()
   };
 
@@ -183,7 +183,7 @@ const button = admissionForm.querySelector("button");
 
   } catch (error) {
     console.error("Firebase Error:", error);
-    alert("তথ্য সংরক্ষণ হয়নি। Firebase Rules পরীক্ষা করুন।");
+    alert("সমস্যা: " + error.code + "\n" + error.message);
 
   } finally {
     button.disabled = false;
