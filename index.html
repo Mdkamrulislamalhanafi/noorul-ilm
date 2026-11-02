@@ -333,9 +333,10 @@ onAuthStateChanged(auth, async function(user) {
       return;
     }
 
-    snapshot.forEach(function(doc) {
-      const data = doc.data();
-
+    snapshot.forEach(function(studentDoc) {
+  const data = studentDoc.data();
+  const docId = studentDoc.id;
+      
       const card = document.createElement("div");
       card.className = "card";
 card.dataset.id = doc.id;
