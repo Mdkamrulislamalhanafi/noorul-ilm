@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAzuZfOdDjztQvgEbtDoO-DQJO_1Hqnsf4",
@@ -11,15 +12,72 @@ const firebaseConfig = {
   measurementId: "G-0ER6H616VF"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
 
 document.addEventListener("DOMContentLoaded", function () {
+  // সাধারণ বাটন অ্যালার্ট
   const button = document.getElementById("clickMe");
-
   if (button) {
     button.addEventListener("click", function () {
       alert("Noorul Ilm - স্বাগতম!");
     });
   }
+
+  // Admin Login Form হ্যান্ডেল করার কোড
+  const loginForm = document.querySelector("form"); // অথবা আপনার ফর্মের আইডি থাকলে তা দিন
+  if (loginForm) {
+    loginForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const emailInput = document.getElementById("admin-email") || loginForm.querySelector('input[type="email"]');
+      const passwordInput = document.getElementById("admin-password") || loginForm.querySelector('input[type="password"]');
+      const errorMsg = document.getElementById("error-message");
+
+      if (emailInput && passwordInput) {
+        const email = emailInput.value;
+        const password = passwordInput.value;
+
+        signInWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            alert("লগইন সফল হয়েছে!");
+            window.location.href = "admin.html"; // সফল হলে এডমিন প্যানেলে নিয়ে যাবে
+          })
+          .catch((error) => {
+            if (errorMsg) {
+              errorMsg.innerText = "লগইন ব্যর্থ হয়েছে: " + error.message;
+            } else {
+              alert("ত্রুটি: " + error.message);
+            }
+          });
+      }
+    });
+  }
+
+  // ইউর লগইন স্ট্যাটাস চেক এবং ড্যাশবোর্ড ডাটা লোড
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      loadDashboardStats();
+    }
+  });
 });
+
+// ফায়ারবেস থেকে স্টুডেন্ট ও টিচার সংখ্যা আনার ফাংশন
+async function loadDashboardStats() {
+  try {
+    const studentSnapshot = await getDocs(collection(db, "students"));
+    const studentCountEl = document.getElementById("student-count");
+    if (studentCountEl) {
+      studentCountEl.innerText = studentSnapshot.size;
+    }
+
+    const teacherSnapshot = await getDocs(collection(db, "teachers"));
+    const teacherCountEl = document.getElementById("teacher-count");
+    if (teacherCountEl) {
+      teacherCountEl.innerText = teacherSnapshot.size;
+    }
+  } catch (error) {
+    console.error("ডেটা লোড করতে সমস্যা হয়েছে: ", error);
+  }
+}
