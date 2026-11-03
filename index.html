@@ -14,17 +14,13 @@
     }
   </style>
 </head>
-
 <body>
-
   <header class="no-print">
     <h1>نور العلم</h1>
     <h2>Noorul Ilm Admin Panel</h2>
     <p>School &amp; Madrasa Management System</p>
   </header>
-
   <main class="container">
-
     <!-- Dashboard -->
     <section id="dashboard" class="no-print">
       <div class="noor-logo">
@@ -47,17 +43,14 @@
           <p class="logo-system">Management System</p>
         </div>
       </div>
-
       <div class="noor-quote">
         হে মানুষ, জ্ঞান আল্লাহর দান
       </div>
-
       <div class="admin-login-feature">
         <button type="button" onclick="document.getElementById('adminLogin').scrollIntoView({behavior:'smooth'})">
           🔐 Admin Login
         </button>
       </div>
-
       <div class="dashboard-features">
         <div class="card">
           <div class="feature-icon">👨‍🎓</div>
@@ -68,6 +61,26 @@
           <div class="feature-icon">👨‍🏫</div>
           <h3>Teachers</h3>
           <p id="teacherCount">0</p>
+        </div>
+        <div class="card">
+          <div class="feature-icon">🧑‍💼</div>
+          <h3>Staff</h3>
+          <p id="staffCount">0</p>
+        </div>
+        <div class="card">
+          <div class="feature-icon">💵</div>
+          <h3>Teacher Salaries</h3>
+          <p id="salaryCount">0</p>
+        </div>
+        <div class="card">
+          <div class="feature-icon">💰</div>
+          <h3>Staff Salaries</h3>
+          <p id="staffSalCount">0</p>
+        </div>
+        <div class="card">
+          <div class="feature-icon">💳</div>
+          <h3>Student Fees</h3>
+          <p id="feeCount">0</p>
         </div>
         <div class="card">
           <div class="feature-icon">👪</div>
@@ -113,7 +126,6 @@
 
     <!-- Admin Panel -->
     <section id="adminPanel" class="no-print" hidden>
-
       <div class="card">
         <h2>Admin Dashboard</h2>
         <p>আপনি Admin হিসেবে লগইন করেছেন।</p>
@@ -151,11 +163,40 @@
         </form>
         <p id="admissionMessage"></p>
       </div>
-
       <div class="card">
         <h2>শিক্ষার্থীর তালিকা</h2>
         <input type="search" id="studentSearch" placeholder="শিক্ষার্থীর নাম দিয়ে খুঁজুন">
         <div id="studentList">শিক্ষার্থীর তথ্য লোড হচ্ছে...</div>
+      </div>
+
+      <!-- Student Fee Collection & Due Records (নতুন) -->
+      <div class="card">
+        <h2>💳 শিক্ষার্থীর ফি আদায় ও বকেয়া রেকর্ড</h2>
+        <form id="feeForm">
+          <label for="feeStudentName">শিক্ষার্থীর নাম ও রোল</label>
+          <input type="text" id="feeStudentName" placeholder="যেমন: আব্দুল্লাহ (রোল: ১০১)" required>
+          <label for="feeMonth">মাস / সেশন</label>
+          <input type="text" id="feeMonth" placeholder="যেমন: জানুয়ারি ২০২৬" required>
+          <label for="totalFee">মোট পাওনা ফি (টাকা)</label>
+          <input type="number" id="totalFee" placeholder="যেমন: ২০০০" required>
+          <label for="feePaid">পরিশোধিত (Paid)</label>
+          <input type="number" id="feePaid" placeholder="যেমন: ১৫০০" required>
+          <label for="feeDue">বকেয়া (Due)</label>
+          <input type="number" id="feeDue" placeholder="যেমন: ৫০০" required>
+          <label for="feeStatus">অবস্থা</label>
+          <select id="feeStatus" required>
+            <option value="পরিশোধিত (Paid)">পরিশোধিত (Paid)</option>
+            <option value="বকেয়া আছে (Due)">বকেয়া আছে (Due)</option>
+            <option value="আংশিক পরিশোধ (Partial)">আংশিক পরিশোধ (Partial)</option>
+          </select>
+          <button type="submit" id="saveFeeBtn">ফি রেকর্ড সংরক্ষণ করুন</button>
+        </form>
+        <p id="feeMessage"></p>
+      </div>
+      <div class="card">
+        <h2>📑 শিক্ষার্থীর ফি ও বকেয়া তালিকা</h2>
+        <input type="search" id="feeSearch" placeholder="শিক্ষার্থীর নাম দিয়ে খুঁজুন">
+        <div id="feeList" style="margin-top: 15px;">ফিসের তথ্য লোড হচ্ছে...</div>
       </div>
 
       <!-- Teacher Form & List -->
@@ -174,11 +215,90 @@
         </form>
         <p id="teacherMessage"></p>
       </div>
-
       <div class="card">
         <h2>শিক্ষকদের রেকর্ড তালিকা</h2>
         <input type="search" id="teacherSearch" placeholder="শিক্ষকের নাম দিয়ে খুঁজুন">
         <div id="teacherList">শিক্ষকদের তথ্য লোড হচ্ছে...</div>
+      </div>
+
+      <!-- Teacher Salary Form & List -->
+      <div class="card">
+        <h2>💵 শিক্ষಕರ বেতন (পেইড ও বকেয়া) বিলি রেকর্ড</h2>
+        <form id="salaryForm">
+          <label for="salTeacherName">শিক্ষকের নাম</label>
+          <input type="text" id="salTeacherName" placeholder="শিক্ষকের নাম" required>
+          <label for="salMonth">মাসের নাম / সাল</label>
+          <input type="text" id="salMonth" placeholder="যেমন: জানুয়ারি ২০২৬" required>
+          <label for="totalSalary">মোট বেতন (টাকা)</label>
+          <input type="number" id="totalSalary" placeholder="যেমন: ১৫০০০" required>
+          <label for="paidAmount">প্রদান করা হয়েছে (Paid)</label>
+          <input type="number" id="paidAmount" placeholder="যেমন: ১০০০০" required>
+          <label for="dueAmount">বকেয়া (Due)</label>
+          <input type="number" id="dueAmount" placeholder="যেমন: ৫০০০" required>
+          <label for="salStatus">বেতনের অবস্থা</label>
+          <select id="salStatus" required>
+            <option value="পরিশোধিত (Paid)">পরিশোধিত (Paid)</option>
+            <option value="বকেয়া আছে (Due)">বকেয়া আছে (Due)</option>
+            <option value="আংশিক পরিশোধ (Partial)">আংশিক পরিশোধ (Partial)</option>
+          </select>
+          <button type="submit" id="saveSalaryBtn">বেতনের রেকর্ড সংরক্ষণ করুন</button>
+        </form>
+        <p id="salaryMessage"></p>
+      </div>
+      <div class="card">
+        <h2>📑 শিক্ষকদের বেতনের রেকর্ড তালিকা</h2>
+        <input type="search" id="salarySearch" placeholder="শিক্ষকের নাম দিয়ে বেতন খুঁজুন">
+        <div id="salaryList" style="margin-top: 15px;">বেতনের তথ্য লোড হচ্ছে...</div>
+      </div>
+
+      <!-- Staff Form & List (নতুন কর্মচারী সেকশন) -->
+      <div class="card">
+        <h2>🧑‍💼 নতুন কর্মচারী (Staff) যুক্ত করুন</h2>
+        <form id="staffForm">
+          <label for="staffName">কর্মচারীর নাম</label>
+          <input type="text" id="staffName" required>
+          <label for="staffRole">পদবী / দায়িত্ব</label>
+          <input type="text" id="staffRole" placeholder="যেমন: অফিস সহকারী / ক্লিনার" required>
+          <label for="staffMobile">মোবাইল নম্বর</label>
+          <input type="tel" id="staffMobile" required>
+          <button type="submit" id="saveStaffBtn">কর্মচারী সংরক্ষণ করুন</button>
+        </form>
+        <p id="staffMessage"></p>
+      </div>
+      <div class="card">
+        <h2>📋 কর্মচারীদের তালিকা</h2>
+        <input type="search" id="staffSearch" placeholder="কর্মচারীর নাম দিয়ে খুঁজুন">
+        <div id="staffList" style="margin-top: 15px;">কর্মচারীদের তথ্য লোড হচ্ছে...</div>
+      </div>
+
+      <!-- Staff Salary Form & List (নতুন কর্মচারী বেতন সেকশন) -->
+      <div class="card">
+        <h2>💰 কর্মচারীদের বেতন (পেইড ও বকেয়া) রেকর্ড</h2>
+        <form id="staffSalForm">
+          <label for="sSalStaffName">কর্মচারীর নাম</label>
+          <input type="text" id="sSalStaffName" placeholder="কর্মচারীর নাম" required>
+          <label for="sSalMonth">মাসের নাম / সাল</label>
+          <input type="text" id="sSalMonth" placeholder="যেমন: জানুয়ারি ২০২৬" required>
+          <label for="sSalTotal">মোট বেতন (টাকা)</label>
+          <input type="number" id="sSalTotal" placeholder="যেমন: ১০০০০" required>
+          <label for="sSalPaid">প্রদান করা হয়েছে (Paid)</label>
+          <input type="number" id="sSalPaid" placeholder="যেমন: ৮০০০" required>
+          <label for="sSalDue">বকেয়া (Due)</label>
+          <input type="number" id="sSalDue" placeholder="যেমন: ২০০০" required>
+          <label for="sSalStatus">বেতনের অবস্থা</label>
+          <select id="sSalStatus" required>
+            <option value="পরিশোধিত (Paid)">পরিশোধিত (Paid)</option>
+            <option value="বকেয়া আছে (Due)">বকেয়া আছে (Due)</option>
+            <option value="আংশিক পরিশোধ (Partial)">আংশিক পরিশোধ (Partial)</option>
+          </select>
+          <button type="submit" id="saveStaffSalBtn">কর্মচারীর বেতন সংরক্ষণ করুন</button>
+        </form>
+        <p id="staffSalMessage"></p>
+      </div>
+      <div class="card">
+        <h2>📑 কর্মচারীদের বেতন তালিকা</h2>
+        <input type="search" id="staffSalSearch" placeholder="কর্মচারীর নাম দিয়ে খুঁজুন">
+        <div id="staffSalList" style="margin-top: 15px;">বেতনের তথ্য লোড হচ্ছে...</div>
       </div>
 
       <!-- Guardian Form & List -->
@@ -197,7 +317,6 @@
         </form>
         <p id="guardianMessage"></p>
       </div>
-
       <div class="card">
         <h2>👪 অভিভাবকগণের তালিকা</h2>
         <input type="search" id="guardianSearch" placeholder="অভিভাবকের নাম দিয়ে খুঁজুন">
@@ -222,7 +341,6 @@
         </form>
         <p id="attendanceMessage"></p>
       </div>
-
       <div class="card">
         <h2>📅 হাজিরার তালিকা</h2>
         <input type="search" id="attendanceSearch" placeholder="নাম দিয়ে হাজিরা খুঁজুন">
@@ -243,7 +361,6 @@
         </form>
         <p id="noticeMessage"></p>
       </div>
-
       <div class="card">
         <h2>📋 নোটিশ ও ফাইলের তালিকা</h2>
         <input type="search" id="noticeSearch" placeholder="নোটিশ খুঁজুন">
@@ -268,7 +385,6 @@
         </form>
         <p id="resultMessage"></p>
       </div>
-
       <div class="card">
         <h2>📑 পরীক্ষার ফলাফল তালিকা</h2>
         <input type="search" id="resultSearch" placeholder="ফলাফল খুঁজুন">
@@ -299,18 +415,15 @@
         </form>
         <p id="certMessage"></p>
       </div>
-
       <div class="card">
         <h2>🖨️ সংরক্ষিত সনদ ও প্রিন্ট সিস্টেম</h2>
         <input type="search" id="certSearch" placeholder="নাম দিয়ে সনদ খুঁজুন">
         <div id="certList" style="margin-top: 15px;">সনদের তথ্য লোড হচ্ছে...</div>
       </div>
-
     </section>
 
     <!-- Print Area -->
     <div id="printableArea" style="display: none;"></div>
-
   </main>
 
   <!-- JavaScript Module -->
@@ -344,12 +457,16 @@
     };
 
     const ADMIN_UID = "nKQFbXGR4jMGARMcZNwhrOEggvo1";
-
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
+
     const studentCollection = collection(db, "student_records");
     const teacherCollection = collection(db, "teacher_records");
+    const staffCollection = collection(db, "staff_records"); // নতুন কর্মচারী কালেকশন
+    const salaryCollection = collection(db, "teacher_salary_records");
+    const staffSalaryCollection = collection(db, "staff_salary_records"); // নতুন কর্মচারী বেতন কালেকশন
+    const feeCollection = collection(db, "student_fee_records"); // নতুন ছাত্র ফি কালেকশন
     const guardianCollection = collection(db, "guardian_records");
     const attendanceCollection = collection(db, "attendance_records");
     const noticeCollection = collection(db, "notice_records");
@@ -360,7 +477,7 @@
     const adminPanel = document.getElementById("adminPanel");
     const loginForm = document.getElementById("loginForm");
     const loginMessage = document.getElementById("loginMessage");
-
+    
     const admissionForm = document.getElementById("admissionForm");
     const admissionMessage = document.getElementById("admissionMessage");
     const department = document.getElementById("department");
@@ -369,11 +486,39 @@
     const studentSearch = document.getElementById("studentSearch");
     const studentCount = document.getElementById("studentCount");
 
+    // স্টুডেন্ট ফি এলিমেন্ট
+    const feeForm = document.getElementById("feeForm");
+    const feeMessage = document.getElementById("feeMessage");
+    const feeList = document.getElementById("feeList");
+    const feeSearch = document.getElementById("feeSearch");
+    const feeCount = document.getElementById("feeCount");
+
     const teacherForm = document.getElementById("teacherForm");
     const teacherMessage = document.getElementById("teacherMessage");
     const teacherList = document.getElementById("teacherList");
     const teacherSearch = document.getElementById("teacherSearch");
     const teacherCount = document.getElementById("teacherCount");
+
+    // শিক্ষক বেতন এলিমেন্ট
+    const salaryForm = document.getElementById("salaryForm");
+    const salaryMessage = document.getElementById("salaryMessage");
+    const salaryList = document.getElementById("salaryList");
+    const salarySearch = document.getElementById("salarySearch");
+    const salaryCount = document.getElementById("salaryCount");
+
+    // কর্মচারী এলিমেন্ট
+    const staffForm = document.getElementById("staffForm");
+    const staffMessage = document.getElementById("staffMessage");
+    const staffList = document.getElementById("staffList");
+    const staffSearch = document.getElementById("staffSearch");
+    const staffCount = document.getElementById("staffCount");
+
+    // কর্মচারী বেতন এলিমেন্ট
+    const staffSalForm = document.getElementById("staffSalForm");
+    const staffSalMessage = document.getElementById("staffSalMessage");
+    const staffSalList = document.getElementById("staffSalList");
+    const staffSalSearch = document.getElementById("staffSalSearch");
+    const staffSalCount = document.getElementById("staffSalCount");
 
     const guardianForm = document.getElementById("guardianForm");
     const guardianMessage = document.getElementById("guardianMessage");
@@ -458,7 +603,11 @@
         adminLogin.hidden = true;
         adminPanel.hidden = false;
         await loadStudents();
+        await loadFees();
         await loadTeachers();
+        await loadSalaries();
+        await loadStaff();
+        await loadStaffSalaries();
         await loadGuardians();
         await loadAttendance();
         await loadNotices();
@@ -496,6 +645,24 @@
       await loadStudents();
     });
 
+    // স্টুডেন্ট ফি ফর্ম সাবমিট
+    feeForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = {
+        studentName: document.getElementById("feeStudentName").value.trim(),
+        month: document.getElementById("feeMonth").value.trim(),
+        totalFee: document.getElementById("totalFee").value.trim(),
+        feePaid: document.getElementById("feePaid").value.trim(),
+        feeDue: document.getElementById("feeDue").value.trim(),
+        status: document.getElementById("feeStatus").value,
+        createdAt: serverTimestamp()
+      };
+      await addDoc(feeCollection, data);
+      feeMessage.textContent = "শিক্ষার্থীর ফি রেকর্ড সংরক্ষিত হয়েছে।";
+      feeForm.reset();
+      await loadFees();
+    });
+
     teacherForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       const data = {
@@ -509,6 +676,56 @@
       teacherMessage.textContent = "শিক্ষকের তথ্য সংরক্ষিত হয়েছে।";
       teacherForm.reset();
       await loadTeachers();
+    });
+
+    salaryForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = {
+        teacherName: document.getElementById("salTeacherName").value.trim(),
+        month: document.getElementById("salMonth").value.trim(),
+        totalSalary: document.getElementById("totalSalary").value.trim(),
+        paidAmount: document.getElementById("paidAmount").value.trim(),
+        dueAmount: document.getElementById("dueAmount").value.trim(),
+        status: document.getElementById("salStatus").value,
+        createdAt: serverTimestamp()
+      };
+      await addDoc(salaryCollection, data);
+      salaryMessage.textContent = "বেতনের রেকর্ড সফলভাবে সংরক্ষিত হয়েছে।";
+      salaryForm.reset();
+      await loadSalaries();
+    });
+
+    // কর্মচারী ফর্ম সাবমিট
+    staffForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = {
+        staffName: document.getElementById("staffName").value.trim(),
+        staffRole: document.getElementById("staffRole").value.trim(),
+        staffMobile: document.getElementById("staffMobile").value.trim(),
+        createdAt: serverTimestamp()
+      };
+      await addDoc(staffCollection, data);
+      staffMessage.textContent = "কর্মচারীর তথ্য সংরক্ষিত হয়েছে।";
+      staffForm.reset();
+      await loadStaff();
+    });
+
+    // কর্মচারী বেতন ফর্ম সাবমিট
+    staffSalForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = {
+        staffName: document.getElementById("sSalStaffName").value.trim(),
+        month: document.getElementById("sSalMonth").value.trim(),
+        totalSalary: document.getElementById("sSalTotal").value.trim(),
+        paidAmount: document.getElementById("sSalPaid").value.trim(),
+        dueAmount: document.getElementById("sSalDue").value.trim(),
+        status: document.getElementById("sSalStatus").value,
+        createdAt: serverTimestamp()
+      };
+      await addDoc(staffSalaryCollection, data);
+      staffSalMessage.textContent = "কর্মচারীর বেতনের রেকর্ড সংরক্ষিত হয়েছে।";
+      staffSalForm.reset();
+      await loadStaffSalaries();
     });
 
     guardianForm.addEventListener("submit", async (e) => {
@@ -619,6 +836,37 @@
       showStudents(allStudents.filter(s => String(s.studentName || "").toLowerCase().includes(txt)));
     });
 
+    // স্টুডেন্ট ফি লোড
+    let allFees = [];
+    async function loadFees() {
+      const snap = await getDocs(feeCollection);
+      allFees = snap.docs.map(item => ({ id: item.id, ...item.data() }));
+      if (feeCount) feeCount.textContent = allFees.length;
+      showFees(allFees);
+    }
+    function showFees(fees) {
+      if (fees.length === 0) { feeList.textContent = "কোনো ফি রেকর্ড নেই।"; return; }
+      feeList.innerHTML = "";
+      fees.forEach(f => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.style.border = "1px solid #ddd";
+        card.style.marginBottom = "10px";
+        card.innerHTML = `
+          <h3>শিক্ষার্থী: ${escapeHTML(f.studentName)} (${escapeHTML(f.month)})</h3>
+          <p>মোট ফি: ৳${escapeHTML(f.totalFee)} | পরিশোধ (Paid): ৳${escapeHTML(f.feePaid)} | বকেয়া (Due): ৳${escapeHTML(f.feeDue)}</p>
+          <p>অবস্থা: <strong>${escapeHTML(f.status)}</strong></p>
+          <button type="button" class="del" style="background:#d9534f; color:white; border:none; padding:5px 10px; cursor:pointer; border-radius:4px;">Delete</button>
+        `;
+        card.querySelector(".del").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "student_fee_records", f.id)); loadFees(); } };
+        feeList.appendChild(card);
+      });
+    }
+    feeSearch.addEventListener("input", (e) => {
+      const txt = e.target.value.toLowerCase();
+      showFees(allFees.filter(f => String(f.studentName || "").toLowerCase().includes(txt)));
+    });
+
     let allTeachers = [];
     async function loadTeachers() {
       const snap = await getDocs(teacherCollection);
@@ -640,6 +888,91 @@
     teacherSearch.addEventListener("input", (e) => {
       const txt = e.target.value.toLowerCase();
       showTeachers(allTeachers.filter(t => String(t.teacherName || "").toLowerCase().includes(txt)));
+    });
+
+    let allSalaries = [];
+    async function loadSalaries() {
+      const snap = await getDocs(salaryCollection);
+      allSalaries = snap.docs.map(item => ({ id: item.id, ...item.data() }));
+      if (salaryCount) salaryCount.textContent = allSalaries.length;
+      showSalaries(allSalaries);
+    }
+    function showSalaries(salaries) {
+      if (salaries.length === 0) { salaryList.textContent = "কোনো বেতনের রেকর্ড নেই।"; return; }
+      salaryList.innerHTML = "";
+      salaries.forEach(sal => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.style.border = "1px solid #ddd";
+        card.style.marginBottom = "10px";
+        card.innerHTML = `
+          <h3>শিক্ষক: ${escapeHTML(sal.teacherName)} (${escapeHTML(sal.month)})</h3>
+          <p>মোট বেতন: ৳${escapeHTML(sal.totalSalary)} | প্রদেয় (Paid): ৳${escapeHTML(sal.paidAmount)} | বকেয়া (Due): ৳${escapeHTML(sal.dueAmount)}</p>
+          <p>অবস্থা: <strong>${escapeHTML(sal.status)}</strong></p>
+          <button type="button" class="del" style="background:#d9534f; color:white; border:none; padding:5px 10px; cursor:pointer; border-radius:4px;">Delete</button>
+        `;
+        card.querySelector(".del").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "teacher_salary_records", sal.id)); loadSalaries(); } };
+        salaryList.appendChild(card);
+      });
+    }
+    salarySearch.addEventListener("input", (e) => {
+      const txt = e.target.value.toLowerCase();
+      showSalaries(allSalaries.filter(sal => String(sal.teacherName || "").toLowerCase().includes(txt)));
+    });
+
+    // কর্মচারী লোড
+    let allStaff = [];
+    async function loadStaff() {
+      const snap = await getDocs(staffCollection);
+      allStaff = snap.docs.map(item => ({ id: item.id, ...item.data() }));
+      if (staffCount) staffCount.textContent = allStaff.length;
+      showStaff(allStaff);
+    }
+    function showStaff(staffs) {
+      if (staffs.length === 0) { staffList.textContent = "কোনো কর্মচারী নেই।"; return; }
+      staffList.innerHTML = "";
+      staffs.forEach(st => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `<h3>${escapeHTML(st.staffName)}</h3><p>পদবী: ${escapeHTML(st.staffRole)} | মোবাইল: ${escapeHTML(st.staffMobile)}</p><button type="button" class="del" style="background:#d9534f; color:white; border:none; padding:5px 10px; cursor:pointer;">Delete</button>`;
+        card.querySelector(".del").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "staff_records", st.id)); loadStaff(); } };
+        staffList.appendChild(card);
+      });
+    }
+    staffSearch.addEventListener("input", (e) => {
+      const txt = e.target.value.toLowerCase();
+      showStaff(allStaff.filter(st => String(st.staffName || "").toLowerCase().includes(txt)));
+    });
+
+    // কর্মচারী বেতন লোড
+    let allStaffSalaries = [];
+    async function loadStaffSalaries() {
+      const snap = await getDocs(staffSalaryCollection);
+      allStaffSalaries = snap.docs.map(item => ({ id: item.id, ...item.data() }));
+      if (staffSalCount) staffSalCount.textContent = allStaffSalaries.length;
+      showStaffSalaries(allStaffSalaries);
+    }
+    function showStaffSalaries(salaries) {
+      if (salaries.length === 0) { staffSalList.textContent = "কোনো বেতনের রেকর্ড নেই।"; return; }
+      staffSalList.innerHTML = "";
+      salaries.forEach(sal => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.style.border = "1px solid #ddd";
+        card.style.marginBottom = "10px";
+        card.innerHTML = `
+          <h3>কর্মচারী: ${escapeHTML(sal.staffName)} (${escapeHTML(sal.month)})</h3>
+          <p>মোট বেতন: ৳${escapeHTML(sal.totalSalary)} | প্রদেয় (Paid): ৳${escapeHTML(sal.paidAmount)} | বকেয়া (Due): ৳${escapeHTML(sal.dueAmount)}</p>
+          <p>অবস্থা: <strong>${escapeHTML(sal.status)}</strong></p>
+          <button type="button" class="del" style="background:#d9534f; color:white; border:none; padding:5px 10px; cursor:pointer; border-radius:4px;">Delete</button>
+        `;
+        card.querySelector(".del").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "staff_salary_records", sal.id)); loadStaffSalaries(); } };
+        staffSalList.appendChild(card);
+      });
+    }
+    staffSalSearch.addEventListener("input", (e) => {
+      const txt = e.target.value.toLowerCase();
+      showStaffSalaries(allStaffSalaries.filter(sal => String(sal.staffName || "").toLowerCase().includes(txt)));
     });
 
     let allGuardians = [];
@@ -791,6 +1124,5 @@
       printableArea.style.display = "none";
     }
   </script>
-
 </body>
 </html>
