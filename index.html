@@ -63,7 +63,7 @@
         <div class="card">
           <div class="feature-icon">👨‍🏫</div>
           <h3>Teachers</h3>
-          <p>0</p>
+          <p id="teacherCount">0</p>
         </div>
         <div class="card">
           <div class="feature-icon">📅</div>
@@ -108,7 +108,7 @@
       <p id="loginMessage"></p>
     </section>
 
-    <!-- Admin Only: শিক্ষার্থী ব্যবস্থাপনা -->
+    <!-- Admin Only: শিক্ষার্থী ও শিক্ষক ব্যবস্থাপনা -->
     <section id="adminPanel" hidden>
 
       <div class="card">
@@ -170,6 +170,40 @@
         </div>
       </div>
 
+      <!-- Teacher Addition Form -->
+      <div class="card">
+        <h2>নতুন শিক্ষক যুক্ত করুন</h2>
+
+        <form id="teacherForm">
+          <label for="teacherName">শিক্ষকের নাম</label>
+          <input type="text" id="teacherName" required>
+
+          <label for="teacherDesignation">পদবী</label>
+          <input type="text" id="teacherDesignation" placeholder="যেমন: সহকারী শিক্ষক" required>
+
+          <label for="teacherSubject">বিষয়</label>
+          <input type="text" id="teacherSubject" required>
+
+          <label for="teacherMobile">মোবাইল নম্বর</label>
+          <input type="tel" id="teacherMobile" required>
+
+          <button type="submit" id="saveTeacherBtn">
+            শিক্ষক সংরক্ষণ করুন
+          </button>
+        </form>
+
+        <p id="teacherMessage"></p>
+      </div>
+
+      <!-- Teacher List -->
+      <div class="card">
+        <h2>শিক্ষকদের রেকর্ড তালিকা</h2>
+        <input type="search" id="teacherSearch" placeholder="শিক্ষকের নাম দিয়ে খুঁজুন">
+        <div id="teacherList">
+          শিক্ষকদের তথ্য লোড হচ্ছে...
+        </div>
+      </div>
+
     </section>
 
   </main>
@@ -213,6 +247,7 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
     const studentCollection = collection(db, "student_records");
+    const teacherCollection = collection(db, "teacher_records");
     console.log("Firebase initialized successfully!", app);
 
     // HTML Elements
@@ -220,6 +255,8 @@
     const adminPanel = document.getElementById("adminPanel");
     const loginForm = document.getElementById("loginForm");
     const loginMessage = document.getElementById("loginMessage");
+
+    // Student Elements
     const admissionForm = document.getElementById("admissionForm");
     const admissionMessage = document.getElementById("admissionMessage");
     const department = document.getElementById("department");
@@ -227,6 +264,13 @@
     const studentList = document.getElementById("studentList");
     const studentSearch = document.getElementById("studentSearch");
     const studentCount = document.getElementById("studentCount");
+
+    // Teacher Elements
+    const teacherForm = document.getElementById("teacherForm");
+    const teacherMessage = document.getElementById("teacherMessage");
+    const teacherList = document.getElementById("teacherList");
+    const teacherSearch = document.getElementById("teacherSearch");
+    const teacherCount = document.getElementById("teacherCount");
 
     // বিভাগ অনুযায়ী শ্রেণি
     const classes = {
@@ -305,10 +349,12 @@
         adminLogin.hidden = true;
         adminPanel.hidden = false;
         await loadStudents();
+        await loadTeachers();
       } else {
         adminLogin.hidden = false;
         adminPanel.hidden = true;
         studentCount.textContent = "Admin Login করলে দেখা যাবে";
+        teacherCount.textContent = "Admin Login করলে দেখা যাবে";
         if (user) {
           await signOut(auth);
         }
@@ -361,7 +407,42 @@
       }
     });
 
-    // HTML নিরাপদে দেখানোর জন্য
+    // Teacher Form Submit
+    teacherForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
+        teacherMessage.textContent = "শুধুমাত্র Admin শিক্ষক যুক্ত করতে পারবেন।";
+        return;
+      }
+
+      const saveTeacherBtn = document.getElementById("saveTeacherBtn");
+      saveTeacherBtn.disabled = true;
+      saveTeacherBtn.textContent = "সংরক্ষণ হচ্ছে...";
+      teacherMessage.textContent = "";
+
+      const teacherData = {
+        teacherName: document.getElementById("teacherName").value.trim(),
+        designation: document.getElementById("teacherDesignation").value.trim(),
+        subject: document.getElementById("teacherSubject").value.trim(),
+        mobile: document.getElementById("teacherMobile").value.trim(),
+        createdAt: serverTimestamp()
+      };
+
+      try {
+        await addDoc(teacherCollection, teacherData);
+        teacherMessage.textContent = "আলহামদুলিল্লাহ! শিক্ষকের তথ্য সংরক্ষিত হয়েছে।";
+        teacherForm.reset();
+        await loadTeachers();
+      } catch (error) {
+        console.error(error);
+        teacherMessage.textContent = "তথ্য সংরক্ষণ হয়নি। (" + error.code + ")";
+      } finally {
+        saveTeacherBtn.disabled = false;
+        saveTeacherBtn.textContent = "শিক্ষক সংরক্ষণ করুন";
+      }
+    });
+
+    // HTML নিরাপده দেখানোর জন্য
     function escapeHTML(value) {
       return String(value ?? "").replace(/[&<>"']/g, function (char) {
         return {
@@ -473,6 +554,83 @@
         await deleteDoc(doc(db, "student_records", studentId));
         alert("শিক্ষার্থীর তথ্য মুছে ফেলা হয়েছে।");
         await loadStudents();
+      } catch (error) {
+        console.error(error);
+        alert("তথ্য মুছে ফেলা যায়নি: " + error.code);
+      }
+    }
+
+    // Load Teachers
+    let allTeachers = [];
+
+    async function loadTeachers() {
+      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
+        return;
+      }
+      teacherList.textContent = "তথ্য লোড হচ্ছে...";
+      try {
+        const snapshot = await getDocs(teacherCollection);
+        allTeachers = snapshot.docs.map(function (item) {
+          return {
+            id: item.id,
+            ...item.data()
+          };
+        });
+        teacherCount.textContent = allTeachers.length;
+        showTeachers(allTeachers);
+      } catch (error) {
+        console.error(error);
+        teacherList.textContent = "শিক্ষকদের তথ্য লোড হয়নি। (" + error.code + ")";
+      }
+    }
+
+    // Show Teachers
+    function showTeachers(teachers) {
+      if (teachers.length === 0) {
+        teacherList.textContent = "এখনো কোনো শিক্ষকের তথ্য নেই।";
+        return;
+      }
+      teacherList.innerHTML = "";
+      teachers.forEach(function (teacher) {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <h3>${escapeHTML(teacher.teacherName)}</h3>
+          <p>পদবী: ${escapeHTML(teacher.designation)}</p>
+          <p>বিষয়: ${escapeHTML(teacher.subject)}</p>
+          <p>মোবাইল: ${escapeHTML(teacher.mobile)}</p>
+          <button type="button" class="deleteTeacher">Delete</button>
+        `;
+        card.querySelector(".deleteTeacher").addEventListener("click", function () {
+          removeTeacher(teacher.id);
+        });
+        teacherList.appendChild(card);
+      });
+    }
+
+    // Search Teachers
+    teacherSearch.addEventListener("input", function () {
+      const searchText = teacherSearch.value.trim().toLowerCase();
+      const filteredTeachers = allTeachers.filter(function (teacher) {
+        return String(teacher.teacherName || "").toLowerCase().includes(searchText);
+      });
+      showTeachers(filteredTeachers);
+    });
+
+    // Delete Teacher
+    async function removeTeacher(teacherId) {
+      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
+        alert("শুধুমাত্র Admin তথ্য মুছতে পারবেন।");
+        return;
+      }
+      const confirmDelete = confirm("আপনি কি এই শিক্ষকের তথ্য মুছে ফেলতে চান?");
+      if (!confirmDelete) {
+        return;
+      }
+      try {
+        await deleteDoc(doc(db, "teacher_records", teacherId));
+        alert("শিক্ষকের তথ্য মুছে ফেলা হয়েছে।");
+        await loadTeachers();
       } catch (error) {
         console.error(error);
         alert("তথ্য মুছে ফেলা যায়নি: " + error.code);
