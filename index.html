@@ -12,6 +12,8 @@
       #printableArea { position: absolute; left: 0; top: 0; width: 100%; padding: 20px; background: white; }
       .no-print { display: none !important; }
     }
+    .edit-btn { background: #f0ad4e; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; margin-right: 5px; }
+    .del-btn { background: #d9534f; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
   </style>
 </head>
 <body>
@@ -136,6 +138,7 @@
       <div class="card">
         <h2>শিক্ষার্থী ভর্তি ফরম</h2>
         <form id="admissionForm">
+          <input type="hidden" id="studentId">
           <label for="studentName">শিক্ষার্থীর নাম</label>
           <input type="text" id="studentName" required>
           <label for="fatherName">পিতার নাম</label>
@@ -169,10 +172,11 @@
         <div id="studentList">শিক্ষার্থীর তথ্য লোড হচ্ছে...</div>
       </div>
 
-      <!-- Student Fee Collection & Due Records (নতুন) -->
+      <!-- Student Fee Collection & Due Records -->
       <div class="card">
         <h2>💳 শিক্ষার্থীর ফি আদায় ও বকেয়া রেকর্ড</h2>
         <form id="feeForm">
+          <input type="hidden" id="feeRecordId">
           <label for="feeStudentName">শিক্ষার্থীর নাম ও রোল</label>
           <input type="text" id="feeStudentName" placeholder="যেমন: আব্দুল্লাহ (রোল: ১০১)" required>
           <label for="feeMonth">মাস / সেশন</label>
@@ -203,6 +207,7 @@
       <div class="card">
         <h2>নতুন শিক্ষক যুক্ত করুন</h2>
         <form id="teacherForm">
+          <input type="hidden" id="teacherRecordId">
           <label for="teacherName">শিক্ষকের নাম</label>
           <input type="text" id="teacherName" required>
           <label for="teacherDesignation">পদবী</label>
@@ -223,8 +228,9 @@
 
       <!-- Teacher Salary Form & List -->
       <div class="card">
-        <h2>💵 শিক্ষಕರ বেতন (পেইড ও বকেয়া) বিলি রেকর্ড</h2>
+        <h2>💵 শিক্ষকদের বেতন (পেইড ও বকেয়া) বিলি রেকর্ড</h2>
         <form id="salaryForm">
+          <input type="hidden" id="salaryRecordId">
           <label for="salTeacherName">শিক্ষকের নাম</label>
           <input type="text" id="salTeacherName" placeholder="শিক্ষকের নাম" required>
           <label for="salMonth">মাসের নাম / সাল</label>
@@ -251,10 +257,11 @@
         <div id="salaryList" style="margin-top: 15px;">বেতনের তথ্য লোড হচ্ছে...</div>
       </div>
 
-      <!-- Staff Form & List (নতুন কর্মচারী সেকশন) -->
+      <!-- Staff Form & List -->
       <div class="card">
         <h2>🧑‍💼 নতুন কর্মচারী (Staff) যুক্ত করুন</h2>
         <form id="staffForm">
+          <input type="hidden" id="staffRecordId">
           <label for="staffName">কর্মচারীর নাম</label>
           <input type="text" id="staffName" required>
           <label for="staffRole">পদবী / দায়িত্ব</label>
@@ -271,10 +278,11 @@
         <div id="staffList" style="margin-top: 15px;">কর্মচারীদের তথ্য লোড হচ্ছে...</div>
       </div>
 
-      <!-- Staff Salary Form & List (নতুন কর্মচারী বেতন সেকশন) -->
+      <!-- Staff Salary Form & List -->
       <div class="card">
         <h2>💰 কর্মচারীদের বেতন (পেইড ও বকেয়া) রেকর্ড</h2>
         <form id="staffSalForm">
+          <input type="hidden" id="staffSalRecordId">
           <label for="sSalStaffName">কর্মচারীর নাম</label>
           <input type="text" id="sSalStaffName" placeholder="কর্মচারীর নাম" required>
           <label for="sSalMonth">মাসের নাম / সাল</label>
@@ -305,6 +313,7 @@
       <div class="card">
         <h2>👪 অভিভাবক (Guardian) তথ্য যুক্ত করুন</h2>
         <form id="guardianForm">
+          <input type="hidden" id="guardianRecordId">
           <label for="guardianName">অভিভাবকের নাম</label>
           <input type="text" id="guardianName" placeholder="অভিভাবকের পূর্ণ নাম" required>
           <label for="wardName">শিক্ষার্থীর নাম</label>
@@ -327,6 +336,7 @@
       <div class="card">
         <h2>📅 দৈনিক হাজিরা (Attendance) এন্ট্রি</h2>
         <form id="attendanceForm">
+          <input type="hidden" id="attRecordId">
           <label for="attDate">তারিখ</label>
           <input type="date" id="attDate" required>
           <label for="attStudentName">শিক্ষার্থীর নাম ও রোল</label>
@@ -351,10 +361,11 @@
       <div class="card">
         <h2>📢 নোটিশ বোর্ড ও ফাইল যুক্ত করুন</h2>
         <form id="noticeForm">
+          <input type="hidden" id="noticeRecordId">
           <label for="noticeTitle">নোটিশের শিরোনাম / বিষয়ের নাম</label>
           <input type="text" id="noticeTitle" placeholder="যেমন: বার্ষিক পরীক্ষার রুটিন" required>
           <label for="noticeFile">ফাইল বা ডকুমেন্ট (PDF / Image)</label>
-          <input type="file" id="noticeFile" accept=".pdf, .jpg, .jpeg, .png" required>
+          <input type="file" id="noticeFile" accept=".pdf, .jpg, .jpeg, .png">
           <label for="noticeDescription">বিস্তারিত বিবরণ (ঐচ্ছিক)</label>
           <textarea id="noticeDescription" rows="3" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" placeholder="বিবরণ লিখুন..."></textarea>
           <button type="submit" id="saveNoticeBtn">নোটিশ ও ফাইল সংরক্ষণ করুন</button>
@@ -371,6 +382,7 @@
       <div class="card">
         <h2>📊 পরীক্ষার ফলাফল ও বিষয়ভিত্তিক নম্বর</h2>
         <form id="resultForm">
+          <input type="hidden" id="resultRecordId">
           <label for="examName">পরীক্ষার নাম</label>
           <input type="text" id="examName" placeholder="যেমন: অর্ধ-বার্ষিক পরীক্ষা ২০২৬" required>
           <label for="resStudentName">শিক্ষার্থীর নাম</label>
@@ -395,6 +407,7 @@
       <div class="card">
         <h2>📜 প্রশংসাপত্র ও ছাড়পত্র (Testimonial & TC) তৈরি ফরম</h2>
         <form id="certForm">
+          <input type="hidden" id="certRecordId">
           <label for="certType">সনদের ধরণ নির্বাচন করুন</label>
           <select id="certType" required>
             <option value="">ধরণ নির্বাচন করুন</option>
@@ -440,6 +453,7 @@
         getFirestore, 
         collection, 
         addDoc, 
+        setDoc,
         getDocs, 
         doc, 
         deleteDoc, 
@@ -463,10 +477,10 @@
 
     const studentCollection = collection(db, "student_records");
     const teacherCollection = collection(db, "teacher_records");
-    const staffCollection = collection(db, "staff_records"); // নতুন কর্মচারী কালেকশন
+    const staffCollection = collection(db, "staff_records");
     const salaryCollection = collection(db, "teacher_salary_records");
-    const staffSalaryCollection = collection(db, "staff_salary_records"); // নতুন কর্মচারী বেতন কালেকশন
-    const feeCollection = collection(db, "student_fee_records"); // নতুন ছাত্র ফি কালেকশন
+    const staffSalaryCollection = collection(db, "staff_salary_records");
+    const feeCollection = collection(db, "student_fee_records");
     const guardianCollection = collection(db, "guardian_records");
     const attendanceCollection = collection(db, "attendance_records");
     const noticeCollection = collection(db, "notice_records");
@@ -486,7 +500,6 @@
     const studentSearch = document.getElementById("studentSearch");
     const studentCount = document.getElementById("studentCount");
 
-    // স্টুডেন্ট ফি এলিমেন্ট
     const feeForm = document.getElementById("feeForm");
     const feeMessage = document.getElementById("feeMessage");
     const feeList = document.getElementById("feeList");
@@ -499,21 +512,18 @@
     const teacherSearch = document.getElementById("teacherSearch");
     const teacherCount = document.getElementById("teacherCount");
 
-    // শিক্ষক বেতন এলিমেন্ট
     const salaryForm = document.getElementById("salaryForm");
     const salaryMessage = document.getElementById("salaryMessage");
     const salaryList = document.getElementById("salaryList");
     const salarySearch = document.getElementById("salarySearch");
     const salaryCount = document.getElementById("salaryCount");
 
-    // কর্মচারী এলিমেন্ট
     const staffForm = document.getElementById("staffForm");
     const staffMessage = document.getElementById("staffMessage");
     const staffList = document.getElementById("staffList");
     const staffSearch = document.getElementById("staffSearch");
     const staffCount = document.getElementById("staffCount");
 
-    // কর্মচারী বেতন এলিমেন্ট
     const staffSalForm = document.getElementById("staffSalForm");
     const staffSalMessage = document.getElementById("staffSalMessage");
     const staffSalList = document.getElementById("staffSalList");
@@ -625,9 +635,12 @@
       loginMessage.textContent = "আপনি Logout করেছেন।";
     });
 
-    // Form Submissions
+    // --- Save & Update Logic with ID Support ---
+
+    // 1. Student Admission
     admissionForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+      const id = document.getElementById("studentId").value;
       const data = {
         studentName: document.getElementById("studentName").value.trim(),
         fatherName: document.getElementById("fatherName").value.trim(),
@@ -639,15 +652,22 @@
         className: className.value,
         createdAt: serverTimestamp()
       };
-      await addDoc(studentCollection, data);
-      admissionMessage.textContent = "শিক্ষার্থীর তথ্য সংরক্ষিত হয়েছে।";
+      if (id) {
+        await setDoc(doc(db, "student_records", id), data, { merge: true });
+        admissionMessage.textContent = "শিক্ষার্থীর তথ্য আপডেট হয়েছে।";
+      } else {
+        await addDoc(studentCollection, data);
+        admissionMessage.textContent = "শিক্ষার্থীর তথ্য সংরক্ষিত হয়েছে।";
+      }
       admissionForm.reset();
+      document.getElementById("studentId").value = "";
       await loadStudents();
     });
 
-    // স্টুডেন্ট ফি ফর্ম সাবমিট
+    // 2. Student Fees
     feeForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+      const id = document.getElementById("feeRecordId").value;
       const data = {
         studentName: document.getElementById("feeStudentName").value.trim(),
         month: document.getElementById("feeMonth").value.trim(),
@@ -657,14 +677,22 @@
         status: document.getElementById("feeStatus").value,
         createdAt: serverTimestamp()
       };
-      await addDoc(feeCollection, data);
-      feeMessage.textContent = "শিক্ষার্থীর ফি রেকর্ড সংরক্ষিত হয়েছে।";
+      if (id) {
+        await setDoc(doc(db, "student_fee_records", id), data, { merge: true });
+        feeMessage.textContent = "ফিসের রেকর্ড আপডেট হয়েছে।";
+      } else {
+        await addDoc(feeCollection, data);
+        feeMessage.textContent = "শিক্ষার্থীর ফি রেকর্ড সংরক্ষিত হয়েছে।";
+      }
       feeForm.reset();
+      document.getElementById("feeRecordId").value = "";
       await loadFees();
     });
 
+    // 3. Teachers
     teacherForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+      const id = document.getElementById("teacherRecordId").value;
       const data = {
         teacherName: document.getElementById("teacherName").value.trim(),
         designation: document.getElementById("teacherDesignation").value.trim(),
@@ -672,14 +700,22 @@
         mobile: document.getElementById("teacherMobile").value.trim(),
         createdAt: serverTimestamp()
       };
-      await addDoc(teacherCollection, data);
-      teacherMessage.textContent = "শিক্ষকের তথ্য সংরক্ষিত হয়েছে।";
+      if (id) {
+        await setDoc(doc(db, "teacher_records", id), data, { merge: true });
+        teacherMessage.textContent = "শিক্ষকের তথ্য আপডেট হয়েছে।";
+      } else {
+        await addDoc(teacherCollection, data);
+        teacherMessage.textContent = "শিক্ষকের তথ্য সংরক্ষিত হয়েছে।";
+      }
       teacherForm.reset();
+      document.getElementById("teacherRecordId").value = "";
       await loadTeachers();
     });
 
+    // 4. Teacher Salary
     salaryForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+      const id = document.getElementById("salaryRecordId").value;
       const data = {
         teacherName: document.getElementById("salTeacherName").value.trim(),
         month: document.getElementById("salMonth").value.trim(),
@@ -689,30 +725,44 @@
         status: document.getElementById("salStatus").value,
         createdAt: serverTimestamp()
       };
-      await addDoc(salaryCollection, data);
-      salaryMessage.textContent = "বেতনের রেকর্ড সফলভাবে সংরক্ষিত হয়েছে।";
+      if (id) {
+        await setDoc(doc(db, "teacher_salary_records", id), data, { merge: true });
+        salaryMessage.textContent = "বেতনের রেকর্ড আপডেট হয়েছে।";
+      } else {
+        await addDoc(salaryCollection, data);
+        salaryMessage.textContent = "বেতনের রেকর্ড সফলভাবে সংরক্ষিত হয়েছে।";
+      }
       salaryForm.reset();
+      document.getElementById("salaryRecordId").value = "";
       await loadSalaries();
     });
 
-    // কর্মচারী ফর্ম সাবমিট
+    // 5. Staff
     staffForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+      const id = document.getElementById("staffRecordId").value;
       const data = {
         staffName: document.getElementById("staffName").value.trim(),
         staffRole: document.getElementById("staffRole").value.trim(),
         staffMobile: document.getElementById("staffMobile").value.trim(),
         createdAt: serverTimestamp()
       };
-      await addDoc(staffCollection, data);
-      staffMessage.textContent = "কর্মচারীর তথ্য সংরক্ষিত হয়েছে।";
+      if (id) {
+        await setDoc(doc(db, "staff_records", id), data, { merge: true });
+        staffMessage.textContent = "কর্মচারীর তথ্য আপডেট হয়েছে।";
+      } else {
+        await addDoc(staffCollection, data);
+        staffMessage.textContent = "কর্মচারীর তথ্য সংরক্ষিত হয়েছে।";
+      }
       staffForm.reset();
+      document.getElementById("staffRecordId").value = "";
       await loadStaff();
     });
 
-    // কর্মচারী বেতন ফর্ম সাবমিট
+    // 6. Staff Salary
     staffSalForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+      const id = document.getElementById("staffSalRecordId").value;
       const data = {
         staffName: document.getElementById("sSalStaffName").value.trim(),
         month: document.getElementById("sSalMonth").value.trim(),
@@ -722,14 +772,22 @@
         status: document.getElementById("sSalStatus").value,
         createdAt: serverTimestamp()
       };
-      await addDoc(staffSalaryCollection, data);
-      staffSalMessage.textContent = "কর্মচারীর বেতনের রেকর্ড সংরক্ষিত হয়েছে।";
+      if (id) {
+        await setDoc(doc(db, "staff_salary_records", id), data, { merge: true });
+        staffSalMessage.textContent = "কর্মচারীর বেতন আপডেট হয়েছে।";
+      } else {
+        await addDoc(staffSalaryCollection, data);
+        staffSalMessage.textContent = "কর্মচারীর বেতনের রেকর্ড সংরক্ষিত হয়েছে।";
+      }
       staffSalForm.reset();
+      document.getElementById("staffSalRecordId").value = "";
       await loadStaffSalaries();
     });
 
+    // 7. Guardians
     guardianForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+      const id = document.getElementById("guardianRecordId").value;
       const data = {
         guardianName: document.getElementById("guardianName").value.trim(),
         wardName: document.getElementById("wardName").value.trim(),
@@ -737,28 +795,44 @@
         mobile: document.getElementById("guardianMobile").value.trim(),
         createdAt: serverTimestamp()
       };
-      await addDoc(guardianCollection, data);
-      guardianMessage.textContent = "অভিভাবকের তথ্য সংরক্ষিত হয়েছে।";
+      if (id) {
+        await setDoc(doc(db, "guardian_records", id), data, { merge: true });
+        guardianMessage.textContent = "অভিভাবকের তথ্য আপডেট হয়েছে।";
+      } else {
+        await addDoc(guardianCollection, data);
+        guardianMessage.textContent = "অভিভাবকের তথ্য সংরক্ষিত হয়েছে।";
+      }
       guardianForm.reset();
+      document.getElementById("guardianRecordId").value = "";
       await loadGuardians();
     });
 
+    // 8. Attendance
     attendanceForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+      const id = document.getElementById("attRecordId").value;
       const data = {
         attDate: document.getElementById("attDate").value,
         studentName: document.getElementById("attStudentName").value.trim(),
         status: document.getElementById("attStatus").value,
         createdAt: serverTimestamp()
       };
-      await addDoc(attendanceCollection, data);
-      attendanceMessage.textContent = "হাজিরা সংরক্ষিত হয়েছে।";
+      if (id) {
+        await setDoc(doc(db, "attendance_records", id), data, { merge: true });
+        attendanceMessage.textContent = "হাজিরা আপডেট হয়েছে।";
+      } else {
+        await addDoc(attendanceCollection, data);
+        attendanceMessage.textContent = "হাজিরা সংরক্ষিত হয়েছে।";
+      }
       attendanceForm.reset();
+      document.getElementById("attRecordId").value = "";
       await loadAttendance();
     });
 
+    // 9. Notices
     noticeForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+      const id = document.getElementById("noticeRecordId").value;
       const fileInput = document.getElementById("noticeFile");
       const file = fileInput.files[0];
       const data = {
@@ -767,14 +841,22 @@
         fileName: file ? file.name : "ফাইল নেই",
         createdAt: serverTimestamp()
       };
-      await addDoc(noticeCollection, data);
-      noticeMessage.textContent = "নোটিশ সংরক্ষিত হয়েছে।";
+      if (id) {
+        await setDoc(doc(db, "notice_records", id), data, { merge: true });
+        noticeMessage.textContent = "নোটিশ আপডেট হয়েছে।";
+      } else {
+        await addDoc(noticeCollection, data);
+        noticeMessage.textContent = "নোটিশ সংরক্ষিত হয়েছে।";
+      }
       noticeForm.reset();
+      document.getElementById("noticeRecordId").value = "";
       await loadNotices();
     });
 
+    // 10. Results
     resultForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+      const id = document.getElementById("resultRecordId").value;
       const data = {
         examName: document.getElementById("examName").value.trim(),
         studentName: document.getElementById("resStudentName").value.trim(),
@@ -783,14 +865,22 @@
         totalGpa: document.getElementById("totalGpa").value.trim(),
         createdAt: serverTimestamp()
       };
-      await addDoc(resultCollection, data);
-      resultMessage.textContent = "ফলাফল সংরক্ষিত হয়েছে।";
+      if (id) {
+        await setDoc(doc(db, "result_records", id), data, { merge: true });
+        resultMessage.textContent = "ফলাফল আপডেট হয়েছে।";
+      } else {
+        await addDoc(resultCollection, data);
+        resultMessage.textContent = "ফলাফল সংরক্ষিত হয়েছে।";
+      }
       resultForm.reset();
+      document.getElementById("resultRecordId").value = "";
       await loadResults();
     });
 
+    // 11. Certificates
     certForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+      const id = document.getElementById("certRecordId").value;
       const data = {
         certType: document.getElementById("certType").value,
         studentName: document.getElementById("certStudentName").value.trim(),
@@ -800,9 +890,15 @@
         reason: document.getElementById("certReason").value.trim(),
         createdAt: serverTimestamp()
       };
-      await addDoc(certCollection, data);
-      certMessage.textContent = "সনদ সংরক্ষিত হয়েছে।";
+      if (id) {
+        await setDoc(doc(db, "certificate_records", id), data, { merge: true });
+        certMessage.textContent = "সনদ আপডেট হয়েছে।";
+      } else {
+        await addDoc(certCollection, data);
+        certMessage.textContent = "সনদ সংরক্ষিত হয়েছে।";
+      }
       certForm.reset();
+      document.getElementById("certRecordId").value = "";
       await loadCertificates();
     });
 
@@ -812,7 +908,8 @@
       });
     }
 
-    // Load Functions
+    // --- Load & Display Functions with Edit/Delete Buttons ---
+
     let allStudents = [];
     async function loadStudents() {
       const snap = await getDocs(studentCollection);
@@ -826,8 +923,21 @@
       students.forEach(s => {
         const card = document.createElement("div");
         card.className = "card";
-        card.innerHTML = `<h3>${escapeHTML(s.studentName)}</h3><p>পিতা: ${escapeHTML(s.fatherName)}</p><p>রোল: ${escapeHTML(s.roll)} | শ্রেণি: ${escapeHTML(s.className)}</p><button type="button" class="del" style="background:#d9534f; color:white; border:none; padding:5px 10px; cursor:pointer;">Delete</button>`;
-        card.querySelector(".del").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "student_records", s.id)); loadStudents(); } };
+        card.innerHTML = `<h3>${escapeHTML(s.studentName)}</h3><p>পিতা: ${escapeHTML(s.fatherName)}</p><p>রোল: ${escapeHTML(s.roll)} | শ্রেণি: ${escapeHTML(s.className)}</p><button type="button" class="edit-btn">Edit</button><button type="button" class="del-btn">Delete</button>`;
+        card.querySelector(".edit-btn").onclick = () => {
+          document.getElementById("studentId").value = s.id;
+          document.getElementById("studentName").value = s.studentName || "";
+          document.getElementById("fatherName").value = s.fatherName || "";
+          document.getElementById("motherName").value = s.motherName || "";
+          document.getElementById("dateOfBirth").value = s.dateOfBirth || "";
+          document.getElementById("mobile").value = s.mobile || "";
+          document.getElementById("rollNumber").value = s.roll || "";
+          document.getElementById("department").value = s.department || "";
+          document.getElementById("department").dispatchEvent(new Event('change'));
+          document.getElementById("className").value = s.className || "";
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+        card.querySelector(".del-btn").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "student_records", s.id)); loadStudents(); } };
         studentList.appendChild(card);
       });
     }
@@ -836,7 +946,6 @@
       showStudents(allStudents.filter(s => String(s.studentName || "").toLowerCase().includes(txt)));
     });
 
-    // স্টুডেন্ট ফি লোড
     let allFees = [];
     async function loadFees() {
       const snap = await getDocs(feeCollection);
@@ -850,15 +959,18 @@
       fees.forEach(f => {
         const card = document.createElement("div");
         card.className = "card";
-        card.style.border = "1px solid #ddd";
-        card.style.marginBottom = "10px";
-        card.innerHTML = `
-          <h3>শিক্ষার্থী: ${escapeHTML(f.studentName)} (${escapeHTML(f.month)})</h3>
-          <p>মোট ফি: ৳${escapeHTML(f.totalFee)} | পরিশোধ (Paid): ৳${escapeHTML(f.feePaid)} | বকেয়া (Due): ৳${escapeHTML(f.feeDue)}</p>
-          <p>অবস্থা: <strong>${escapeHTML(f.status)}</strong></p>
-          <button type="button" class="del" style="background:#d9534f; color:white; border:none; padding:5px 10px; cursor:pointer; border-radius:4px;">Delete</button>
-        `;
-        card.querySelector(".del").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "student_fee_records", f.id)); loadFees(); } };
+        card.innerHTML = `<h3>${escapeHTML(f.studentName)} (${escapeHTML(f.month)})</h3><p>মোট: ৳${escapeHTML(f.totalFee)} | পরিশোধ: ৳${escapeHTML(f.feePaid)} | বকেয়া: ৳${escapeHTML(f.feeDue)}</p><button type="button" class="edit-btn">Edit</button><button type="button" class="del-btn">Delete</button>`;
+        card.querySelector(".edit-btn").onclick = () => {
+          document.getElementById("feeRecordId").value = f.id;
+          document.getElementById("feeStudentName").value = f.studentName || "";
+          document.getElementById("feeMonth").value = f.month || "";
+          document.getElementById("totalFee").value = f.totalFee || "";
+          document.getElementById("feePaid").value = f.feePaid || "";
+          document.getElementById("feeDue").value = f.feeDue || "";
+          document.getElementById("feeStatus").value = f.status || "";
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+        card.querySelector(".del-btn").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "student_fee_records", f.id)); loadFees(); } };
         feeList.appendChild(card);
       });
     }
@@ -880,8 +992,16 @@
       teachers.forEach(t => {
         const card = document.createElement("div");
         card.className = "card";
-        card.innerHTML = `<h3>${escapeHTML(t.teacherName)}</h3><p>পদবী: ${escapeHTML(t.designation)} | বিষয়: ${escapeHTML(t.subject)}</p><button type="button" class="del" style="background:#d9534f; color:white; border:none; padding:5px 10px; cursor:pointer;">Delete</button>`;
-        card.querySelector(".del").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "teacher_records", t.id)); loadTeachers(); } };
+        card.innerHTML = `<h3>${escapeHTML(t.teacherName)}</h3><p>পদবী: ${escapeHTML(t.designation)} | বিষয়: ${escapeHTML(t.subject)}</p><button type="button" class="edit-btn">Edit</button><button type="button" class="del-btn">Delete</button>`;
+        card.querySelector(".edit-btn").onclick = () => {
+          document.getElementById("teacherRecordId").value = t.id;
+          document.getElementById("teacherName").value = t.teacherName || "";
+          document.getElementById("teacherDesignation").value = t.designation || "";
+          document.getElementById("teacherSubject").value = t.subject || "";
+          document.getElementById("teacherMobile").value = t.mobile || "";
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+        card.querySelector(".del-btn").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "teacher_records", t.id)); loadTeachers(); } };
         teacherList.appendChild(card);
       });
     }
@@ -903,15 +1023,18 @@
       salaries.forEach(sal => {
         const card = document.createElement("div");
         card.className = "card";
-        card.style.border = "1px solid #ddd";
-        card.style.marginBottom = "10px";
-        card.innerHTML = `
-          <h3>শিক্ষক: ${escapeHTML(sal.teacherName)} (${escapeHTML(sal.month)})</h3>
-          <p>মোট বেতন: ৳${escapeHTML(sal.totalSalary)} | প্রদেয় (Paid): ৳${escapeHTML(sal.paidAmount)} | বকেয়া (Due): ৳${escapeHTML(sal.dueAmount)}</p>
-          <p>অবস্থা: <strong>${escapeHTML(sal.status)}</strong></p>
-          <button type="button" class="del" style="background:#d9534f; color:white; border:none; padding:5px 10px; cursor:pointer; border-radius:4px;">Delete</button>
-        `;
-        card.querySelector(".del").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "teacher_salary_records", sal.id)); loadSalaries(); } };
+        card.innerHTML = `<h3>${escapeHTML(sal.teacherName)} (${escapeHTML(sal.month)})</h3><p>মোট: ৳${escapeHTML(sal.totalSalary)} | প্রদেয়: ৳${escapeHTML(sal.paidAmount)} | বকেয়া: ৳${escapeHTML(sal.dueAmount)}</p><button type="button" class="edit-btn">Edit</button><button type="button" class="del-btn">Delete</button>`;
+        card.querySelector(".edit-btn").onclick = () => {
+          document.getElementById("salaryRecordId").value = sal.id;
+          document.getElementById("salTeacherName").value = sal.teacherName || "";
+          document.getElementById("salMonth").value = sal.month || "";
+          document.getElementById("totalSalary").value = sal.totalSalary || "";
+          document.getElementById("paidAmount").value = sal.paidAmount || "";
+          document.getElementById("dueAmount").value = sal.dueAmount || "";
+          document.getElementById("salStatus").value = sal.status || "";
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+        card.querySelector(".del-btn").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "teacher_salary_records", sal.id)); loadSalaries(); } };
         salaryList.appendChild(card);
       });
     }
@@ -920,7 +1043,6 @@
       showSalaries(allSalaries.filter(sal => String(sal.teacherName || "").toLowerCase().includes(txt)));
     });
 
-    // কর্মচারী লোড
     let allStaff = [];
     async function loadStaff() {
       const snap = await getDocs(staffCollection);
@@ -934,8 +1056,15 @@
       staffs.forEach(st => {
         const card = document.createElement("div");
         card.className = "card";
-        card.innerHTML = `<h3>${escapeHTML(st.staffName)}</h3><p>পদবী: ${escapeHTML(st.staffRole)} | মোবাইল: ${escapeHTML(st.staffMobile)}</p><button type="button" class="del" style="background:#d9534f; color:white; border:none; padding:5px 10px; cursor:pointer;">Delete</button>`;
-        card.querySelector(".del").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "staff_records", st.id)); loadStaff(); } };
+        card.innerHTML = `<h3>${escapeHTML(st.staffName)}</h3><p>পদবী: ${escapeHTML(st.staffRole)} | মোবাইল: ${escapeHTML(st.staffMobile)}</p><button type="button" class="edit-btn">Edit</button><button type="button" class="del-btn">Delete</button>`;
+        card.querySelector(".edit-btn").onclick = () => {
+          document.getElementById("staffRecordId").value = st.id;
+          document.getElementById("staffName").value = st.staffName || "";
+          document.getElementById("staffRole").value = st.staffRole || "";
+          document.getElementById("staffMobile").value = st.staffMobile || "";
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+        card.querySelector(".del-btn").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "staff_records", st.id)); loadStaff(); } };
         staffList.appendChild(card);
       });
     }
@@ -944,7 +1073,6 @@
       showStaff(allStaff.filter(st => String(st.staffName || "").toLowerCase().includes(txt)));
     });
 
-    // কর্মচারী বেতন লোড
     let allStaffSalaries = [];
     async function loadStaffSalaries() {
       const snap = await getDocs(staffSalaryCollection);
@@ -958,15 +1086,18 @@
       salaries.forEach(sal => {
         const card = document.createElement("div");
         card.className = "card";
-        card.style.border = "1px solid #ddd";
-        card.style.marginBottom = "10px";
-        card.innerHTML = `
-          <h3>কর্মচারী: ${escapeHTML(sal.staffName)} (${escapeHTML(sal.month)})</h3>
-          <p>মোট বেতন: ৳${escapeHTML(sal.totalSalary)} | প্রদেয় (Paid): ৳${escapeHTML(sal.paidAmount)} | বকেয়া (Due): ৳${escapeHTML(sal.dueAmount)}</p>
-          <p>অবস্থা: <strong>${escapeHTML(sal.status)}</strong></p>
-          <button type="button" class="del" style="background:#d9534f; color:white; border:none; padding:5px 10px; cursor:pointer; border-radius:4px;">Delete</button>
-        `;
-        card.querySelector(".del").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "staff_salary_records", sal.id)); loadStaffSalaries(); } };
+        card.innerHTML = `<h3>${escapeHTML(sal.staffName)} (${escapeHTML(sal.month)})</h3><p>মোট: ৳${escapeHTML(sal.totalSalary)} | প্রদেয়: ৳${escapeHTML(sal.paidAmount)} | বকেয়া: ৳${escapeHTML(sal.dueAmount)}</p><button type="button" class="edit-btn">Edit</button><button type="button" class="del-btn">Delete</button>`;
+        card.querySelector(".edit-btn").onclick = () => {
+          document.getElementById("staffSalRecordId").value = sal.id;
+          document.getElementById("sSalStaffName").value = sal.staffName || "";
+          document.getElementById("sSalMonth").value = sal.month || "";
+          document.getElementById("sSalTotal").value = sal.totalSalary || "";
+          document.getElementById("sSalPaid").value = sal.paidAmount || "";
+          document.getElementById("sSalDue").value = sal.dueAmount || "";
+          document.getElementById("sSalStatus").value = sal.status || "";
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+        card.querySelector(".del-btn").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "staff_salary_records", sal.id)); loadStaffSalaries(); } };
         staffSalList.appendChild(card);
       });
     }
@@ -988,10 +1119,16 @@
       guardians.forEach(g => {
         const card = document.createElement("div");
         card.className = "card";
-        card.style.border = "1px solid #ddd";
-        card.style.marginBottom = "10px";
-        card.innerHTML = `<h3>${escapeHTML(g.guardianName)}</h3><p>শিক্ষার্থী: ${escapeHTML(g.wardName)} (${escapeHTML(g.relation)})</p><p>মোবাইল: ${escapeHTML(g.mobile)}</p><button type="button" class="del" style="background:#d9534f; color:white; border:none; padding:5px 10px; cursor:pointer; border-radius:4px;">Delete</button>`;
-        card.querySelector(".del").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "guardian_records", g.id)); loadGuardians(); } };
+        card.innerHTML = `<h3>${escapeHTML(g.guardianName)}</h3><p>শিক্ষার্থী: ${escapeHTML(g.wardName)} (${escapeHTML(g.relation)})</p><button type="button" class="edit-btn">Edit</button><button type="button" class="del-btn">Delete</button>`;
+        card.querySelector(".edit-btn").onclick = () => {
+          document.getElementById("guardianRecordId").value = g.id;
+          document.getElementById("guardianName").value = g.guardianName || "";
+          document.getElementById("wardName").value = g.wardName || "";
+          document.getElementById("relation").value = g.relation || "";
+          document.getElementById("guardianMobile").value = g.mobile || "";
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+        card.querySelector(".del-btn").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "guardian_records", g.id)); loadGuardians(); } };
         guardianList.appendChild(card);
       });
     }
@@ -1013,10 +1150,15 @@
       att.forEach(a => {
         const card = document.createElement("div");
         card.className = "card";
-        card.style.border = "1px solid #ddd";
-        card.style.marginBottom = "10px";
-        card.innerHTML = `<h3>তারিখ: ${escapeHTML(a.attDate)}</h3><p>শিক্ষার্থী: ${escapeHTML(a.studentName)}</p><p>অবস্থা: <strong>${escapeHTML(a.status)}</strong></p><button type="button" class="del" style="background:#d9534f; color:white; border:none; padding:5px 10px; cursor:pointer; border-radius:4px;">Delete</button>`;
-        card.querySelector(".del").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "attendance_records", a.id)); loadAttendance(); } };
+        card.innerHTML = `<h3>তারিখ: ${escapeHTML(a.attDate)}</h3><p>শিক্ষার্থী: ${escapeHTML(a.studentName)} | অবস্থা: <strong>${escapeHTML(a.status)}</strong></p><button type="button" class="edit-btn">Edit</button><button type="button" class="del-btn">Delete</button>`;
+        card.querySelector(".edit-btn").onclick = () => {
+          document.getElementById("attRecordId").value = a.id;
+          document.getElementById("attDate").value = a.attDate || "";
+          document.getElementById("attStudentName").value = a.studentName || "";
+          document.getElementById("attStatus").value = a.status || "";
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+        card.querySelector(".del-btn").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "attendance_records", a.id)); loadAttendance(); } };
         attendanceList.appendChild(card);
       });
     }
@@ -1038,8 +1180,14 @@
       notices.forEach(n => {
         const card = document.createElement("div");
         card.className = "card";
-        card.innerHTML = `<h3>${escapeHTML(n.subjectName)}</h3><p>ফাইল: ${escapeHTML(n.fileName)}</p><button type="button" class="del" style="background:#d9534f; color:white; border:none; padding:5px 10px; cursor:pointer;">Delete</button>`;
-        card.querySelector(".del").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "notice_records", n.id)); loadNotices(); } };
+        card.innerHTML = `<h3>${escapeHTML(n.subjectName)}</h3><p>ফাইল: ${escapeHTML(n.fileName)}</p><button type="button" class="edit-btn">Edit</button><button type="button" class="del-btn">Delete</button>`;
+        card.querySelector(".edit-btn").onclick = () => {
+          document.getElementById("noticeRecordId").value = n.id;
+          document.getElementById("noticeTitle").value = n.subjectName || "";
+          document.getElementById("noticeDescription").value = n.description || "";
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+        card.querySelector(".del-btn").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "notice_records", n.id)); loadNotices(); } };
         noticeList.appendChild(card);
       });
     }
@@ -1061,8 +1209,17 @@
       results.forEach(r => {
         const card = document.createElement("div");
         card.className = "card";
-        card.innerHTML = `<h3>পরীক্ষা: ${escapeHTML(r.examName)}</h3><p>শিক্ষার্থী: ${escapeHTML(r.studentName)} (রোল: ${escapeHTML(r.roll)})</p><p>নম্বর: ${escapeHTML(r.subjectMarks)}</p><p>গ্রেড: ${escapeHTML(r.totalGpa)}</p><button type="button" class="del" style="background:#d9534f; color:white; border:none; padding:5px 10px; cursor:pointer;">Delete</button>`;
-        card.querySelector(".del").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "result_records", r.id)); loadResults(); } };
+        card.innerHTML = `<h3>পরীক্ষা: ${escapeHTML(r.examName)}</h3><p>শিক্ষার্থী: ${escapeHTML(r.studentName)} (রোল: ${escapeHTML(r.roll)}) | গ্রেড: ${escapeHTML(r.totalGpa)}</p><button type="button" class="edit-btn">Edit</button><button type="button" class="del-btn">Delete</button>`;
+        card.querySelector(".edit-btn").onclick = () => {
+          document.getElementById("resultRecordId").value = r.id;
+          document.getElementById("examName").value = r.examName || "";
+          document.getElementById("resStudentName").value = r.studentName || "";
+          document.getElementById("resRoll").value = r.roll || "";
+          document.getElementById("subjectMarks").value = r.subjectMarks || "";
+          document.getElementById("totalGpa").value = r.totalGpa || "";
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+        card.querySelector(".del-btn").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "result_records", r.id)); loadResults(); } };
         resultList.appendChild(card);
       });
     }
@@ -1088,10 +1245,21 @@
           <h3>${escapeHTML(c.certType)}</h3>
           <p>শিক্ষার্থী: ${escapeHTML(c.studentName)} | পিতা: ${escapeHTML(c.fatherName)}</p>
           <button type="button" class="print" style="background:#04471c; color:white; border:none; padding:6px 12px; cursor:pointer; margin-right:5px; border-radius:4px;">🖨️ প্রিন্ট করুন</button>
-          <button type="button" class="del" style="background:#d9534f; color:white; border:none; padding:6px 12px; cursor:pointer; border-radius:4px;">Delete</button>
+          <button type="button" class="edit-btn">Edit</button>
+          <button type="button" class="del-btn">Delete</button>
         `;
         card.querySelector(".print").onclick = () => printCertificate(c);
-        card.querySelector(".del").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "certificate_records", c.id)); loadCertificates(); } };
+        card.querySelector(".edit-btn").onclick = () => {
+          document.getElementById("certRecordId").value = c.id;
+          document.getElementById("certType").value = c.certType || "";
+          document.getElementById("certStudentName").value = c.studentName || "";
+          document.getElementById("certFatherName").value = c.fatherName || "";
+          document.getElementById("certClass").value = c.certClass || "";
+          document.getElementById("certRoll").value = c.roll || "";
+          document.getElementById("certReason").value = c.reason || "";
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+        card.querySelector(".del-btn").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "certificate_records", c.id)); loadCertificates(); } };
         certList.appendChild(card);
       });
     }
