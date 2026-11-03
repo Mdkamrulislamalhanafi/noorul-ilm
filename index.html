@@ -5,11 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Noorul Ilm - Admin Panel</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    @media print {
+      body * { visibility: hidden; }
+      #printableArea, #printableArea * { visibility: visible; }
+      #printableArea { position: absolute; left: 0; top: 0; width: 100%; padding: 20px; background: white; }
+      .no-print { display: none !important; }
+    }
+  </style>
 </head>
 
 <body>
 
-  <header>
+  <header class="no-print">
     <h1>نور العلم</h1>
     <h2>Noorul Ilm Admin Panel</h2>
     <p>School &amp; Madrasa Management System</p>
@@ -17,9 +25,8 @@
 
   <main class="container">
 
-    <!-- Dashboard: লগইন ছাড়াই দেখা যাবে -->
-    <section id="dashboard">
-      <!-- Noorul Illm Circular Logo -->
+    <!-- Dashboard -->
+    <section id="dashboard" class="no-print">
       <div class="noor-logo">
         <div class="logo-border">
           <div class="logo-arabic">نور العلم</div>
@@ -41,19 +48,16 @@
         </div>
       </div>
 
-      <!-- Bengali Quote -->
       <div class="noor-quote">
         হে মানুষ, জ্ঞান আল্লাহর দান
       </div>
 
-      <!-- Admin Login Button -->
       <div class="admin-login-feature">
         <button type="button" onclick="document.getElementById('adminLogin').scrollIntoView({behavior:'smooth'})">
           🔐 Admin Login
         </button>
       </div>
 
-      <!-- Dashboard Features -->
       <div class="dashboard-features">
         <div class="card">
           <div class="feature-icon">👨‍🎓</div>
@@ -66,51 +70,49 @@
           <p id="teacherCount">0</p>
         </div>
         <div class="card">
+          <div class="feature-icon">👪</div>
+          <h3>Guardians</h3>
+          <p id="guardianCount">0</p>
+        </div>
+        <div class="card">
           <div class="feature-icon">📅</div>
           <h3>Attendance</h3>
-          <p>0%</p>
+          <p id="attendanceCount">0</p>
+        </div>
+        <div class="card">
+          <div class="feature-icon">📜</div>
+          <h3>Certificates</h3>
+          <p id="certCount">0</p>
         </div>
         <div class="card">
           <div class="feature-icon">📊</div>
           <h3>Exam Results</h3>
+          <p id="resultCount">0</p>
         </div>
         <div class="card">
           <div class="feature-icon">🔔</div>
           <h3>Notices</h3>
           <p id="noticeCount">0</p>
         </div>
-        <div class="card">
-          <div class="feature-icon">📝</div>
-          <h3>Online Admission</h3>
-        </div>
       </div>
     </section>
 
     <!-- Admin Login -->
-    <section id="adminLogin" class="card">
+    <section id="adminLogin" class="card no-print">
       <h2>Admin Login</h2>
-
       <form id="loginForm">
         <label for="adminEmail">ইমেইল</label>
         <input type="email" id="adminEmail" placeholder="Admin Email" required>
-
         <label for="adminPassword">পাসওয়ার্ড</label>
         <input type="password" id="adminPassword" placeholder="Password" required>
-
         <button type="submit" id="loginBtn">Login</button>
       </form>
-
-      <p>
-        <button type="button" id="forgotPassword">
-          পাসওয়ার্ড ভুলে গেছেন?
-        </button>
-      </p>
-
+      <p><button type="button" id="forgotPassword">পাসওয়ার্ড ভুলে গেছেন?</button></p>
       <p id="loginMessage"></p>
     </section>
 
-    <!-- Admin Only: শিক্ষার্থী, শিক্ষক ও নোটিশ ব্যবস্থাপনা -->
-    <section id="adminPanel" hidden>
+    <!-- Admin Panel -->
+    <section id="adminPanel" class="no-print" hidden>
 
       <div class="card">
         <h2>Admin Dashboard</h2>
@@ -121,26 +123,19 @@
       <!-- Admission Form -->
       <div class="card">
         <h2>শিক্ষার্থী ভর্তি ফরম</h2>
-
         <form id="admissionForm">
           <label for="studentName">শিক্ষার্থীর নাম</label>
           <input type="text" id="studentName" required>
-
           <label for="fatherName">পিতার নাম</label>
           <input type="text" id="fatherName" required>
-
           <label for="motherName">মাতার নাম</label>
           <input type="text" id="motherName" required>
-
           <label for="dateOfBirth">জন্মতারিখ</label>
           <input type="date" id="dateOfBirth" required>
-
           <label for="mobile">মোবাইল নম্বর</label>
           <input type="tel" id="mobile" required>
-
           <label for="rollNumber">রোল নম্বর</label>
           <input type="text" id="rollNumber" required>
-
           <label for="department">বিভাগ নির্বাচন</label>
           <select id="department" required>
             <option value="">বিভাগ নির্বাচন করুন</option>
@@ -148,99 +143,177 @@
             <option value="dakhil">দাখিল মাদরাসা</option>
             <option value="kg">কেজি স্কুল</option>
           </select>
-
           <label for="className">শ্রেণি নির্বাচন</label>
           <select id="className" required>
             <option value="">আগে বিভাগ নির্বাচন করুন</option>
           </select>
-
-          <button type="submit" id="saveStudentBtn">
-            ভর্তি ফরম জমা দিন
-          </button>
+          <button type="submit" id="saveStudentBtn">ভর্তি ফরম জমা দিন</button>
         </form>
-
         <p id="admissionMessage"></p>
       </div>
 
-      <!-- Student List -->
       <div class="card">
         <h2>শিক্ষার্থীর তালিকা</h2>
         <input type="search" id="studentSearch" placeholder="শিক্ষার্থীর নাম দিয়ে খুঁজুন">
-        <div id="studentList">
-          শিক্ষার্থীর তথ্য লোড হচ্ছে...
-        </div>
+        <div id="studentList">শিক্ষার্থীর তথ্য লোড হচ্ছে...</div>
       </div>
 
-      <!-- Teacher Addition Form -->
+      <!-- Teacher Form & List -->
       <div class="card">
         <h2>নতুন শিক্ষক যুক্ত করুন</h2>
-
         <form id="teacherForm">
           <label for="teacherName">শিক্ষকের নাম</label>
           <input type="text" id="teacherName" required>
-
           <label for="teacherDesignation">পদবী</label>
           <input type="text" id="teacherDesignation" placeholder="যেমন: সহকারী শিক্ষক" required>
-
           <label for="teacherSubject">বিষয়</label>
           <input type="text" id="teacherSubject" required>
-
           <label for="teacherMobile">মোবাইল নম্বর</label>
           <input type="tel" id="teacherMobile" required>
-
-          <button type="submit" id="saveTeacherBtn">
-            শিক্ষক সংরক্ষণ করুন
-          </button>
+          <button type="submit" id="saveTeacherBtn">শিক্ষক সংরক্ষণ করুন</button>
         </form>
-
         <p id="teacherMessage"></p>
       </div>
 
-      <!-- Teacher List -->
       <div class="card">
         <h2>শিক্ষকদের রেকর্ড তালিকা</h2>
         <input type="search" id="teacherSearch" placeholder="শিক্ষকের নাম দিয়ে খুঁজুন">
-        <div id="teacherList">
-          শিক্ষকদের তথ্য লোড হচ্ছে...
-        </div>
+        <div id="teacherList">শিক্ষকদের তথ্য লোড হচ্ছে...</div>
       </div>
 
-      <!-- Notice & File Management Form -->
+      <!-- Guardian Form & List -->
+      <div class="card">
+        <h2>👪 অভিভাবক (Guardian) তথ্য যুক্ত করুন</h2>
+        <form id="guardianForm">
+          <label for="guardianName">অভিভাবকের নাম</label>
+          <input type="text" id="guardianName" placeholder="অভিভাবকের পূর্ণ নাম" required>
+          <label for="wardName">শিক্ষার্থীর নাম</label>
+          <input type="text" id="wardName" placeholder="শিক্ষার্থীর নাম" required>
+          <label for="relation">সম্পর্ক</label>
+          <input type="text" id="relation" placeholder="যেমন: পিতা / মাতা / অভিভাবক" required>
+          <label for="guardianMobile">মোবাইল নম্বর</label>
+          <input type="tel" id="guardianMobile" placeholder="মোবাইল নম্বর" required>
+          <button type="submit" id="saveGuardianBtn">অভিভাবক সংরক্ষণ করুন</button>
+        </form>
+        <p id="guardianMessage"></p>
+      </div>
+
+      <div class="card">
+        <h2>👪 অভিভাবকগণের তালিকা</h2>
+        <input type="search" id="guardianSearch" placeholder="অভিভাবকের নাম দিয়ে খুঁজুন">
+        <div id="guardianList" style="margin-top: 15px;">অভিভাবকদের তথ্য লোড হচ্ছে...</div>
+      </div>
+
+      <!-- Attendance Form & List -->
+      <div class="card">
+        <h2>📅 দৈনিক হাজিরা (Attendance) এন্ট্রি</h2>
+        <form id="attendanceForm">
+          <label for="attDate">তারিখ</label>
+          <input type="date" id="attDate" required>
+          <label for="attStudentName">শিক্ষার্থীর নাম ও রোল</label>
+          <input type="text" id="attStudentName" placeholder="শিক্ষার্থীর নাম ও রোল" required>
+          <label for="attStatus">উপস্থিতির অবস্থা</label>
+          <select id="attStatus" required>
+            <option value="উপস্থিত (Present)">উপস্থিত (Present)</option>
+            <option value="অনুপস্থিত (Absent)">অনুপস্থিত (Absent)</option>
+            <option value="ছুটি (Leave)">ছুটি (Leave)</option>
+          </select>
+          <button type="submit" id="saveAttendanceBtn">হাজিরা সংরক্ষণ করুন</button>
+        </form>
+        <p id="attendanceMessage"></p>
+      </div>
+
+      <div class="card">
+        <h2>📅 হাজিরার তালিকা</h2>
+        <input type="search" id="attendanceSearch" placeholder="নাম দিয়ে হাজিরা খুঁজুন">
+        <div id="attendanceList" style="margin-top: 15px;">হাজিরার তথ্য লোড হচ্ছে...</div>
+      </div>
+
+      <!-- Notice Form & List -->
       <div class="card">
         <h2>📢 নোটিশ বোর্ড ও ফাইল যুক্ত করুন</h2>
-
         <form id="noticeForm">
-          <label for="noticeTitle">নোটিশের শিরোনাম / বিষয়ের নাম (Subject Name)</label>
-          <input type="text" id="noticeTitle" placeholder="যেমন: বার্ষিক পরীক্ষার রুটিন বা নতুন বিষয়ের নোটিশ" required>
-
-          <label for="noticeFile">ফাইল বা ডকুমেন্ট আপলোড (PDF / Image)</label>
+          <label for="noticeTitle">নোটিশের শিরোনাম / বিষয়ের নাম</label>
+          <input type="text" id="noticeTitle" placeholder="যেমন: বার্ষিক পরীক্ষার রুটিন" required>
+          <label for="noticeFile">ফাইল বা ডকুমেন্ট (PDF / Image)</label>
           <input type="file" id="noticeFile" accept=".pdf, .jpg, .jpeg, .png" required>
-
           <label for="noticeDescription">বিস্তারিত বিবরণ (ঐচ্ছিক)</label>
-          <textarea id="noticeDescription" placeholder="নোটিশ বা বিষয়ের বিস্তারিত বিবরণ এখানে লিখুন..." rows="3" style="width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"></textarea>
-
-          <button type="submit" id="saveNoticeBtn">
-            নোটিশ ও ফাইল সংরক্ষণ করুন
-          </button>
+          <textarea id="noticeDescription" rows="3" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" placeholder="বিবরণ লিখুন..."></textarea>
+          <button type="submit" id="saveNoticeBtn">নোটিশ ও ফাইল সংরক্ষণ করুন</button>
         </form>
-
         <p id="noticeMessage"></p>
       </div>
 
-      <!-- Notice List -->
       <div class="card">
         <h2>📋 নোটিশ ও ফাইলের তালিকা</h2>
-        <input type="search" id="noticeSearch" placeholder="নোটিশ বা বিষয়ের নাম দিয়ে খুঁজুন">
-        <div id="noticeList" style="margin-top: 15px;">
-          নোটিশের তথ্য লোড হচ্ছে...
-        </div>
+        <input type="search" id="noticeSearch" placeholder="নোটিশ খুঁজুন">
+        <div id="noticeList" style="margin-top: 15px;">নোটিশের তথ্য লোড হচ্ছে...</div>
+      </div>
+
+      <!-- Exam Result Form & List -->
+      <div class="card">
+        <h2>📊 পরীক্ষার ফলাফল ও বিষয়ভিত্তিক নম্বর</h2>
+        <form id="resultForm">
+          <label for="examName">পরীক্ষার নাম</label>
+          <input type="text" id="examName" placeholder="যেমন: অর্ধ-বার্ষিক পরীক্ষা ২০২৬" required>
+          <label for="resStudentName">শিক্ষার্থীর নাম</label>
+          <input type="text" id="resStudentName" placeholder="শিক্ষার্থীর নাম" required>
+          <label for="resRoll">রোল নম্বর</label>
+          <input type="text" id="resRoll" placeholder="রোল নম্বর" required>
+          <label for="subjectMarks">বিষয়ভিত্তিক নম্বর</label>
+          <textarea id="subjectMarks" rows="3" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" placeholder="যেমন: কোরআন: ৮০, গণিত: ৭৫" required></textarea>
+          <label for="totalGpa">গ্রেড / জিপিএ</label>
+          <input type="text" id="totalGpa" placeholder="যেমন: A+ (GPA: 5.00)" required>
+          <button type="submit" id="saveResultBtn">ফলাফল সংরক্ষণ করুন</button>
+        </form>
+        <p id="resultMessage"></p>
+      </div>
+
+      <div class="card">
+        <h2>📑 পরীক্ষার ফলাফল তালিকা</h2>
+        <input type="search" id="resultSearch" placeholder="ফলাফল খুঁজুন">
+        <div id="resultList" style="margin-top: 15px;">ফলাফলের তথ্য লোড হচ্ছে...</div>
+      </div>
+
+      <!-- Testimonial & TC Form -->
+      <div class="card">
+        <h2>📜 প্রশংসাপত্র ও ছাড়পত্র (Testimonial & TC) তৈরি ফরম</h2>
+        <form id="certForm">
+          <label for="certType">সনদের ধরণ নির্বাচন করুন</label>
+          <select id="certType" required>
+            <option value="">ধরণ নির্বাচন করুন</option>
+            <option value="প্রশংসাপত্র (Testimonial)">প্রশংসাপত্র (Testimonial)</option>
+            <option value="ছাড়পত্র (Transfer Certificate - TC)">ছাড়পত্র (Transfer Certificate - TC)</option>
+          </select>
+          <label for="certStudentName">শিক্ষার্থীর নাম</label>
+          <input type="text" id="certStudentName" placeholder="শিক্ষার্থীর পূর্ণ নাম" required>
+          <label for="certFatherName">পিতার নাম</label>
+          <input type="text" id="certFatherName" placeholder="পিতার নাম" required>
+          <label for="certClass">শ্রেণি ও বিভাগ</label>
+          <input type="text" id="certClass" placeholder="যেমন: হিফজ বিভাগ / ১০ম শ্রেণি" required>
+          <label for="certRoll">রোল / আইডি</label>
+          <input type="text" id="certRoll" placeholder="রোল নম্বর" required>
+          <label for="certReason">মূল বক্তব্য / ছাড়পত্রের কারণ (ঐচ্ছিক)</label>
+          <textarea id="certReason" rows="3" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" placeholder="ছাত্র/ছাত্রীর ভালো ফলাফল বা অন্যত্র স্থানান্তরের কারণ লিখুন..."></textarea>
+          <button type="submit" id="saveCertBtn">সনদ সংরক্ষণ করুন</button>
+        </form>
+        <p id="certMessage"></p>
+      </div>
+
+      <div class="card">
+        <h2>🖨️ সংরক্ষিত সনদ ও প্রিন্ট সিস্টেম</h2>
+        <input type="search" id="certSearch" placeholder="নাম দিয়ে সনদ খুঁজুন">
+        <div id="certList" style="margin-top: 15px;">সনদের তথ্য লোড হচ্ছে...</div>
       </div>
 
     </section>
 
+    <!-- Print Area -->
+    <div id="printableArea" style="display: none;"></div>
+
   </main>
 
-  <!-- Single & Clean JavaScript Module -->
+  <!-- JavaScript Module -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { 
@@ -256,12 +329,10 @@
         addDoc, 
         getDocs, 
         doc, 
-        updateDoc, 
         deleteDoc, 
         serverTimestamp 
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // Firebase Configuration
     const firebaseConfig = {
       apiKey: "AIzaSyAzuZfOdDjztQvgEbtDoO-DQJO_1Hqnsf4",
       authDomain: "noorul-ilm-management.firebaseapp.com",
@@ -274,22 +345,22 @@
 
     const ADMIN_UID = "nKQFbXGR4jMGARMcZNwhrOEggvo1";
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
     const studentCollection = collection(db, "student_records");
     const teacherCollection = collection(db, "teacher_records");
+    const guardianCollection = collection(db, "guardian_records");
+    const attendanceCollection = collection(db, "attendance_records");
     const noticeCollection = collection(db, "notice_records");
-    console.log("Firebase initialized successfully!", app);
+    const resultCollection = collection(db, "result_records");
+    const certCollection = collection(db, "certificate_records");
 
-    // HTML Elements
     const adminLogin = document.getElementById("adminLogin");
     const adminPanel = document.getElementById("adminPanel");
     const loginForm = document.getElementById("loginForm");
     const loginMessage = document.getElementById("loginMessage");
 
-    // Student Elements
     const admissionForm = document.getElementById("admissionForm");
     const admissionMessage = document.getElementById("admissionMessage");
     const department = document.getElementById("department");
@@ -298,42 +369,53 @@
     const studentSearch = document.getElementById("studentSearch");
     const studentCount = document.getElementById("studentCount");
 
-    // Teacher Elements
     const teacherForm = document.getElementById("teacherForm");
     const teacherMessage = document.getElementById("teacherMessage");
     const teacherList = document.getElementById("teacherList");
     const teacherSearch = document.getElementById("teacherSearch");
     const teacherCount = document.getElementById("teacherCount");
 
-    // Notice Elements
+    const guardianForm = document.getElementById("guardianForm");
+    const guardianMessage = document.getElementById("guardianMessage");
+    const guardianList = document.getElementById("guardianList");
+    const guardianSearch = document.getElementById("guardianSearch");
+    const guardianCount = document.getElementById("guardianCount");
+
+    const attendanceForm = document.getElementById("attendanceForm");
+    const attendanceMessage = document.getElementById("attendanceMessage");
+    const attendanceList = document.getElementById("attendanceList");
+    const attendanceSearch = document.getElementById("attendanceSearch");
+    const attendanceCount = document.getElementById("attendanceCount");
+
     const noticeForm = document.getElementById("noticeForm");
     const noticeMessage = document.getElementById("noticeMessage");
     const noticeList = document.getElementById("noticeList");
     const noticeSearch = document.getElementById("noticeSearch");
     const noticeCount = document.getElementById("noticeCount");
 
-    // বিভাগ অনুযায়ী শ্রেণি
+    const resultForm = document.getElementById("resultForm");
+    const resultMessage = document.getElementById("resultMessage");
+    const resultList = document.getElementById("resultList");
+    const resultSearch = document.getElementById("resultSearch");
+    const resultCount = document.getElementById("resultCount");
+
+    const certForm = document.getElementById("certForm");
+    const certMessage = document.getElementById("certMessage");
+    const certList = document.getElementById("certList");
+    const certSearch = document.getElementById("certSearch");
+    const certCount = document.getElementById("certCount");
+
+    const printableArea = document.getElementById("printableArea");
+
     const classes = {
       hifz: ["নূরানী", "নাজেরা", "হিফজ", "কিতাব"],
-      dakhil: [
-        "১ম শ্রেণি", "২য় শ্রেণি", "৩য় শ্রেণি",
-        "৪র্থ শ্রেণি", "৫ম শ্রেণি", "৬ষ্ঠ শ্রেণি",
-        "৭ম শ্রেণি", "৮ম শ্রেণি", "৯ম শ্রেণি",
-        "১০ম শ্রেণি"
-      ],
-      kg: [
-        "শিশু শ্রেণি", "১ম শ্রেণি", "২য় শ্রেণি",
-        "৩য় শ্রেণি", "৪র্থ শ্রেণি", "৫ম শ্রেণি",
-        "৬ষ্ঠ শ্রেণি", "৭ম শ্রেণি", "৮ম শ্রেণি",
-        "৯ম শ্রেণি", "১০ম শ্রেণি"
-      ]
+      dakhil: ["১ম শ্রেণি", "২য় শ্রেণি", "৩য় শ্রেণি", "৪র্থ শ্রেণি", "৫ম শ্রেণি", "৬ষ্ঠ শ্রেণি", "৭ম শ্রেণি", "৮ম শ্রেণি", "৯ম শ্রেণি", "১০ম শ্রেণি"],
+      kg: ["শিশু শ্রেণি", "১ম শ্রেণি", "২য় শ্রেণি", "৩য় শ্রেণি", "৪র্থ শ্রেণি", "৫ম শ্রেণি", "৬ষ্ঠ শ্রেণি", "৭ম শ্রেণি", "৮ম শ্রেণি", "৯ম শ্রেণি", "১০ম শ্রেণি"]
     };
 
-    // বিভাগ পরিবর্তন হলে শ্রেণি দেখাবে
     department.addEventListener("change", function () {
       className.innerHTML = '<option value="">শ্রেণি নির্বাচন করুন</option>';
-      const selectedClasses = classes[department.value] || [];
-      selectedClasses.forEach(function (item) {
+      (classes[department.value] || []).forEach(item => {
         const option = document.createElement("option");
         option.value = item;
         option.textContent = item;
@@ -341,88 +423,63 @@
       });
     });
 
-    // Login
-    loginForm.addEventListener("submit", async function (event) {
-      event.preventDefault();
+    loginForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
       const email = document.getElementById("adminEmail").value.trim();
       const password = document.getElementById("adminPassword").value;
       const loginBtn = document.getElementById("loginBtn");
-
       loginBtn.disabled = true;
       loginBtn.textContent = "লগইন হচ্ছে...";
-      loginMessage.textContent = "";
-
       try {
         const result = await signInWithEmailAndPassword(auth, email, password);
         if (result.user.uid !== ADMIN_UID) {
           await signOut(auth);
           loginMessage.textContent = "এই অ্যাকাউন্টের Admin অনুমতি নেই।";
         }
-      } catch (error) {
-        console.error(error);
-        loginMessage.textContent = "লগইন হয়নি। ইমেইল ও পাসওয়ার্ড পরীক্ষা করুন। (" + error.code + ")";
+      } catch (err) {
+        loginMessage.textContent = "লগইন হয়নি। ইমেইল ও পাসওয়ার্ড পরীক্ষা করুন।";
       } finally {
         loginBtn.disabled = false;
         loginBtn.textContent = "Login";
       }
     });
 
-    // Password Reset
-    document.getElementById("forgotPassword").addEventListener("click", async function () {
+    document.getElementById("forgotPassword").addEventListener("click", async () => {
       const email = document.getElementById("adminEmail").value.trim();
-      if (!email) {
-        loginMessage.textContent = "প্রথমে আপনার Admin ইমেইল লিখুন।";
-        return;
-      }
+      if (!email) { loginMessage.textContent = "প্রথমে আপনার Admin ইমেইল লিখুন।"; return; }
       try {
         await sendPasswordResetEmail(auth, email);
-        loginMessage.textContent = "পাসওয়ার্ড পরিবর্তনের লিংক ইমেইলে পাঠানো হয়েছে।";
-      } catch (error) {
-        console.error(error);
-        loginMessage.textContent = "Reset করা যায়নি: " + error.code;
-      }
+        loginMessage.textContent = "পাসওয়ার্ড পরিবর্তনের লিংক পাঠানো হয়েছে।";
+      } catch (err) { loginMessage.textContent = "Reset করা যায়নি।"; }
     });
 
-    // Auth Status
-    onAuthStateChanged(auth, async function (user) {
+    onAuthStateChanged(auth, async (user) => {
       if (user && user.uid === ADMIN_UID) {
         adminLogin.hidden = true;
         adminPanel.hidden = false;
         await loadStudents();
         await loadTeachers();
+        await loadGuardians();
+        await loadAttendance();
         await loadNotices();
+        await loadResults();
+        await loadCertificates();
       } else {
         adminLogin.hidden = false;
         adminPanel.hidden = true;
-        studentCount.textContent = "Admin Login করলে দেখা যাবে";
-        teacherCount.textContent = "Admin Login করলে দেখা যাবে";
-        if (noticeCount) noticeCount.textContent = "Admin Login করলে দেখা যাবে";
-        if (user) {
-          await signOut(auth);
-        }
+        if (user) await signOut(auth);
       }
     });
 
-    // Logout
-    document.getElementById("logoutBtn").addEventListener("click", async function () {
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
       await signOut(auth);
       loginMessage.textContent = "আপনি Logout করেছেন।";
     });
 
-    // Admission Form Submit
-    admissionForm.addEventListener("submit", async function (event) {
-      event.preventDefault();
-      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
-        admissionMessage.textContent = "শুধুমাত্র Admin শিক্ষার্থী ভর্তি করতে পারবেন।";
-        return;
-      }
-
-      const saveButton = document.getElementById("saveStudentBtn");
-      saveButton.disabled = true;
-      saveButton.textContent = "সংরক্ষণ হচ্ছে...";
-      admissionMessage.textContent = "";
-
-      const studentData = {
+    // Form Submissions
+    admissionForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = {
         studentName: document.getElementById("studentName").value.trim(),
         fatherName: document.getElementById("fatherName").value.trim(),
         motherName: document.getElementById("motherName").value.trim(),
@@ -433,269 +490,305 @@
         className: className.value,
         createdAt: serverTimestamp()
       };
-
-      try {
-        await addDoc(studentCollection, studentData);
-        admissionMessage.textContent = "আলহামদুলিল্লাহ! শিক্ষার্থীর ভর্তি তথ্য সংরক্ষিত হয়েছে।";
-        admissionForm.reset();
-        className.innerHTML = '<option value="">আগে বিভাগ নির্বাচন করুন</option>';
-        await loadStudents();
-      } catch (error) {
-        console.error(error);
-        admissionMessage.textContent = "তথ্য সংরক্ষণ হয়নি। Firebase Rules পরীক্ষা করুন। (" + error.code + ")";
-      } finally {
-        saveButton.disabled = false;
-        saveButton.textContent = "ভর্তি ফরম জমা দিন";
-      }
+      await addDoc(studentCollection, data);
+      admissionMessage.textContent = "শিক্ষার্থীর তথ্য সংরক্ষিত হয়েছে।";
+      admissionForm.reset();
+      await loadStudents();
     });
 
-    // Teacher Form Submit
-    teacherForm.addEventListener("submit", async function (event) {
-      event.preventDefault();
-      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
-        teacherMessage.textContent = "শুধুমাত্র Admin শিক্ষক যুক্ত করতে পারবেন।";
-        return;
-      }
-
-      const saveTeacherBtn = document.getElementById("saveTeacherBtn");
-      saveTeacherBtn.disabled = true;
-      saveTeacherBtn.textContent = "সংরক্ষণ হচ্ছে...";
-      teacherMessage.textContent = "";
-
-      const teacherData = {
+    teacherForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = {
         teacherName: document.getElementById("teacherName").value.trim(),
         designation: document.getElementById("teacherDesignation").value.trim(),
         subject: document.getElementById("teacherSubject").value.trim(),
         mobile: document.getElementById("teacherMobile").value.trim(),
         createdAt: serverTimestamp()
       };
-
-      try {
-        await addDoc(teacherCollection, teacherData);
-        teacherMessage.textContent = "আলহামদুলিল্লাহ! শিক্ষকের তথ্য সংরক্ষিত হয়েছে।";
-        teacherForm.reset();
-        await loadTeachers();
-      } catch (error) {
-        console.error(error);
-        teacherMessage.textContent = "তথ্য সংরক্ষণ হয়নি। (" + error.code + ")";
-      } finally {
-        saveTeacherBtn.disabled = false;
-        saveTeacherBtn.textContent = "শিক্ষক সংরক্ষণ করুন";
-      }
+      await addDoc(teacherCollection, data);
+      teacherMessage.textContent = "শিক্ষকের তথ্য সংরক্ষিত হয়েছে।";
+      teacherForm.reset();
+      await loadTeachers();
     });
 
-    // Notice Form Submit
-    noticeForm.addEventListener("submit", async function (event) {
-      event.preventDefault();
-      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
-        noticeMessage.textContent = "শুধুমাত্র Admin নোটিশ ও ফাইল যুক্ত করতে পারবেন।";
-        return;
-      }
+    guardianForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = {
+        guardianName: document.getElementById("guardianName").value.trim(),
+        wardName: document.getElementById("wardName").value.trim(),
+        relation: document.getElementById("relation").value.trim(),
+        mobile: document.getElementById("guardianMobile").value.trim(),
+        createdAt: serverTimestamp()
+      };
+      await addDoc(guardianCollection, data);
+      guardianMessage.textContent = "অভিভাবকের তথ্য সংরক্ষিত হয়েছে।";
+      guardianForm.reset();
+      await loadGuardians();
+    });
 
-      const saveNoticeBtn = document.getElementById("saveNoticeBtn");
-      saveNoticeBtn.disabled = true;
-      saveNoticeBtn.textContent = "সংরক্ষণ হচ্ছে...";
-      noticeMessage.textContent = "";
+    attendanceForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = {
+        attDate: document.getElementById("attDate").value,
+        studentName: document.getElementById("attStudentName").value.trim(),
+        status: document.getElementById("attStatus").value,
+        createdAt: serverTimestamp()
+      };
+      await addDoc(attendanceCollection, data);
+      attendanceMessage.textContent = "হাজিরা সংরক্ষিত হয়েছে।";
+      attendanceForm.reset();
+      await loadAttendance();
+    });
 
+    noticeForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
       const fileInput = document.getElementById("noticeFile");
       const file = fileInput.files[0];
-
-      const noticeData = {
+      const data = {
         subjectName: document.getElementById("noticeTitle").value.trim(),
         description: document.getElementById("noticeDescription").value.trim(),
         fileName: file ? file.name : "ফাইল নেই",
         createdAt: serverTimestamp()
       };
-
-      try {
-        await addDoc(noticeCollection, noticeData);
-        noticeMessage.textContent = "আলহামদুলিল্লাহ! নোটিশ ও ফাইলের তথ্য সংরক্ষিত হয়েছে।";
-        noticeForm.reset();
-        await loadNotices();
-      } catch (error) {
-        console.error(error);
-        noticeMessage.textContent = "তথ্য সংরক্ষণ হয়নি। (" + error.code + ")";
-      } finally {
-        saveNoticeBtn.disabled = false;
-        saveNoticeBtn.textContent = "নোটিশ ও ফাইল সংরক্ষণ করুন";
-      }
+      await addDoc(noticeCollection, data);
+      noticeMessage.textContent = "নোটিশ সংরক্ষিত হয়েছে।";
+      noticeForm.reset();
+      await loadNotices();
     });
 
-    // HTML নিরাপদে দেখানোর জন্য
+    resultForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = {
+        examName: document.getElementById("examName").value.trim(),
+        studentName: document.getElementById("resStudentName").value.trim(),
+        roll: document.getElementById("resRoll").value.trim(),
+        subjectMarks: document.getElementById("subjectMarks").value.trim(),
+        totalGpa: document.getElementById("totalGpa").value.trim(),
+        createdAt: serverTimestamp()
+      };
+      await addDoc(resultCollection, data);
+      resultMessage.textContent = "ফলাফল সংরক্ষিত হয়েছে।";
+      resultForm.reset();
+      await loadResults();
+    });
+
+    certForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = {
+        certType: document.getElementById("certType").value,
+        studentName: document.getElementById("certStudentName").value.trim(),
+        fatherName: document.getElementById("certFatherName").value.trim(),
+        certClass: document.getElementById("certClass").value.trim(),
+        roll: document.getElementById("certRoll").value.trim(),
+        reason: document.getElementById("certReason").value.trim(),
+        createdAt: serverTimestamp()
+      };
+      await addDoc(certCollection, data);
+      certMessage.textContent = "সনদ সংরক্ষিত হয়েছে।";
+      certForm.reset();
+      await loadCertificates();
+    });
+
     function escapeHTML(value) {
       return String(value ?? "").replace(/[&<>"']/g, function (char) {
-        return {
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          '"': "&quot;",
-          "'": "&#39;"
-        }[char];
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char];
       });
     }
 
-    // Load Students
+    // Load Functions
     let allStudents = [];
     async function loadStudents() {
-      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) return;
-      studentList.textContent = "তথ্য লোড হচ্ছে...";
-      try {
-        const snapshot = await getDocs(studentCollection);
-        allStudents = snapshot.docs.map(item => ({ id: item.id, ...item.data() }));
-        studentCount.textContent = allStudents.length;
-        showStudents(allStudents);
-      } catch (error) {
-        console.error(error);
-        studentList.textContent = "শিক্ষার্থীর তথ্য লোড হয়নি।";
-      }
+      const snap = await getDocs(studentCollection);
+      allStudents = snap.docs.map(item => ({ id: item.id, ...item.data() }));
+      studentCount.textContent = allStudents.length;
+      showStudents(allStudents);
     }
-
     function showStudents(students) {
-      if (students.length === 0) {
-        studentList.textContent = "এখনো কোনো শিক্ষার্থীর তথ্য নেই।";
-        return;
-      }
+      if (students.length === 0) { studentList.textContent = "কোনো তথ্য নেই।"; return; }
       studentList.innerHTML = "";
-      students.forEach(student => {
+      students.forEach(s => {
         const card = document.createElement("div");
         card.className = "card";
-        card.innerHTML = `
-          <h3>${escapeHTML(student.studentName)}</h3>
-          <p>পিতার নাম: ${escapeHTML(student.fatherName)}</p>
-          <p>মাতার নাম: ${escapeHTML(student.motherName)}</p>
-          <p>জন্মতারিখ: ${escapeHTML(student.dateOfBirth)}</p>
-          <p>মোবাইল: ${escapeHTML(student.mobile)}</p>
-          <p>রোল: ${escapeHTML(student.roll ?? student.rollNumber ?? "")}</p>
-          <p>বিভাগ: ${escapeHTML(student.department)}</p>
-          <p>শ্রেণি: ${escapeHTML(student.className)}</p>
-          <button type="button" class="deleteStudent">Delete</button>
-        `;
-        card.querySelector(".deleteStudent").addEventListener("click", () => removeStudent(student.id));
+        card.innerHTML = `<h3>${escapeHTML(s.studentName)}</h3><p>পিতা: ${escapeHTML(s.fatherName)}</p><p>রোল: ${escapeHTML(s.roll)} | শ্রেণি: ${escapeHTML(s.className)}</p><button type="button" class="del" style="background:#d9534f; color:white; border:none; padding:5px 10px; cursor:pointer;">Delete</button>`;
+        card.querySelector(".del").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "student_records", s.id)); loadStudents(); } };
         studentList.appendChild(card);
       });
     }
-
-    studentSearch.addEventListener("input", function () {
-      const searchText = studentSearch.value.trim().toLowerCase();
-      const filtered = allStudents.filter(s => String(s.studentName || "").toLowerCase().includes(searchText));
-      showStudents(filtered);
+    studentSearch.addEventListener("input", (e) => {
+      const txt = e.target.value.toLowerCase();
+      showStudents(allStudents.filter(s => String(s.studentName || "").toLowerCase().includes(txt)));
     });
 
-    async function removeStudent(studentId) {
-      if (!confirm("শিক্ষার্থীর তথ্য মুছে ফেলতে চান?")) return;
-      try {
-        await deleteDoc(doc(db, "student_records", studentId));
-        await loadStudents();
-      } catch (error) {
-        alert("মুছে ফেলা যায়নি: " + error.code);
-      }
-    }
-
-    // Load Teachers
     let allTeachers = [];
     async function loadTeachers() {
-      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) return;
-      teacherList.textContent = "তথ্য লোড হচ্ছে...";
-      try {
-        const snapshot = await getDocs(teacherCollection);
-        allTeachers = snapshot.docs.map(item => ({ id: item.id, ...item.data() }));
-        teacherCount.textContent = allTeachers.length;
-        showTeachers(allTeachers);
-      } catch (error) {
-        console.error(error);
-        teacherList.textContent = "শিক্ষকদের তথ্য লোড হয়নি।";
-      }
+      const snap = await getDocs(teacherCollection);
+      allTeachers = snap.docs.map(item => ({ id: item.id, ...item.data() }));
+      teacherCount.textContent = allTeachers.length;
+      showTeachers(allTeachers);
     }
-
     function showTeachers(teachers) {
-      if (teachers.length === 0) {
-        teacherList.textContent = "এখনো কোনো শিক্ষকের তথ্য নেই।";
-        return;
-      }
+      if (teachers.length === 0) { teacherList.textContent = "কোনো তথ্য নেই।"; return; }
       teacherList.innerHTML = "";
-      teachers.forEach(teacher => {
+      teachers.forEach(t => {
         const card = document.createElement("div");
         card.className = "card";
-        card.innerHTML = `
-          <h3>${escapeHTML(teacher.teacherName)}</h3>
-          <p>পদবী: ${escapeHTML(teacher.designation)}</p>
-          <p>বিষয়: ${escapeHTML(teacher.subject)}</p>
-          <p>মোবাইল: ${escapeHTML(teacher.mobile)}</p>
-          <button type="button" class="deleteTeacher">Delete</button>
-        `;
-        card.querySelector(".deleteTeacher").addEventListener("click", () => removeTeacher(teacher.id));
+        card.innerHTML = `<h3>${escapeHTML(t.teacherName)}</h3><p>পদবী: ${escapeHTML(t.designation)} | বিষয়: ${escapeHTML(t.subject)}</p><button type="button" class="del" style="background:#d9534f; color:white; border:none; padding:5px 10px; cursor:pointer;">Delete</button>`;
+        card.querySelector(".del").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "teacher_records", t.id)); loadTeachers(); } };
         teacherList.appendChild(card);
       });
     }
-
-    teacherSearch.addEventListener("input", function () {
-      const searchText = teacherSearch.value.trim().toLowerCase();
-      const filtered = allTeachers.filter(t => String(t.teacherName || "").toLowerCase().includes(searchText));
-      showTeachers(filtered);
+    teacherSearch.addEventListener("input", (e) => {
+      const txt = e.target.value.toLowerCase();
+      showTeachers(allTeachers.filter(t => String(t.teacherName || "").toLowerCase().includes(txt)));
     });
 
-    async function removeTeacher(teacherId) {
-      if (!confirm("শিক্ষকের তথ্য মুছে ফেলতে চান?")) return;
-      try {
-        await deleteDoc(doc(db, "teacher_records", teacherId));
-        await loadTeachers();
-      } catch (error) {
-        alert("মুছে ফেলা যায়নি: " + error.code);
-      }
+    let allGuardians = [];
+    async function loadGuardians() {
+      const snap = await getDocs(guardianCollection);
+      allGuardians = snap.docs.map(item => ({ id: item.id, ...item.data() }));
+      if (guardianCount) guardianCount.textContent = allGuardians.length;
+      showGuardians(allGuardians);
     }
-
-    // Load Notices
-    let allNotices = [];
-    async function loadNotices() {
-      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) return;
-      noticeList.textContent = "তথ্য লোড হচ্ছে...";
-      try {
-        const snapshot = await getDocs(noticeCollection);
-        allNotices = snapshot.docs.map(item => ({ id: item.id, ...item.data() }));
-        if (noticeCount) noticeCount.textContent = allNotices.length;
-        showNotices(allNotices);
-      } catch (error) {
-        console.error(error);
-        noticeList.textContent = "নোটিশের তথ্য লোড হয়নি।";
-      }
-    }
-
-    function showNotices(notices) {
-      if (notices.length === 0) {
-        noticeList.textContent = "এখনো কোনো নোটিশ বা ফাইল নেই।";
-        return;
-      }
-      noticeList.innerHTML = "";
-      notices.forEach(notice => {
+    function showGuardians(guardians) {
+      if (guardians.length === 0) { guardianList.textContent = "কোনো অভিভাবক নেই।"; return; }
+      guardianList.innerHTML = "";
+      guardians.forEach(g => {
         const card = document.createElement("div");
         card.className = "card";
         card.style.border = "1px solid #ddd";
         card.style.marginBottom = "10px";
-        card.innerHTML = `
-          <h3>${escapeHTML(notice.subjectName)}</h3>
-          <p>বিবরণ: ${escapeHTML(notice.description || "নেই")}</p>
-          <p>ফাইল: ${escapeHTML(notice.fileName)}</p>
-          <button type="button" class="deleteNotice" style="background-color: #d9534f; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px;">Delete</button>
-        `;
-        card.querySelector(".deleteNotice").addEventListener("click", () => removeNotice(notice.id));
+        card.innerHTML = `<h3>${escapeHTML(g.guardianName)}</h3><p>শিক্ষার্থী: ${escapeHTML(g.wardName)} (${escapeHTML(g.relation)})</p><p>মোবাইল: ${escapeHTML(g.mobile)}</p><button type="button" class="del" style="background:#d9534f; color:white; border:none; padding:5px 10px; cursor:pointer; border-radius:4px;">Delete</button>`;
+        card.querySelector(".del").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "guardian_records", g.id)); loadGuardians(); } };
+        guardianList.appendChild(card);
+      });
+    }
+    guardianSearch.addEventListener("input", (e) => {
+      const txt = e.target.value.toLowerCase();
+      showGuardians(allGuardians.filter(g => String(g.guardianName || "").toLowerCase().includes(txt)));
+    });
+
+    let allAttendance = [];
+    async function loadAttendance() {
+      const snap = await getDocs(attendanceCollection);
+      allAttendance = snap.docs.map(item => ({ id: item.id, ...item.data() }));
+      if (attendanceCount) attendanceCount.textContent = allAttendance.length;
+      showAttendance(allAttendance);
+    }
+    function showAttendance(att) {
+      if (att.length === 0) { attendanceList.textContent = "কোনো হাজিরা রেকর্ড নেই।"; return; }
+      attendanceList.innerHTML = "";
+      att.forEach(a => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.style.border = "1px solid #ddd";
+        card.style.marginBottom = "10px";
+        card.innerHTML = `<h3>তারিখ: ${escapeHTML(a.attDate)}</h3><p>শিক্ষার্থী: ${escapeHTML(a.studentName)}</p><p>অবস্থা: <strong>${escapeHTML(a.status)}</strong></p><button type="button" class="del" style="background:#d9534f; color:white; border:none; padding:5px 10px; cursor:pointer; border-radius:4px;">Delete</button>`;
+        card.querySelector(".del").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "attendance_records", a.id)); loadAttendance(); } };
+        attendanceList.appendChild(card);
+      });
+    }
+    attendanceSearch.addEventListener("input", (e) => {
+      const txt = e.target.value.toLowerCase();
+      showAttendance(allAttendance.filter(a => String(a.studentName || "").toLowerCase().includes(txt)));
+    });
+
+    let allNotices = [];
+    async function loadNotices() {
+      const snap = await getDocs(noticeCollection);
+      allNotices = snap.docs.map(item => ({ id: item.id, ...item.data() }));
+      if (noticeCount) noticeCount.textContent = allNotices.length;
+      showNotices(allNotices);
+    }
+    function showNotices(notices) {
+      if (notices.length === 0) { noticeList.textContent = "কোনো নোটিশ নেই।"; return; }
+      noticeList.innerHTML = "";
+      notices.forEach(n => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `<h3>${escapeHTML(n.subjectName)}</h3><p>ফাইল: ${escapeHTML(n.fileName)}</p><button type="button" class="del" style="background:#d9534f; color:white; border:none; padding:5px 10px; cursor:pointer;">Delete</button>`;
+        card.querySelector(".del").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "notice_records", n.id)); loadNotices(); } };
         noticeList.appendChild(card);
       });
     }
-
-    noticeSearch.addEventListener("input", function () {
-      const searchText = noticeSearch.value.trim().toLowerCase();
-      const filtered = allNotices.filter(n => String(n.subjectName || "").toLowerCase().includes(searchText));
-      showNotices(filtered);
+    noticeSearch.addEventListener("input", (e) => {
+      const txt = e.target.value.toLowerCase();
+      showNotices(allNotices.filter(n => String(n.subjectName || "").toLowerCase().includes(txt)));
     });
 
-    async function removeNotice(noticeId) {
-      if (!confirm("নোটিশ বা ফাইলটি মুছে ফেলতে চান?")) return;
-      try {
-        await deleteDoc(doc(db, "notice_records", noticeId));
-        await loadNotices();
-      } catch (error) {
-        alert("মুছে ফেলা যায়নি: " + error.code);
-      }
+    let allResults = [];
+    async function loadResults() {
+      const snap = await getDocs(resultCollection);
+      allResults = snap.docs.map(item => ({ id: item.id, ...item.data() }));
+      if (resultCount) resultCount.textContent = allResults.length;
+      showResults(allResults);
+    }
+    function showResults(results) {
+      if (results.length === 0) { resultList.textContent = "কোনো ফলাফল নেই।"; return; }
+      resultList.innerHTML = "";
+      results.forEach(r => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `<h3>পরীক্ষা: ${escapeHTML(r.examName)}</h3><p>শিক্ষার্থী: ${escapeHTML(r.studentName)} (রোল: ${escapeHTML(r.roll)})</p><p>নম্বর: ${escapeHTML(r.subjectMarks)}</p><p>গ্রেড: ${escapeHTML(r.totalGpa)}</p><button type="button" class="del" style="background:#d9534f; color:white; border:none; padding:5px 10px; cursor:pointer;">Delete</button>`;
+        card.querySelector(".del").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "result_records", r.id)); loadResults(); } };
+        resultList.appendChild(card);
+      });
+    }
+    resultSearch.addEventListener("input", (e) => {
+      const txt = e.target.value.toLowerCase();
+      showResults(allResults.filter(r => String(r.studentName || "").toLowerCase().includes(txt)));
+    });
+
+    let allCerts = [];
+    async function loadCertificates() {
+      const snap = await getDocs(certCollection);
+      allCerts = snap.docs.map(item => ({ id: item.id, ...item.data() }));
+      if (certCount) certCount.textContent = allCerts.length;
+      showCertificates(allCerts);
+    }
+    function showCertificates(certs) {
+      if (certs.length === 0) { certList.textContent = "কোনো সনদ নেই।"; return; }
+      certList.innerHTML = "";
+      certs.forEach(c => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <h3>${escapeHTML(c.certType)}</h3>
+          <p>শিক্ষার্থী: ${escapeHTML(c.studentName)} | পিতা: ${escapeHTML(c.fatherName)}</p>
+          <button type="button" class="print" style="background:#04471c; color:white; border:none; padding:6px 12px; cursor:pointer; margin-right:5px; border-radius:4px;">🖨️ প্রিন্ট করুন</button>
+          <button type="button" class="del" style="background:#d9534f; color:white; border:none; padding:6px 12px; cursor:pointer; border-radius:4px;">Delete</button>
+        `;
+        card.querySelector(".print").onclick = () => printCertificate(c);
+        card.querySelector(".del").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "certificate_records", c.id)); loadCertificates(); } };
+        certList.appendChild(card);
+      });
+    }
+    certSearch.addEventListener("input", (e) => {
+      const txt = e.target.value.toLowerCase();
+      showCertificates(allCerts.filter(c => String(c.studentName || "").toLowerCase().includes(txt)));
+    });
+
+    function printCertificate(c) {
+      printableArea.style.display = "block";
+      printableArea.innerHTML = `
+        <div style="text-align: center; border: 5px double #04471c; padding: 30px; font-family: 'SolaimanLipi', sans-serif;">
+          <h1 style="color: #04471c; margin: 0; font-size: 28px;">نور العلم - Noorul Ilm</h1>
+          <p style="margin: 5px 0 20px 0; font-size: 14px;">School &amp; Madrasa Management System</p>
+          <hr style="border: 1px solid #04471c; width: 60%; margin: 0 auto 20px auto;">
+          <h2 style="text-decoration: underline; margin-bottom: 25px; color: #333;">${escapeHTML(c.certType)}</h2>
+          <p style="font-size: 18px; line-height: 1.8; text-align: justify; margin: 0 40px;">
+            এই মর্মে প্রত্যয়ন করা যাইতেছে যে, <strong>${escapeHTML(c.studentName)}</strong>, পিতা: <strong>${escapeHTML(c.fatherName)}</strong>, আমাদের অত্র প্রতিষ্ঠান <strong>নূরুল ইলম স্কুল ও মাদরাসা</strong>-এর <strong>${escapeHTML(c.certClass)}</strong> বিভাগের একজন নিয়মিত শিক্ষার্থী ছিল। তাহার রোল নম্বর: <strong>${escapeHTML(c.roll)}</strong>।
+          </p>
+          <p style="font-size: 18px; line-height: 1.8; text-align: justify; margin: 15px 40px 40px 40px;">
+            ${escapeHTML(c.reason || "অত্র প্রতিষ্ঠানে অধ্যয়নকালে তাহার চরিত্র, আচরণ ও ফলাফল সন্তোষজনক ছিল। আমরা তাহার সর্বাঙ্গীন সাফল্য ও উজ্জ্বল ভবিষ্যৎ কামনা করি।")}
+          </p>
+          <div style="display: flex; justify-content: space-between; margin-top: 80px; padding: 0 50px;">
+            <div style="border-top: 1px solid #000; width: 200px; text-align: center; padding-top: 5px;">শ্রেণি শিক্ষক</div>
+            <div style="border-top: 1px solid #000; width: 200px; text-align: center; padding-top: 5px;">প্রধান শিক্ষক / প্রিন্সিপাল</div>
+          </div>
+        </div>
+      `;
+      window.print();
+      printableArea.style.display = "none";
     }
   </script>
 
