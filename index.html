@@ -77,6 +77,7 @@
         <div class="card">
           <div class="feature-icon">🔔</div>
           <h3>Notices</h3>
+          <p id="noticeCount">0</p>
         </div>
         <div class="card">
           <div class="feature-icon">📝</div>
@@ -108,7 +109,7 @@
       <p id="loginMessage"></p>
     </section>
 
-    <!-- Admin Only: শিক্ষার্থী ও শিক্ষক ব্যবস্থাপনা -->
+    <!-- Admin Only: শিক্ষার্থী, শিক্ষক ও নোটিশ ব্যবস্থাপনা -->
     <section id="adminPanel" hidden>
 
       <div class="card">
@@ -204,6 +205,37 @@
         </div>
       </div>
 
+      <!-- Notice & File Management Form -->
+      <div class="card">
+        <h2>📢 নোটিশ বোর্ড ও ফাইল যুক্ত করুন</h2>
+
+        <form id="noticeForm">
+          <label for="noticeTitle">নোটিশের শিরোনাম / বিষয়ের নাম (Subject Name)</label>
+          <input type="text" id="noticeTitle" placeholder="যেমন: বার্ষিক পরীক্ষার রুটিন বা নতুন বিষয়ের নোটিশ" required>
+
+          <label for="noticeFile">ফাইল বা ডকুমেন্ট আপলোড (PDF / Image)</label>
+          <input type="file" id="noticeFile" accept=".pdf, .jpg, .jpeg, .png" required>
+
+          <label for="noticeDescription">বিস্তারিত বিবরণ (ঐচ্ছিক)</label>
+          <textarea id="noticeDescription" placeholder="নোটিশ বা বিষয়ের বিস্তারিত বিবরণ এখানে লিখুন..." rows="3" style="width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"></textarea>
+
+          <button type="submit" id="saveNoticeBtn">
+            নোটিশ ও ফাইল সংরক্ষণ করুন
+          </button>
+        </form>
+
+        <p id="noticeMessage"></p>
+      </div>
+
+      <!-- Notice List -->
+      <div class="card">
+        <h2>📋 নোটিশ ও ফাইলের তালিকা</h2>
+        <input type="search" id="noticeSearch" placeholder="নোটিশ বা বিষয়ের নাম দিয়ে খুঁজুন">
+        <div id="noticeList" style="margin-top: 15px;">
+          নোটিশের তথ্য লোড হচ্ছে...
+        </div>
+      </div>
+
     </section>
 
   </main>
@@ -248,6 +280,7 @@
     const db = getFirestore(app);
     const studentCollection = collection(db, "student_records");
     const teacherCollection = collection(db, "teacher_records");
+    const noticeCollection = collection(db, "notice_records");
     console.log("Firebase initialized successfully!", app);
 
     // HTML Elements
@@ -271,6 +304,13 @@
     const teacherList = document.getElementById("teacherList");
     const teacherSearch = document.getElementById("teacherSearch");
     const teacherCount = document.getElementById("teacherCount");
+
+    // Notice Elements
+    const noticeForm = document.getElementById("noticeForm");
+    const noticeMessage = document.getElementById("noticeMessage");
+    const noticeList = document.getElementById("noticeList");
+    const noticeSearch = document.getElementById("noticeSearch");
+    const noticeCount = document.getElementById("noticeCount");
 
     // বিভাগ অনুযায়ী শ্রেণি
     const classes = {
@@ -350,11 +390,13 @@
         adminPanel.hidden = false;
         await loadStudents();
         await loadTeachers();
+        await loadNotices();
       } else {
         adminLogin.hidden = false;
         adminPanel.hidden = true;
         studentCount.textContent = "Admin Login করলে দেখা যাবে";
         teacherCount.textContent = "Admin Login করলে দেখা যাবে";
+        if (noticeCount) noticeCount.textContent = "Admin Login করলে দেখা যাবে";
         if (user) {
           await signOut(auth);
         }
@@ -442,7 +484,44 @@
       }
     });
 
-    // HTML নিরাপده দেখানোর জন্য
+    // Notice Form Submit
+    noticeForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
+        noticeMessage.textContent = "শুধুমাত্র Admin নোটিশ ও ফাইল যুক্ত করতে পারবেন।";
+        return;
+      }
+
+      const saveNoticeBtn = document.getElementById("saveNoticeBtn");
+      saveNoticeBtn.disabled = true;
+      saveNoticeBtn.textContent = "সংরক্ষণ হচ্ছে...";
+      noticeMessage.textContent = "";
+
+      const fileInput = document.getElementById("noticeFile");
+      const file = fileInput.files[0];
+
+      const noticeData = {
+        subjectName: document.getElementById("noticeTitle").value.trim(),
+        description: document.getElementById("noticeDescription").value.trim(),
+        fileName: file ? file.name : "ফাইল নেই",
+        createdAt: serverTimestamp()
+      };
+
+      try {
+        await addDoc(noticeCollection, noticeData);
+        noticeMessage.textContent = "আলহামদুলিল্লাহ! নোটিশ ও ফাইলের তথ্য সংরক্ষিত হয়েছে।";
+        noticeForm.reset();
+        await loadNotices();
+      } catch (error) {
+        console.error(error);
+        noticeMessage.textContent = "তথ্য সংরক্ষণ হয়নি। (" + error.code + ")";
+      } finally {
+        saveNoticeBtn.disabled = false;
+        saveNoticeBtn.textContent = "নোটিশ ও ফাইল সংরক্ষণ করুন";
+      }
+    });
+
+    // HTML নিরাপদে দেখানোর জন্য
     function escapeHTML(value) {
       return String(value ?? "").replace(/[&<>"']/g, function (char) {
         return {
@@ -457,36 +536,27 @@
 
     // Load Students
     let allStudents = [];
-
     async function loadStudents() {
-      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
-        return;
-      }
+      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) return;
       studentList.textContent = "তথ্য লোড হচ্ছে...";
       try {
         const snapshot = await getDocs(studentCollection);
-        allStudents = snapshot.docs.map(function (item) {
-          return {
-            id: item.id,
-            ...item.data()
-          };
-        });
+        allStudents = snapshot.docs.map(item => ({ id: item.id, ...item.data() }));
         studentCount.textContent = allStudents.length;
         showStudents(allStudents);
       } catch (error) {
         console.error(error);
-        studentList.textContent = "শিক্ষার্থীর তথ্য লোড হয়নি। (" + error.code + ")";
+        studentList.textContent = "শিক্ষার্থীর তথ্য লোড হয়নি।";
       }
     }
 
-    // Show Students
     function showStudents(students) {
       if (students.length === 0) {
         studentList.textContent = "এখনো কোনো শিক্ষার্থীর তথ্য নেই।";
         return;
       }
       studentList.innerHTML = "";
-      students.forEach(function (student) {
+      students.forEach(student => {
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `
@@ -498,100 +568,52 @@
           <p>রোল: ${escapeHTML(student.roll ?? student.rollNumber ?? "")}</p>
           <p>বিভাগ: ${escapeHTML(student.department)}</p>
           <p>শ্রেণি: ${escapeHTML(student.className)}</p>
-          <button type="button" class="editStudent">Edit</button>
           <button type="button" class="deleteStudent">Delete</button>
         `;
-        card.querySelector(".editStudent").addEventListener("click", function () {
-          editStudent(student);
-        });
-        card.querySelector(".deleteStudent").addEventListener("click", function () {
-          removeStudent(student.id);
-        });
+        card.querySelector(".deleteStudent").addEventListener("click", () => removeStudent(student.id));
         studentList.appendChild(card);
       });
     }
 
-    // Search Students
     studentSearch.addEventListener("input", function () {
       const searchText = studentSearch.value.trim().toLowerCase();
-      const filteredStudents = allStudents.filter(function (student) {
-        return String(student.studentName || "").toLowerCase().includes(searchText);
-      });
-      showStudents(filteredStudents);
+      const filtered = allStudents.filter(s => String(s.studentName || "").toLowerCase().includes(searchText));
+      showStudents(filtered);
     });
 
-    // Edit Student
-    async function editStudent(student) {
-      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
-        alert("শুধুমাত্র Admin তথ্য পরিবর্তন করতে পারবেন।");
-        return;
-      }
-      const newName = prompt("শিক্ষার্থীর নতুন নাম লিখুন:", student.studentName || "");
-      if (newName === null || !newName.trim()) {
-        return;
-      }
-      try {
-        await updateDoc(doc(db, "student_records", student.id), { studentName: newName.trim() });
-        alert("শিক্ষার্থীর নাম পরিবর্তন হয়েছে।");
-        await loadStudents();
-      } catch (error) {
-        console.error(error);
-        alert("পরিবর্তন করা যায়নি: " + error.code);
-      }
-    }
-
-    // Delete Student
     async function removeStudent(studentId) {
-      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
-        alert("শুধুমাত্র Admin তথ্য মুছতে পারবেন।");
-        return;
-      }
-      const confirmDelete = confirm("আপনি কি এই শিক্ষার্থীর তথ্য মুছে ফেলতে চান?");
-      if (!confirmDelete) {
-        return;
-      }
+      if (!confirm("শিক্ষার্থীর তথ্য মুছে ফেলতে চান?")) return;
       try {
         await deleteDoc(doc(db, "student_records", studentId));
-        alert("শিক্ষার্থীর তথ্য মুছে ফেলা হয়েছে।");
         await loadStudents();
       } catch (error) {
-        console.error(error);
-        alert("তথ্য মুছে ফেলা যায়নি: " + error.code);
+        alert("মুছে ফেলা যায়নি: " + error.code);
       }
     }
 
     // Load Teachers
     let allTeachers = [];
-
     async function loadTeachers() {
-      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
-        return;
-      }
+      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) return;
       teacherList.textContent = "তথ্য লোড হচ্ছে...";
       try {
         const snapshot = await getDocs(teacherCollection);
-        allTeachers = snapshot.docs.map(function (item) {
-          return {
-            id: item.id,
-            ...item.data()
-          };
-        });
+        allTeachers = snapshot.docs.map(item => ({ id: item.id, ...item.data() }));
         teacherCount.textContent = allTeachers.length;
         showTeachers(allTeachers);
       } catch (error) {
         console.error(error);
-        teacherList.textContent = "শিক্ষকদের তথ্য লোড হয়নি। (" + error.code + ")";
+        teacherList.textContent = "শিক্ষকদের তথ্য লোড হয়নি।";
       }
     }
 
-    // Show Teachers
     function showTeachers(teachers) {
       if (teachers.length === 0) {
         teacherList.textContent = "এখনো কোনো শিক্ষকের তথ্য নেই।";
         return;
       }
       teacherList.innerHTML = "";
-      teachers.forEach(function (teacher) {
+      teachers.forEach(teacher => {
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `
@@ -601,39 +623,78 @@
           <p>মোবাইল: ${escapeHTML(teacher.mobile)}</p>
           <button type="button" class="deleteTeacher">Delete</button>
         `;
-        card.querySelector(".deleteTeacher").addEventListener("click", function () {
-          removeTeacher(teacher.id);
-        });
+        card.querySelector(".deleteTeacher").addEventListener("click", () => removeTeacher(teacher.id));
         teacherList.appendChild(card);
       });
     }
 
-    // Search Teachers
     teacherSearch.addEventListener("input", function () {
       const searchText = teacherSearch.value.trim().toLowerCase();
-      const filteredTeachers = allTeachers.filter(function (teacher) {
-        return String(teacher.teacherName || "").toLowerCase().includes(searchText);
-      });
-      showTeachers(filteredTeachers);
+      const filtered = allTeachers.filter(t => String(t.teacherName || "").toLowerCase().includes(searchText));
+      showTeachers(filtered);
     });
 
-    // Delete Teacher
     async function removeTeacher(teacherId) {
-      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
-        alert("শুধুমাত্র Admin তথ্য মুছতে পারবেন।");
-        return;
-      }
-      const confirmDelete = confirm("আপনি কি এই শিক্ষকের তথ্য মুছে ফেলতে চান?");
-      if (!confirmDelete) {
-        return;
-      }
+      if (!confirm("শিক্ষকের তথ্য মুছে ফেলতে চান?")) return;
       try {
         await deleteDoc(doc(db, "teacher_records", teacherId));
-        alert("শিক্ষকের তথ্য মুছে ফেলা হয়েছে।");
         await loadTeachers();
       } catch (error) {
+        alert("মুছে ফেলা যায়নি: " + error.code);
+      }
+    }
+
+    // Load Notices
+    let allNotices = [];
+    async function loadNotices() {
+      if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) return;
+      noticeList.textContent = "তথ্য লোড হচ্ছে...";
+      try {
+        const snapshot = await getDocs(noticeCollection);
+        allNotices = snapshot.docs.map(item => ({ id: item.id, ...item.data() }));
+        if (noticeCount) noticeCount.textContent = allNotices.length;
+        showNotices(allNotices);
+      } catch (error) {
         console.error(error);
-        alert("তথ্য মুছে ফেলা যায়নি: " + error.code);
+        noticeList.textContent = "নোটিশের তথ্য লোড হয়নি।";
+      }
+    }
+
+    function showNotices(notices) {
+      if (notices.length === 0) {
+        noticeList.textContent = "এখনো কোনো নোটিশ বা ফাইল নেই।";
+        return;
+      }
+      noticeList.innerHTML = "";
+      notices.forEach(notice => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.style.border = "1px solid #ddd";
+        card.style.marginBottom = "10px";
+        card.innerHTML = `
+          <h3>${escapeHTML(notice.subjectName)}</h3>
+          <p>বিবরণ: ${escapeHTML(notice.description || "নেই")}</p>
+          <p>ফাইল: ${escapeHTML(notice.fileName)}</p>
+          <button type="button" class="deleteNotice" style="background-color: #d9534f; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px;">Delete</button>
+        `;
+        card.querySelector(".deleteNotice").addEventListener("click", () => removeNotice(notice.id));
+        noticeList.appendChild(card);
+      });
+    }
+
+    noticeSearch.addEventListener("input", function () {
+      const searchText = noticeSearch.value.trim().toLowerCase();
+      const filtered = allNotices.filter(n => String(n.subjectName || "").toLowerCase().includes(searchText));
+      showNotices(filtered);
+    });
+
+    async function removeNotice(noticeId) {
+      if (!confirm("নোটিশ বা ফাইলটি মুছে ফেলতে চান?")) return;
+      try {
+        await deleteDoc(doc(db, "notice_records", noticeId));
+        await loadNotices();
+      } catch (error) {
+        alert("মুছে ফেলা যায়নি: " + error.code);
       }
     }
   </script>
