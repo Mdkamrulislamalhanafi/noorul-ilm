@@ -83,6 +83,7 @@ body.dark .sum b{color:var(--gold)}
 .due .who small{color:var(--muted)}
 .due .amt{color:var(--danger);font-weight:600}
 .due a{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;background:var(--bg);font-size:1.1rem}
+.due .del{background:#FBE9E7;border:0;cursor:pointer}
 .empty{color:var(--muted);font-size:.92rem}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:10px;z-index:60;font-size:.9rem}
 @media(min-width:760px){
@@ -114,8 +115,8 @@ body.dark .sum b{color:var(--gold)}
         <button class="eye" type="button" onclick="togglePass()" aria-label="পাসওয়ার্ড দেখান">👁</button>
       </div>
       <div class="err" id="err"></div>
-      <button class="btn" onclick="doLogin()">লগইন করুন</button>
-      <a class="forgot" href="#" onclick="toast('পাসওয়ার্ড রিসেট লিংক পাঠানো হবে');return false">পাসওয়ার্ড ভুলে গেছেন?</a>
+      <button class="btn" id="loginBtn" onclick="doLogin()">লগইন করুন</button>
+      <a class="forgot" href="#" onclick="forgot();return false">পাসওয়ার্ড ভুলে গেছেন?</a>
     </div>
   </div>
 </section>
@@ -125,9 +126,9 @@ body.dark .sum b{color:var(--gold)}
   <div class="scrim hidden" id="scrim" onclick="toggleMenu()"></div>
   <aside id="side">
     <div class="logo">نور العلم</div>
-    <a class="active">🏠 ড্যাশবোর্ড</a>
+    <a id="nav-dash" class="active" onclick="showView('dash')">🏠 ড্যাশবোর্ড</a>
     <a>👨‍🎓 ছাত্র-ছাত্রী</a>
-    <a>👨‍🏫 শিক্ষক</a>
+    <a id="nav-teachers" onclick="showView('teachers')">👨‍🏫 শিক্ষক</a>
     <a>🧑‍💼 স্টাফ</a>
     <a>📅 উপস্থিতি</a>
     <a>💳 ফি ও বেতন</a>
@@ -143,7 +144,7 @@ body.dark .sum b{color:var(--gold)}
     <button class="icon-btn" onclick="toggleDark()" aria-label="ডার্ক মোড">🌓</button>
   </header>
 
-  <main>
+  <main id="view-dash">
     <div class="greet">
       <h2 id="greet">আসসালামু আলাইকুম 👋</h2>
       <p id="today"></p>
@@ -181,9 +182,30 @@ body.dark .sum b{color:var(--gold)}
       <p class="empty">এখনো কোনো নোটিশ নেই। “নোটিশ দিন” চেপে প্রথম নোটিশ যোগ করুন।</p>
     </div>
   </main>
+
+  <main id="view-teachers" class="hidden">
+    <div class="greet"><h2>শিক্ষক ব্যবস্থাপনা</h2><p id="tcount"></p></div>
+    <div class="panel">
+      <h3>নতুন শিক্ষক যোগ করুন</h3>
+      <label for="t-name">নাম</label><input id="t-name" placeholder="শিক্ষকের নাম">
+      <label for="t-desig">পদবি</label><input id="t-desig" placeholder="যেমন: সিনিয়র মুদাররিস">
+      <label for="t-subject">বিষয়</label><input id="t-subject" placeholder="যেমন: হাদিস">
+      <label for="t-phone">মোবাইল</label><input id="t-phone" type="tel" placeholder="01XXXXXXXXX">
+      <div class="err" id="t-err"></div>
+      <button class="btn" id="t-save" onclick="addTeacher()">সংরক্ষণ করুন</button>
+    </div>
+    <div class="panel">
+      <h3>শিক্ষকের তালিকা</h3>
+      <div id="t-list"><p class="empty">লোড হচ্ছে...</p></div>
+    </div>
+  </main>
 </div>
 
-<script>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import{getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged,sendPasswordResetEmail}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import{getFirestore,collection,getCountFromServer,addDoc,getDocs,deleteDoc,doc}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 /* ===== ডেটা: এখানে আপনার আসল ডেটাবেস (Firebase ইত্যাদি) থেকে সংখ্যা বসান ===== */
 const stats=[
   {i:'👨‍🎓',l:'ছাত্র-ছাত্রী',n:0,c:'#0B5D45'},
@@ -219,23 +241,109 @@ function render(){
   $('today').textContent=new Date().toLocaleDateString('bn-BD',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 }
 
-/* ===== লগইন: নিচের অংশ আপনার আগের Firebase লগইন কোড দিয়ে বদলাবেন ===== */
-function doLogin(){
+/* ===== Firebase ===== */
+const firebaseConfig={
+  apiKey:"AIzaSyAzuZfOdDjztQvgEbtDoO-DQJO_1Hqnsf4",
+  authDomain:"noorul-ilm-management.firebaseapp.com",
+  projectId:"noorul-ilm-management",
+  storageBucket:"noorul-ilm-management.firebasestorage.app",
+  messagingSenderId:"1091358323396",
+  appId:"1:1091358323396:web:65a0fed12ecb5c749f4f91",
+  measurementId:"G-0ER6H616VF"
+};
+const fbApp=initializeApp(firebaseConfig);
+const auth=getAuth(fbApp);
+const db=getFirestore(fbApp);
+
+/* কার্ডের সংখ্যা: stats এর ক্রম অনুযায়ী Firestore কালেকশনের নাম (না থাকলে null) */
+const collections=['students','teachers','staff','guardians',null,null,null,'certificates'];
+async function loadCounts(){
+  await Promise.all(collections.map(async(c,i)=>{
+    if(!c)return;
+    try{const r=await getCountFromServer(collection(db,c));stats[i].n=r.data().count}catch(e){console.warn(c,e.message)}
+  }));
+  render();
+}
+
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function showView(v){
+  $('view-dash').classList.toggle('hidden',v!=='dash');
+  $('view-teachers').classList.toggle('hidden',v!=='teachers');
+  $('nav-dash').classList.toggle('active',v==='dash');
+  $('nav-teachers').classList.toggle('active',v==='teachers');
+  if($('side').classList.contains('open'))toggleMenu();
+  if(v==='teachers')fetchTeachers();
+  window.scrollTo(0,0);
+}
+async function fetchTeachers(){
+  const box=$('t-list');
+  try{
+    const snap=await getDocs(collection(db,'teachers'));
+    $('tcount').textContent='মোট শিক্ষক: '+bn(snap.size)+' জন';
+    if(snap.empty){box.innerHTML='<p class="empty">এখনো কোনো শিক্ষক যোগ করা হয়নি। উপরের ফর্ম থেকে প্রথম শিক্ষক যোগ করুন।</p>';return}
+    box.innerHTML=snap.docs.map(d=>{const t=d.data();
+      return `<div class="due"><div class="who"><b>${esc(t.name)}</b><small>${esc(t.designation)} · ${esc(t.subject)}</small></div>${t.phone?`<a href="tel:${esc(t.phone)}" aria-label="কল">📞</a>`:''}<a class="del" data-id="${d.id}" aria-label="মুছুন">🗑</a></div>`}).join('');
+  }catch(e){box.innerHTML='<p class="empty" style="color:var(--danger)">তালিকা লোড হয়নি। Firestore Rules ও লগইন চেক করুন।</p>';console.error(e)}
+}
+async function addTeacher(){
+  const v=id=>$(id).value.trim();
+  const name=v('t-name');
+  if(!name){$('t-err').textContent='শিক্ষকের নাম লিখুন।';return}
+  $('t-err').textContent='';
+  const b=$('t-save');b.disabled=true;b.textContent='সংরক্ষণ হচ্ছে...';
+  try{
+    await addDoc(collection(db,'teachers'),{name,designation:v('t-desig'),subject:v('t-subject'),phone:v('t-phone'),createdAt:new Date()});
+    ['t-name','t-desig','t-subject','t-phone'].forEach(i=>$(i).value='');
+    toast('শিক্ষকের তথ্য সংরক্ষিত হয়েছে');
+    fetchTeachers();loadCounts();
+  }catch(e){$('t-err').textContent='সংরক্ষণ করা যায়নি। আবার চেষ্টা করুন।';console.error(e)}
+  b.disabled=false;b.textContent='সংরক্ষণ করুন';
+}
+document.addEventListener('click',async e=>{
+  const b=e.target.closest('.del');if(!b)return;
+  if(!confirm('আপনি কি নিশ্চিত এই শিক্ষকের তথ্য মুছে ফেলতে চান?'))return;
+  try{await deleteDoc(doc(db,'teachers',b.dataset.id));toast('মুছে ফেলা হয়েছে');fetchTeachers();loadCounts()}
+  catch(x){toast('মুছতে সমস্যা হয়েছে')}
+});
+
+const errMap={
+  'auth/invalid-credential':'ইমেইল বা পাসওয়ার্ড ভুল।',
+  'auth/invalid-email':'ইমেইল সঠিক নয়।',
+  'auth/user-not-found':'এই ইমেইলে কোনো অ্যাকাউন্ট নেই।',
+  'auth/wrong-password':'পাসওয়ার্ড ভুল।',
+  'auth/too-many-requests':'অনেকবার চেষ্টা হয়েছে। কিছুক্ষণ পরে আবার চেষ্টা করুন।',
+  'auth/network-request-failed':'ইন্টারনেট সংযোগ চেক করুন।'
+};
+
+async function doLogin(){
   const e=$('email').value.trim(),p=$('pass').value;
   if(!e||!p){$('err').textContent='ইমেইল ও পাসওয়ার্ড দুটোই লিখুন।';return}
-  // TODO: এখানে firebase.auth().signInWithEmailAndPassword(e,p) বসান
   $('err').textContent='';
-  try{sessionStorage.setItem('ni_in','1')}catch(_){}
-  showApp();
+  const btn=$('loginBtn');btn.disabled=true;btn.textContent='অপেক্ষা করুন...';
+  try{await signInWithEmailAndPassword(auth,e,p)}
+  catch(x){$('err').textContent=errMap[x.code]||'লগইন হয়নি। আবার চেষ্টা করুন।'}
+  btn.disabled=false;btn.textContent='লগইন করুন';
 }
-function showApp(){$('login').classList.add('hidden');$('app').classList.remove('hidden');render()}
-function logout(){try{sessionStorage.removeItem('ni_in')}catch(_){}
-  $('app').classList.add('hidden');$('login').classList.remove('hidden');$('pass').value=''}
+async function forgot(){
+  const e=$('email').value.trim();
+  if(!e){$('err').textContent='আগে উপরে ইমেইল লিখুন, তারপর আবার চাপুন।';return}
+  try{await sendPasswordResetEmail(auth,e);toast('রিসেট লিংক ইমেইলে পাঠানো হয়েছে')}
+  catch(x){$('err').textContent=errMap[x.code]||'পাঠানো যায়নি।'}
+}
+function logout(){signOut(auth)}
+
+onAuthStateChanged(auth,u=>{
+  if(u){$('login').classList.add('hidden');$('app').classList.remove('hidden');render();loadCounts()}
+  else{showView('dash');$('app').classList.add('hidden');$('login').classList.remove('hidden');$('pass').value=''}
+});
+
 function togglePass(){const p=$('pass');p.type=p.type==='password'?'text':'password'}
 function toggleMenu(){$('side').classList.toggle('open');$('scrim').classList.toggle('hidden')}
 function toggleDark(){document.body.classList.toggle('dark');try{localStorage.setItem('ni_dark',document.body.classList.contains('dark')?'1':'')}catch(_){}}
 function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2200)}
-try{if(localStorage.getItem('ni_dark'))document.body.classList.add('dark');if(sessionStorage.getItem('ni_in'))showApp()}catch(_){}
+try{if(localStorage.getItem('ni_dark'))document.body.classList.add('dark')}catch(_){}
+Object.assign(window,{showView,addTeacher,doLogin,forgot,logout,togglePass,toggleMenu,toggleDark,toast});
 </script>
 </body>
 </html>
