@@ -35,8 +35,8 @@ button,input{font:inherit}
 body.dark .card-login h2{color:var(--gold)}
 label{display:block;font-size:.88rem;color:var(--muted);margin:12px 0 5px}
 .field{position:relative}
-input{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);outline:none}
-input:focus{border-color:var(--green2)}
+input,select,textarea{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--green2)}
 .eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:0;font-size:1.1rem;padding:6px;cursor:pointer}
 .btn{width:100%;margin-top:18px;padding:13px;border:0;border-radius:10px;background:var(--green);color:#fff;font-weight:600;font-size:1rem;cursor:pointer}
 .btn:active{transform:scale(.98)}
@@ -94,10 +94,16 @@ body.dark .sum b{color:var(--gold)}
   main{max-width:none;padding:24px 32px}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+textarea{min-height:80px;resize:vertical}
+.tg{padding:7px 12px;border-radius:20px;border:0;font-size:.85rem;cursor:pointer;background:#DFF1E8;color:#0B5D45;font-weight:600}
+.tg.no{background:#FBE9E7;color:#B3261E}
+.due .pay{background:#DFF1E8;cursor:pointer}
+.ok{color:var(--green2)!important}
+body.dark .forgot{color:var(--gold)}
 </style>
 </head>
 <body>
-
 <!-- Login -->
 <section id="login">
   <div class="login-box">
@@ -121,128 +127,51 @@ body.dark .sum b{color:var(--gold)}
   </div>
 </section>
 
-<!-- App (hidden until login) -->
+<!-- App -->
 <div id="app" class="hidden">
   <div class="scrim hidden" id="scrim" onclick="toggleMenu()"></div>
-  <aside id="side">
-    <div class="logo">نور العلم</div>
-    <a id="nav-dash" class="active" onclick="showView('dash')">🏠 ড্যাশবোর্ড</a>
-    <a>👨‍🎓 ছাত্র-ছাত্রী</a>
-    <a id="nav-teachers" onclick="showView('teachers')">👨‍🏫 শিক্ষক</a>
-    <a>🧑‍💼 স্টাফ</a>
-    <a>📅 উপস্থিতি</a>
-    <a>💳 ফি ও বেতন</a>
-    <a>📊 পরীক্ষার ফলাফল</a>
-    <a>📜 সনদপত্র</a>
-    <a>🔔 নোটিশ</a>
-    <a onclick="logout()">🚪 লগআউট</a>
-  </aside>
-
+  <aside id="side"></aside>
   <header>
     <button class="menu-btn" onclick="toggleMenu()" aria-label="মেনু">☰</button>
     <h1>নূরুল ইলম</h1>
     <button class="icon-btn" onclick="toggleDark()" aria-label="ডার্ক মোড">🌓</button>
   </header>
-
-  <main id="view-dash">
-    <div class="greet">
-      <h2 id="greet">আসসালামু আলাইকুম 👋</h2>
-      <p id="today"></p>
-    </div>
-
-    <div class="grid" id="stats"></div>
-
-    <div class="panel">
-      <h3>আজকের সারসংক্ষেপ</h3>
-      <div class="sum" id="sum"></div>
-    </div>
-
-    <div class="panel">
-      <h3>ফি বাকির তালিকা</h3>
-      <div id="dues"></div>
-    </div>
-
-    <div class="panel">
-      <h3>এই সপ্তাহের উপস্থিতি (%)</h3>
-      <div class="bars" id="bars"></div>
-    </div>
-
-    <div class="panel">
-      <h3>দ্রুত কাজ</h3>
-      <div class="quick">
-        <button onclick="toast('নতুন ভর্তি ফর্ম খুলবে')">➕ নতুন ভর্তি</button>
-        <button onclick="toast('উপস্থিতি নেওয়া শুরু')">✅ উপস্থিতি নিন</button>
-        <button onclick="toast('ফি আদায় ফর্ম খুলবে')">💵 ফি আদায়</button>
-        <button onclick="toast('নোটিশ লেখার ফর্ম খুলবে')">📢 নোটিশ দিন</button>
+  <div id="views">
+    <main id="v-dash">
+      <div class="greet"><h2 id="greet"></h2><p id="today"></p></div>
+      <div class="grid" id="stats"></div>
+      <div class="panel"><h3>আজকের সারসংক্ষেপ</h3><div class="sum" id="sum"></div></div>
+      <div class="panel"><h3>ফি বাকির তালিকা</h3><div id="dues"></div></div>
+      <div class="panel"><h3>উপস্থিতির হার (%) – সর্বশেষ ৬ দিন</h3><div class="bars" id="bars"></div></div>
+      <div class="panel"><h3>দ্রুত কাজ</h3>
+        <div class="quick">
+          <button onclick="showView('students')">➕ নতুন ভর্তি</button>
+          <button onclick="showView('attendance')">✅ উপস্থিতি নিন</button>
+          <button onclick="showView('fees')">💵 ফি আদায়</button>
+          <button onclick="showView('notices')">📢 নোটিশ দিন</button>
+        </div>
       </div>
-    </div>
-
-    <div class="panel">
-      <h3>সাম্প্রতিক নোটিশ</h3>
-      <p class="empty">এখনো কোনো নোটিশ নেই। “নোটিশ দিন” চেপে প্রথম নোটিশ যোগ করুন।</p>
-    </div>
-  </main>
-
-  <main id="view-teachers" class="hidden">
-    <div class="greet"><h2>শিক্ষক ব্যবস্থাপনা</h2><p id="tcount"></p></div>
-    <div class="panel">
-      <h3>নতুন শিক্ষক যোগ করুন</h3>
-      <label for="t-name">নাম</label><input id="t-name" placeholder="শিক্ষকের নাম">
-      <label for="t-desig">পদবি</label><input id="t-desig" placeholder="যেমন: সিনিয়র মুদাররিস">
-      <label for="t-subject">বিষয়</label><input id="t-subject" placeholder="যেমন: হাদিস">
-      <label for="t-phone">মোবাইল</label><input id="t-phone" type="tel" placeholder="01XXXXXXXXX">
-      <div class="err" id="t-err"></div>
-      <button class="btn" id="t-save" onclick="addTeacher()">সংরক্ষণ করুন</button>
-    </div>
-    <div class="panel">
-      <h3>শিক্ষকের তালিকা</h3>
-      <div id="t-list"><p class="empty">লোড হচ্ছে...</p></div>
-    </div>
-  </main>
+      <div class="panel"><h3>সাম্প্রতিক নোটিশ</h3><div id="recent"></div></div>
+    </main>
+    <main id="v-attendance" class="hidden">
+      <div class="greet"><h2>উপস্থিতি</h2><p id="att-info"></p></div>
+      <div class="panel">
+        <label for="att-date">তারিখ</label><input type="date" id="att-date">
+        <label for="att-class">শ্রেণি (ফাঁকা রাখলে সবাই)</label><input id="att-class" placeholder="যেমন: ৫ম শ্রেণি">
+        <button class="btn" onclick="loadAtt()">তালিকা দেখান</button>
+      </div>
+      <div class="panel"><h3>ছাত্র-ছাত্রী</h3><div id="att-list"><p class="empty">তারিখ বেছে “তালিকা দেখান” চাপুন।</p></div>
+        <button class="btn hidden" id="att-save" onclick="saveAtt()">উপস্থিতি সংরক্ষণ করুন</button></div>
+    </main>
+  </div>
 </div>
 
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import{getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged,sendPasswordResetEmail}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import{getFirestore,collection,getCountFromServer,addDoc,getDocs,deleteDoc,doc}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import{getFirestore,collection,addDoc,getDocs,getDoc,setDoc,deleteDoc,updateDoc,doc}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-/* ===== ডেটা: এখানে আপনার আসল ডেটাবেস (Firebase ইত্যাদি) থেকে সংখ্যা বসান ===== */
-const stats=[
-  {i:'👨‍🎓',l:'ছাত্র-ছাত্রী',n:0,c:'#0B5D45'},
-  {i:'👨‍🏫',l:'শিক্ষক',n:0,c:'#C9A227'},
-  {i:'🧑‍💼',l:'স্টাফ',n:0,c:'#2E7D9A'},
-  {i:'👪',l:'অভিভাবক',n:0,c:'#8B5E3C'},
-  {i:'💳',l:'ছাত্রের ফি',n:0,c:'#0E7A5A'},
-  {i:'💵',l:'শিক্ষক বেতন',n:0,c:'#B3261E'},
-  {i:'💰',l:'স্টাফ বেতন',n:0,c:'#6A4C93'},
-  {i:'📜',l:'সনদপত্র',n:0,c:'#C9A227'}
-];
-/* নমুনা ডেটা: এগুলো মুছে আপনার ডেটাবেসের তথ্য বসান */
-const today={absent:0,dueCount:2,newAdmit:0};
-const dues=[
-  {name:'আব্দুল্লাহ (৫ম শ্রেণি)',guardian:'মোঃ রফিক',phone:'01700000000',amount:1500,month:'নভেম্বর'},
-  {name:'ফাতেমা (৩য় শ্রেণি)',guardian:'মোঃ করিম',phone:'01800000000',amount:1200,month:'নভেম্বর'}
-];
-const week=[['শনি',0],['রবি',0],['সোম',0],['মঙ্গল',0],['বুধ',0],['বৃহ',0]];
-
-const $=id=>document.getElementById(id);
-const bn=s=>String(s).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]);
-
-function render(){
-  $('stats').innerHTML=stats.map(s=>`<div class="stat" style="--c:${s.c}"><div class="ic">${s.i}</div><div class="num">${bn(s.n)}</div><div class="lbl">${s.l}</div></div>`).join('');
-  $('bars').innerHTML=week.map(([d,v])=>`<div class="bar">${bn(v)}<i style="height:${v}%"></i>${d}</div>`).join('');
-  $('sum').innerHTML=`<div><b>${bn(today.absent)}</b><span>অনুপস্থিত</span></div><div><b>${bn(dues.length)}</b><span>ফি বাকি</span></div><div><b>${bn(today.newAdmit)}</b><span>নতুন ভর্তি</span></div>`;
-  $('dues').innerHTML=dues.length?dues.map(d=>{
-    const msg=encodeURIComponent(`আসসালামু আলাইকুম ${d.guardian}, নূরুল ইলম থেকে জানানো যাচ্ছে: ${d.name} এর ${d.month} মাসের ${bn(d.amount)} টাকা ফি বাকি আছে। অনুগ্রহ করে পরিশোধ করুন। জাযাকাল্লাহ।`);
-    const ph='88'+d.phone.replace(/^0/,'');
-    return `<div class="due"><div class="who"><b>${d.name}</b><small>অভিভাবক: ${d.guardian}</small></div><span class="amt">৳${bn(d.amount)}</span><a href="https://wa.me/${ph}?text=${msg}" target="_blank" rel="noopener" aria-label="হোয়াটসঅ্যাপ">💬</a><a href="sms:${d.phone}?body=${msg}" aria-label="এসএমএস">✉️</a></div>`}).join(''):'<p class="empty">কারো ফি বাকি নেই। আলহামদুলিল্লাহ!</p>';
-  const h=new Date().getHours();
-  $('greet').textContent=(h<12?'শুভ সকাল':h<17?'শুভ অপরাহ্ন':'শুভ সন্ধ্যা')+' 👋';
-  $('today').textContent=new Date().toLocaleDateString('bn-BD',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-}
-
-/* ===== Firebase ===== */
-const firebaseConfig={
+const fbApp=initializeApp({
   apiKey:"AIzaSyAzuZfOdDjztQvgEbtDoO-DQJO_1Hqnsf4",
   authDomain:"noorul-ilm-management.firebaseapp.com",
   projectId:"noorul-ilm-management",
@@ -250,63 +179,172 @@ const firebaseConfig={
   messagingSenderId:"1091358323396",
   appId:"1:1091358323396:web:65a0fed12ecb5c749f4f91",
   measurementId:"G-0ER6H616VF"
-};
-const fbApp=initializeApp(firebaseConfig);
-const auth=getAuth(fbApp);
-const db=getFirestore(fbApp);
+});
+const auth=getAuth(fbApp),db=getFirestore(fbApp);
 
-/* কার্ডের সংখ্যা: stats এর ক্রম অনুযায়ী Firestore কালেকশনের নাম (না থাকলে null) */
-const collections=['students','teachers','staff','guardians',null,null,null,'certificates'];
-async function loadCounts(){
-  await Promise.all(collections.map(async(c,i)=>{
-    if(!c)return;
-    try{const r=await getCountFromServer(collection(db,c));stats[i].n=r.data().count}catch(e){console.warn(c,e.message)}
-  }));
-  render();
+const $=id=>document.getElementById(id);
+const bn=s=>String(s).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]);
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const j=(...a)=>a.filter(Boolean).join(' · ');
+const ymd=(d=new Date())=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const ts=d=>d.createdAt?.seconds||0;
+
+/* ===== মডিউল তালিকা: f = ঘর [নাম, লেবেল, ধরন, অপশন] ===== */
+const M={
+ students:{ic:'👨‍🎓',t:'ছাত্র-ছাত্রী',add:'নতুন ভর্তি',ph:'phone',
+  f:[['name','নাম'],['className','শ্রেণি'],['roll','রোল','number'],['guardian','অভিভাবকের নাম'],['phone','অভিভাবকের মোবাইল','tel']],
+  row:d=>[d.name,j(d.className,d.roll&&'রোল '+d.roll,d.guardian)]},
+ teachers:{ic:'👨‍🏫',t:'শিক্ষক',add:'নতুন শিক্ষক',ph:'phone',
+  f:[['name','নাম'],['designation','পদবি'],['subject','বিষয়'],['phone','মোবাইল','tel']],
+  row:d=>[d.name,j(d.designation,d.subject)]},
+ staff:{ic:'🧑‍💼',t:'স্টাফ',add:'নতুন স্টাফ',ph:'phone',
+  f:[['name','নাম'],['role','পদ'],['phone','মোবাইল','tel']],
+  row:d=>[d.name,d.role]},
+ guardians:{ic:'👪',t:'অভিভাবক',add:'নতুন অভিভাবক',ph:'phone',
+  f:[['name','অভিভাবকের নাম'],['child','সন্তানের নাম'],['phone','মোবাইল','tel'],['address','ঠিকানা']],
+  row:d=>[d.name,j('সন্তান: '+(d.child||''),d.address)]},
+ fees:{ic:'💳',t:'ছাত্রের ফি',add:'ফি যোগ করুন',ph:'phone',amt:1,
+  f:[['studentName','ছাত্র/ছাত্রীর নাম'],['phone','অভিভাবকের মোবাইল','tel'],['month','মাস'],['amount','টাকা','number'],['status','অবস্থা','select',['বাকি','পরিশোধিত']]],
+  row:d=>[d.studentName,j(d.month,d.status)]},
+ salaries:{ic:'💰',t:'বেতন',add:'বেতন প্রদান',amt:1,
+  f:[['name','নাম'],['type','ধরন','select',['শিক্ষক','স্টাফ']],['month','মাস'],['amount','টাকা','number']],
+  row:d=>[d.name,j(d.type,d.month)]},
+ results:{ic:'📊',t:'পরীক্ষার ফলাফল',add:'ফলাফল যোগ করুন',
+  f:[['studentName','ছাত্র/ছাত্রীর নাম'],['className','শ্রেণি'],['exam','পরীক্ষার নাম'],['marks','প্রাপ্ত নম্বর'],['grade','গ্রেড/ফলাফল']],
+  row:d=>[d.studentName,j(d.className,d.exam,d.marks&&'নম্বর '+d.marks,d.grade)]},
+ certificates:{ic:'📜',t:'সনদপত্র',add:'সনদ ইস্যু',
+  f:[['name','প্রাপকের নাম'],['kind','সনদের ধরন'],['date','প্রদানের তারিখ','date']],
+  row:d=>[d.name,j(d.kind,d.date)]},
+ notices:{ic:'🔔',t:'নোটিশ',add:'নতুন নোটিশ',
+  f:[['title','শিরোনাম'],['body','বিস্তারিত','textarea'],['date','তারিখ','date']],
+  row:d=>[d.title,j(d.date,d.body)]}
+};
+const NAV=[['dash','🏠','ড্যাশবোর্ড'],['students'],['teachers'],['staff'],['guardians'],['attendance','📅','উপস্থিতি'],['fees'],['salaries'],['results'],['certificates'],['notices']];
+
+function buildViews(){
+  $('side').innerHTML='<div class="logo">نور العلم</div>'+NAV.map(([k,i,t])=>`<a id="nav-${k}" onclick="showView('${k}')">${i||M[k].ic} ${t||M[k].t}</a>`).join('')+'<a onclick="logout()">🚪 লগআউট</a>';
+  const frag=Object.entries(M).map(([k,m])=>{
+    const fields=m.f.map(([id,l,ty,op])=>{
+      const fid=`f-${k}-${id}`;
+      const inp=ty==='select'?`<select id="${fid}">${op.map(o=>`<option>${o}</option>`).join('')}</select>`
+        :ty==='textarea'?`<textarea id="${fid}"></textarea>`
+        :`<input id="${fid}" type="${ty||'text'}"${ty==='number'?' inputmode="numeric"':''}>`;
+      return `<label for="${fid}">${l}</label>${inp}`}).join('');
+    return `<main id="v-${k}" class="hidden"><div class="greet"><h2>${m.t}</h2><p id="c-${k}"></p></div>
+    <div class="panel"><h3>${m.add}</h3>${fields}<div class="err" id="e-${k}"></div><button class="btn" id="b-${k}" onclick="addItem('${k}')">সংরক্ষণ করুন</button></div>
+    <div class="panel"><h3>তালিকা</h3><div id="l-${k}"><p class="empty">লোড হচ্ছে...</p></div></div></main>`}).join('');
+  $('views').insertAdjacentHTML('beforeend',frag);
 }
 
-const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-
-function showView(v){
-  $('view-dash').classList.toggle('hidden',v!=='dash');
-  $('view-teachers').classList.toggle('hidden',v!=='teachers');
-  $('nav-dash').classList.toggle('active',v==='dash');
-  $('nav-teachers').classList.toggle('active',v==='teachers');
+function showView(k){
+  document.querySelectorAll('#views>main').forEach(m=>m.classList.toggle('hidden',m.id!=='v-'+k));
+  document.querySelectorAll('aside a').forEach(a=>a.classList.toggle('active',a.id==='nav-'+k));
   if($('side').classList.contains('open'))toggleMenu();
-  if(v==='teachers')fetchTeachers();
+  if(k==='dash')refreshDash();
+  else if(k==='attendance'){if(!$('att-date').value)$('att-date').value=ymd()}
+  else fetchList(k);
   window.scrollTo(0,0);
 }
-async function fetchTeachers(){
-  const box=$('t-list');
+
+async function fetchList(k){
+  const m=M[k],box=$('l-'+k);
   try{
-    const snap=await getDocs(collection(db,'teachers'));
-    $('tcount').textContent='মোট শিক্ষক: '+bn(snap.size)+' জন';
-    if(snap.empty){box.innerHTML='<p class="empty">এখনো কোনো শিক্ষক যোগ করা হয়নি। উপরের ফর্ম থেকে প্রথম শিক্ষক যোগ করুন।</p>';return}
-    box.innerHTML=snap.docs.map(d=>{const t=d.data();
-      return `<div class="due"><div class="who"><b>${esc(t.name)}</b><small>${esc(t.designation)} · ${esc(t.subject)}</small></div>${t.phone?`<a href="tel:${esc(t.phone)}" aria-label="কল">📞</a>`:''}<a class="del" data-id="${d.id}" aria-label="মুছুন">🗑</a></div>`}).join('');
-  }catch(e){box.innerHTML='<p class="empty" style="color:var(--danger)">তালিকা লোড হয়নি। Firestore Rules ও লগইন চেক করুন।</p>';console.error(e)}
+    const snap=await getDocs(collection(db,k));
+    const docs=snap.docs.sort((a,b)=>ts(b.data())-ts(a.data()));
+    $('c-'+k).textContent='মোট: '+bn(docs.length)+' টি';
+    if(!docs.length){box.innerHTML='<p class="empty">এখনো কিছু যোগ করা হয়নি। উপরের ফর্ম থেকে প্রথমটি যোগ করুন।</p>';return}
+    box.innerHTML=docs.map(x=>{const d=x.data(),[a,b]=m.row(d);
+      const amt=m.amt?`<span class="amt ${d.status==='পরিশোধিত'?'ok':''}">৳${bn(d.amount||0)}</span>`:'';
+      const pay=k==='fees'&&d.status!=='পরিশোধিত'?`<a class="pay" data-id="${x.id}" aria-label="পরিশোধ">✔</a>`:'';
+      const call=m.ph&&d[m.ph]?`<a href="tel:${esc(d[m.ph])}" aria-label="কল">📞</a>`:'';
+      return `<div class="due"><div class="who"><b>${esc(a)}</b><small>${esc(b)}</small></div>${amt}${pay}${call}<a class="del" data-col="${k}" data-id="${x.id}" aria-label="মুছুন">🗑</a></div>`}).join('');
+  }catch(e){box.innerHTML='<p class="empty" style="color:var(--danger)">লোড হয়নি। লগইন ও Firestore Rules চেক করুন।</p>';console.error(e)}
 }
-async function addTeacher(){
-  const v=id=>$(id).value.trim();
-  const name=v('t-name');
-  if(!name){$('t-err').textContent='শিক্ষকের নাম লিখুন।';return}
-  $('t-err').textContent='';
-  const b=$('t-save');b.disabled=true;b.textContent='সংরক্ষণ হচ্ছে...';
+
+async function addItem(k){
+  const m=M[k],data={};
+  m.f.forEach(([id,,ty])=>{const v=$(`f-${k}-${id}`).value.trim();data[id]=ty==='number'&&v!==''?Number(v):v});
+  if(!data[m.f[0][0]]){$('e-'+k).textContent=m.f[0][1]+' লিখুন।';return}
+  $('e-'+k).textContent='';
+  const b=$('b-'+k);b.disabled=true;b.textContent='সংরক্ষণ হচ্ছে...';
   try{
-    await addDoc(collection(db,'teachers'),{name,designation:v('t-desig'),subject:v('t-subject'),phone:v('t-phone'),createdAt:new Date()});
-    ['t-name','t-desig','t-subject','t-phone'].forEach(i=>$(i).value='');
-    toast('শিক্ষকের তথ্য সংরক্ষিত হয়েছে');
-    fetchTeachers();loadCounts();
-  }catch(e){$('t-err').textContent='সংরক্ষণ করা যায়নি। আবার চেষ্টা করুন।';console.error(e)}
+    await addDoc(collection(db,k),{...data,createdAt:new Date()});
+    m.f.forEach(([id,,ty])=>{if(ty!=='select')$(`f-${k}-${id}`).value=''});
+    toast('সংরক্ষিত হয়েছে');fetchList(k);
+  }catch(e){$('e-'+k).textContent='সংরক্ষণ করা যায়নি। আবার চেষ্টা করুন।';console.error(e)}
   b.disabled=false;b.textContent='সংরক্ষণ করুন';
 }
+
 document.addEventListener('click',async e=>{
-  const b=e.target.closest('.del');if(!b)return;
-  if(!confirm('আপনি কি নিশ্চিত এই শিক্ষকের তথ্য মুছে ফেলতে চান?'))return;
-  try{await deleteDoc(doc(db,'teachers',b.dataset.id));toast('মুছে ফেলা হয়েছে');fetchTeachers();loadCounts()}
-  catch(x){toast('মুছতে সমস্যা হয়েছে')}
+  const del=e.target.closest('.del'),pay=e.target.closest('.pay'),tg=e.target.closest('.tg');
+  try{
+    if(del){
+      if(!confirm('আপনি কি নিশ্চিত এই তথ্য মুছে ফেলতে চান?'))return;
+      await deleteDoc(doc(db,del.dataset.col,del.dataset.id));toast('মুছে ফেলা হয়েছে');fetchList(del.dataset.col);
+    }else if(pay){
+      await updateDoc(doc(db,'fees',pay.dataset.id),{status:'পরিশোধিত'});toast('পরিশোধ হিসেবে চিহ্নিত');
+      $('v-fees').classList.contains('hidden')?refreshDash():fetchList('fees');
+    }else if(tg){
+      const r=ATT.rows[+tg.dataset.i];r.present=!r.present;renderAtt();
+    }
+  }catch(x){toast('কাজটি করা যায়নি')}
 });
 
+/* ===== উপস্থিতি ===== */
+let ATT={id:'',rows:[]};
+async function loadAtt(){
+  const date=$('att-date').value,cls=$('att-class').value.trim();
+  if(!date){toast('তারিখ বেছে নিন');return}
+  try{
+    const stu=(await getDocs(collection(db,'students'))).docs.map(d=>({id:d.id,...d.data()}))
+      .filter(s=>!cls||(s.className||'').includes(cls)).sort((a,b)=>(+a.roll||0)-(+b.roll||0));
+    const id=(date+'__'+(cls||'all')).replace(/\//g,'-');
+    const saved=await getDoc(doc(db,'attendance',id));
+    const old={};if(saved.exists())saved.data().records.forEach(r=>old[r.id]=r.present);
+    ATT={id,date,cls,rows:stu.map(s=>({id:s.id,name:s.name,className:s.className||'',roll:s.roll||'',present:s.id in old?old[s.id]:true}))};
+    renderAtt();
+  }catch(e){toast('তালিকা আনা যায়নি');console.error(e)}
+}
+function renderAtt(){
+  const r=ATT.rows;
+  if(!r.length){$('att-list').innerHTML='<p class="empty">কোনো ছাত্র-ছাত্রী পাওয়া যায়নি। আগে “ছাত্র-ছাত্রী” পেজে ভর্তি করুন।</p>';$('att-save').classList.add('hidden');$('att-info').textContent='';return}
+  $('att-list').innerHTML=r.map((s,i)=>`<div class="due"><div class="who"><b>${esc(s.name)}</b><small>${esc(j(s.className,s.roll&&'রোল '+s.roll))}</small></div><button class="tg ${s.present?'':'no'}" data-i="${i}">${s.present?'উপস্থিত':'অনুপস্থিত'}</button></div>`).join('');
+  $('att-info').textContent='উপস্থিত '+bn(r.filter(x=>x.present).length)+' · অনুপস্থিত '+bn(r.filter(x=>!x.present).length);
+  $('att-save').classList.remove('hidden');
+}
+async function saveAtt(){
+  try{await setDoc(doc(db,'attendance',ATT.id),{date:ATT.date,cls:ATT.cls,records:ATT.rows,createdAt:new Date()});toast('উপস্থিতি সংরক্ষিত হয়েছে')}
+  catch(e){toast('সংরক্ষণ করা যায়নি');console.error(e)}
+}
+
+/* ===== ড্যাশবোর্ড ===== */
+async function refreshDash(){
+  const h=new Date().getHours();
+  $('greet').textContent=(h<12?'শুভ সকাল':h<17?'শুভ অপরাহ্ন':'শুভ সন্ধ্যা')+' 👋';
+  $('today').textContent=new Date().toLocaleDateString('bn-BD',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const g=async c=>{try{return(await getDocs(collection(db,c))).docs.map(d=>({id:d.id,...d.data()}))}catch(e){console.warn(c,e.message);return[]}};
+  const [st,te,sf,gu,ce,fe,sa,no,at]=await Promise.all(['students','teachers','staff','guardians','certificates','fees','salaries','notices','attendance'].map(g));
+  const sum=a=>a.reduce((x,y)=>x+(+y.amount||0),0);
+  const dues=fe.filter(f=>f.status!=='পরিশোধিত');
+  const money=n=>'৳'+bn(n);
+  const cards=[['👨‍🎓','ছাত্র-ছাত্রী',bn(st.length),'#0B5D45'],['👨‍🏫','শিক্ষক',bn(te.length),'#C9A227'],['🧑‍💼','স্টাফ',bn(sf.length),'#2E7D9A'],['👪','অভিভাবক',bn(gu.length),'#8B5E3C'],
+    ['💳','ফি আদায়',money(sum(fe.filter(f=>f.status==='পরিশোধিত'))),'#0E7A5A'],['💵','শিক্ষক বেতন',money(sum(sa.filter(s=>s.type==='শিক্ষক'))),'#B3261E'],['💰','স্টাফ বেতন',money(sum(sa.filter(s=>s.type==='স্টাফ'))),'#6A4C93'],['📜','সনদপত্র',bn(ce.length),'#C9A227']];
+  $('stats').innerHTML=cards.map(([i,l,n,c])=>`<div class="stat" style="--c:${c}"><div class="ic">${i}</div><div class="num">${n}</div><div class="lbl">${l}</div></div>`).join('');
+  const today=ymd(),absent=at.filter(a=>a.date===today).reduce((n,a)=>n+a.records.filter(r=>!r.present).length,0);
+  $('sum').innerHTML=`<div><b>${bn(absent)}</b><span>আজ অনুপস্থিত</span></div><div><b>${bn(dues.length)}</b><span>ফি বাকি</span></div><div><b>${bn(no.length)}</b><span>মোট নোটিশ</span></div>`;
+  $('dues').innerHTML=dues.length?dues.map(d=>{
+    const msg=encodeURIComponent(`আসসালামু আলাইকুম, নূরুল ইলম থেকে জানানো যাচ্ছে: ${d.studentName} এর ${d.month||''} মাসের ${bn(d.amount||0)} টাকা ফি বাকি আছে। অনুগ্রহ করে পরিশোধ করুন। জাযাকাল্লাহ।`);
+    const ph=d.phone?'88'+String(d.phone).replace(/^0/,''):'';
+    return `<div class="due"><div class="who"><b>${esc(d.studentName)}</b><small>${esc(d.month||'')}</small></div><span class="amt">${money(d.amount||0)}</span><a class="pay" data-id="${d.id}" aria-label="পরিশোধ">✔</a>${ph?`<a href="https://wa.me/${ph}?text=${msg}" target="_blank" rel="noopener" aria-label="হোয়াটসঅ্যাপ">💬</a><a href="sms:${esc(d.phone)}?body=${msg}" aria-label="এসএমএস">✉️</a>`:''}</div>`}).join('')
+    :'<p class="empty">কারো ফি বাকি নেই। আলহামদুলিল্লাহ!</p>';
+  const by={};at.forEach(a=>{const o=by[a.date]||(by[a.date]={p:0,t:0});a.records.forEach(r=>{o.t++;if(r.present)o.p++})});
+  const days=Object.keys(by).sort().slice(-6);
+  $('bars').innerHTML=days.length?days.map(d=>{const v=Math.round(by[d].p/by[d].t*100);return `<div class="bar">${bn(v)}<i style="height:${v}%"></i>${bn(d.slice(8))}/${bn(d.slice(5,7))}</div>`}).join(''):'<p class="empty">উপস্থিতি নেওয়া শুরু করলে এখানে হার দেখাবে।</p>';
+  const rec=no.sort((a,b)=>ts(b)-ts(a)).slice(0,3);
+  $('recent').innerHTML=rec.length?rec.map(n=>`<div class="due"><div class="who"><b>${esc(n.title)}</b><small>${esc(n.date||'')}</small></div></div>`).join(''):'<p class="empty">এখনো কোনো নোটিশ নেই। “নোটিশ দিন” চেপে প্রথম নোটিশ যোগ করুন।</p>';
+}
+
+/* ===== লগইন ===== */
 const errMap={
   'auth/invalid-credential':'ইমেইল বা পাসওয়ার্ড ভুল।',
   'auth/invalid-email':'ইমেইল সঠিক নয়।',
@@ -315,7 +353,6 @@ const errMap={
   'auth/too-many-requests':'অনেকবার চেষ্টা হয়েছে। কিছুক্ষণ পরে আবার চেষ্টা করুন।',
   'auth/network-request-failed':'ইন্টারনেট সংযোগ চেক করুন।'
 };
-
 async function doLogin(){
   const e=$('email').value.trim(),p=$('pass').value;
   if(!e||!p){$('err').textContent='ইমেইল ও পাসওয়ার্ড দুটোই লিখুন।';return}
@@ -332,18 +369,20 @@ async function forgot(){
   catch(x){$('err').textContent=errMap[x.code]||'পাঠানো যায়নি।'}
 }
 function logout(){signOut(auth)}
-
+let built=false;
 onAuthStateChanged(auth,u=>{
-  if(u){$('login').classList.add('hidden');$('app').classList.remove('hidden');render();loadCounts()}
-  else{showView('dash');$('app').classList.add('hidden');$('login').classList.remove('hidden');$('pass').value=''}
+  if(u){
+    $('login').classList.add('hidden');$('app').classList.remove('hidden');
+    if(!built){buildViews();built=true}
+    showView('dash');
+  }else{$('app').classList.add('hidden');$('login').classList.remove('hidden');$('pass').value=''}
 });
-
 function togglePass(){const p=$('pass');p.type=p.type==='password'?'text':'password'}
 function toggleMenu(){$('side').classList.toggle('open');$('scrim').classList.toggle('hidden')}
 function toggleDark(){document.body.classList.toggle('dark');try{localStorage.setItem('ni_dark',document.body.classList.contains('dark')?'1':'')}catch(_){}}
 function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2200)}
 try{if(localStorage.getItem('ni_dark'))document.body.classList.add('dark')}catch(_){}
-Object.assign(window,{showView,addTeacher,doLogin,forgot,logout,togglePass,toggleMenu,toggleDark,toast});
+Object.assign(window,{showView,addItem,loadAtt,saveAtt,doLogin,forgot,logout,togglePass,toggleMenu,toggleDark,toast});
 </script>
 </body>
 </html>
